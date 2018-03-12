@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_height">42.8dp</dimen>
+
+<dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="title_bar_height">48dp</dimen>
+    <dimen name="margin_left_right">16dp</dimen>
+    <dimen name="title_text">18sp</dimen>
+    <dimen name="main_text">16sp</dimen>
+    <dimen name="boom_text">12sp</dimen>
+
+    <dimen name="padding_normal">4dp</dimen>
+    <dimen name="padding_default">8dp</dimen>
+    <dimen name="margin_normal">10dp</dimen>
+    <dimen name="margin_default">20dp</dimen>
+    <dimen name="margin_normal_14dp">14dp</dimen>
+
+    <dimen name="header_height">45dp</dimen>
+    <dimen name="header_search_height">40dp</dimen>
+    <dimen name="tab_width">24dp</dimen>
+    <dimen name="web_refresh_marginLeft">13dp</dimen>
+    <dimen name="web_refresh_image_rotate">9dp</dimen>
+    <dimen name="btn_height_radius">5dp</dimen>
+    <dimen name="btn_height">40dp</dimen>
+    <dimen name="gallery_point_height">25dp</dimen>
+
+    <dimen name="txt_medium">16sp</dimen>
+    <dimen name="txt_big">18sp</dimen>
+    <dimen name="txt_default">14sp</dimen>
+    <dimen name="txt_small">12sp</dimen>
+
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
+
+
+
+    <!--Crop Activity-->
+    <dimen name="ucrop_padding_crop_frame">16dp</dimen>
+    <dimen name="ucrop_size_dot_scale_text_view">8dp</dimen>
+    <dimen name="ucrop_height_horizontal_wheel_progress_line">20dp</dimen>
+    <dimen name="ucrop_width_horizontal_wheel_progress_line">2dp</dimen>
+    <dimen name="ucrop_margin_horizontal_wheel_progress_line">10dp</dimen>
+    <dimen name="crop_controls_height">64dp</dimen>
+    <dimen name="crop_action_height">72dp</dimen>
+    <dimen name="ucrop_height_divider_shadow">3dp</dimen>
+    <dimen name="ucrop_text_size_widget_text">13sp</dimen>
+    <dimen name="ucrop_margit_top_widget_text">10sp</dimen>
+    <dimen name="ucrop_size_wrapper_rotate_button">50dp</dimen>
+    <dimen name="ucrop_height_crop_aspect_ratio_text">40dp</dimen>
+
+    <!--Crop View-->
+    <dimen name="ucrop_default_crop_grid_stoke_width">1dp</dimen>
+    <dimen name="ucrop_default_crop_frame_stoke_width">1dp</dimen>
+
+
+    <!--����-->
+    <dimen name="height_top_bar">48dp</dimen>
+    <dimen name="padding_search_bar">5dp</dimen>
+    <dimen name="height_row_weixin">59dp</dimen>
+    <dimen name="size_avatar">48dp</dimen>
+    <dimen name="margin_chat_activity">5dp</dimen>
+    <dimen name="field_textsize">14sp</dimen>
+    <dimen name="field_margin_right">5dp</dimen>
+    <dimen name="call_button_padding_vertical">10dp</dimen>
+    <dimen name="call_button_padding_left">25dp</dimen>
+    <dimen name="call_button_padding_right">25dp</dimen>
+    <dimen name="sidebar_text_size">10dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="image_thumbnail_spacing">1dp</dimen>
+    <dimen name="chat_nick_margin_left">12dp</dimen>
+    <dimen name="chat_nick_text_size">13sp</dimen>
+    <dimen name="recall_dimen">8dp</dimen>
+    <dimen name="recall_dimen_bg">2dp</dimen>
+    <dimen name="recall_dimen_4">4dp</dimen>
+    <dimen name="recall_dimen_256">256dp</dimen>
+    <dimen name="recall_size_12">12sp</dimen>
+    <dimen name="recall_size_8">8sp</dimen>
+</resources>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="appBackground" format="reference|color" />
+    <attr name="appThemeColor" format="reference|color" />
+    <attr name="appTitleSize" format="dimension" />
+    <attr name="appHeaderHeight" format="dimension" />
+    <attr name="appTitleColor" format="reference|color" />
+    <attr name="appTitleBarBg" format="reference|color" />
+
+    <declare-styleable name="NavItem">
+        <attr name="startIcon" format="reference" />
+        <attr name="action" format="string" />
+        <attr name="textColor" format="color|reference" />
+        <attr name="textSize" format="dimension" />
+        <attr name="actionState" format="string" />
+        <attr name="actionColor" format="color|reference" />
+        <attr name="stateHint" format="string" />
+        <attr name="stateText" format="string" />
+        <attr name="stateHintColor" format="color|reference" />
+        <attr name="stateTextSize" format="dimension" />
+        <attr name="goneTo" format="boolean" />
+        <attr name="goneIcon" format="boolean" />
+        <attr name="maxLength" format="string" />
+        <attr name="digits" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="TintImageView">
+        <attr name="tint" format="reference|color" />
+    </declare-styleable>
+    <declare-styleable name="NavView">
+        <attr name="navHorizontal" format="boolean" />
+        <attr name="navChecked" format="boolean" />
+        <attr name="navDrawRight" format="reference" />
+        <attr name="navDrawRightWidth" format="dimension" />
+        <attr name="navText" format="string" />
+        <attr name="navTextColor" format="reference|color" />
+        <attr name="navTextSize" format="dimension" />
+        <attr name="navDraw" format="reference|color" />
+        <attr name="navDrawTint" format="reference|color" />
+        <attr name="navDrawWidth" format="dimension" />
+        <attr name="navDrawHeight" format="dimension" />
+        <attr name="navTextRight" format="boolean" />
+        <attr name="navPadding" format="dimension" />
+        <attr name="navCenter" format="boolean" />
+        <attr name="navDrawPadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civBorderWidth" format="dimension" />
+        <attr name="civBorderColor" format="color" />
+        <attr name="civBorderOverlay" format="boolean" />
+        <attr name="civFillColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="PullToRefresh">
+
+        <!-- A drawable to use as the background of the Refreshable View -->
+        <attr name="ptrRefreshableViewBackground" format="reference|color" />
+
+        <!-- A drawable to use as the background of the Header and Footer Loading Views -->
+        <attr name="ptrHeaderBackground" format="reference|color" />
+
+        <!-- Text Color of the Header and Footer Loading Views -->
+        <attr name="ptrHeaderTextColor" format="reference|color" />
+
+        <!-- Text Color of the Header and Footer Loading Views Sub Header -->
+        <attr name="ptrHeaderSubTextColor" format="reference|color" />
+
+        <!-- Mode of Pull-to-Refresh that should be used -->
+        <attr name="ptrMode">
+            <flag name="disabled" value="0x0" />
+            <flag name="pullFromStart" value="0x1" />
+            <flag name="pullFromEnd" value="0x2" />
+            <flag name="both" value="0x3" />
+            <flag name="manualOnly" value="0x4" />
+
+            <!-- These last two are depreacted -->
+            <flag name="pullDownFromTop" value="0x1" />
+            <flag name="pullUpFromBottom" value="0x2" />
+        </attr>
+
+        <!-- Whether the Indicator overlay(s) should be used -->
+        <attr name="ptrShowIndicator" format="reference|boolean" />
+
+        <!-- Drawable to use as Loading Indicator. Changes both Header and Footer. -->
+        <attr name="ptrDrawable" format="reference" />
+
+        <!-- Drawable to use as Loading Indicator in the Header View. Overrides value set in ptrDrawable. -->
+        <attr name="ptrDrawableStart" format="reference" />
+
+        <!-- Drawable to use as Loading Indicator in the Footer View. Overrides value set in ptrDrawable. -->
+        <attr name="ptrDrawableEnd" format="reference" />
+
+        <!-- Whether Android's built-in Over Scroll should be utilised for Pull-to-Refresh. -->
+        <attr name="ptrOverScroll" format="reference|boolean" />
+
+        <!-- Base text color, typeface, size, and style for Header and Footer Loading Views -->
+        <attr name="ptrHeaderTextAppearance" format="reference" />
+
+        <!-- Base text color, typeface, size, and style for Header and Footer Loading Views Sub Header -->
+        <attr name="ptrSubHeaderTextAppearance" format="reference" />
+
+        <!-- Style of Animation should be used displayed when pulling. -->
+        <attr name="ptrAnimationStyle">
+            <flag name="rotate" value="0x0" />
+            <flag name="flip" value="0x1" />
+        </attr>
+
+        <!-- Whether the user can scroll while the View is Refreshing -->
+        <attr name="ptrScrollingWhileRefreshingEnabled" format="reference|boolean" />
+
+        <!--
+        	Whether PullToRefreshListView has it's extras enabled. This allows the user to be
+        	able to scroll while refreshing, and behaves better. It acheives this by adding
+        	Header and/or Footer Views to the ListView.
+        -->
+        <attr name="ptrListViewExtrasEnabled" format="reference|boolean" />
+
+        <!--
+        	Whether the Drawable should be continually rotated as you pull. This only
+        	takes effect when using the 'Rotate' Animation Style.
+        -->
+        <attr name="ptrRotateDrawableWhilePulling" format="reference|boolean" />
+
+        <!-- BELOW HERE ARE DEPRECEATED. DO NOT USE. -->
+        <attr name="ptrAdapterViewBackground" format="reference|color" />
+        <attr name="ptrDrawableTop" format="reference" />
+        <attr name="ptrDrawableBottom" format="reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CropImageView">
+        <attr name="guidelines">
+            <enum name="on" value="2" />
+            <enum name="onTouch" value="1" />
+            <enum name="off" value="0" />
+        </attr>
+        <attr name="fixAspectRatio" format="boolean" />
+        <attr name="aspectRatioX" format="integer" />
+        <attr name="aspectRatioY" format="integer" />
+        <attr name="imageResource" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="UCropView">
+
+        <!--Crop image view-->
+        <attr name="ucrop_aspect_ratio_x" format="float" />
+        <attr name="ucrop_aspect_ratio_y" format="float" />
+
+        <!--Overlay view-->
+        <attr name="ucrop_show_oval_crop_frame" format="boolean" />
+        <attr name="ucrop_oval_dimmed_layer" format="boolean" />
+        <attr name="ucrop_dimmed_color" format="color" />
+
+        <attr name="ucrop_grid_stroke_size" format="dimension" />
+        <attr name="ucrop_grid_color" format="color" />
+        <attr name="ucrop_grid_row_count" format="integer" />
+        <attr name="ucrop_grid_column_count" format="integer" />
+        <attr name="ucrop_show_grid" format="boolean" />
+
+        <attr name="ucrop_frame_stroke_size" format="dimension" />
+        <attr name="ucrop_frame_color" format="color" />
+        <attr name="ucrop_show_frame" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="ucrop_AspectRatioTextView">
+
+        <attr name="ucrop_artv_ratio_title" format="string" />
+
+        <attr name="ucrop_artv_ratio_x" format="float" />
+        <attr name="ucrop_artv_ratio_y" format="float" />
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleImage">
+        <attr name="circleIcon" format="reference" />
+        <attr name="backColor" format="color" />
+    </declare-styleable>
+
+    <!--环信-->
+    <declare-styleable name="EaseChatMessageList">
+        <attr name="msgListMyBubbleBackground" format="reference" />
+        <attr name="msgListOtherBubbleBackground" format="reference" />
+        <attr name="msgListShowUserAvatar" format="boolean" />
+        <attr name="msgListShowUserNick" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseConversationList">
+        <attr name="cvsListPrimaryTextColor" format="color" />
+        <attr name="cvsListSecondaryTextColor" format="color" />
+        <attr name="cvsListTimeTextColor" format="color" />
+        <attr name="cvsListPrimaryTextSize" format="dimension" />
+        <attr name="cvsListSecondaryTextSize" format="dimension" />
+        <attr name="cvsListTimeTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseContactList">
+        <attr name="ctsListPrimaryTextColor" format="color" />
+        <attr name="ctsListPrimaryTextSize" format="dimension" />
+        <attr name="ctsListShowSiderBar" format="boolean" />
+        <attr name="ctsListInitialLetterBg" format="reference|color" />
+        <attr name="ctsListInitialLetterColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseEmojiconMenu">
+        <attr name="bigEmojiconRows" format="integer" />
+        <attr name="emojiconColumns" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseChatExtendMenu">
+        <attr name="numColumns" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseTitleBar">
+        <attr name="titleBarTitle" format="string" />
+        <attr name="titleBarLeftImage" format="reference" />
+        <attr name="titleBarRightImage" format="reference" />
+        <attr name="titleBarBackground" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="EaseSwitchButton">
+        <attr name="switchOpenImage" format="reference" />
+        <attr name="switchCloseImage" format="reference" />
+
+        <attr name="switchStatus">
+            <enum name="open" value="0" />
+            <enum name="close" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="EaseImageView">
+        <attr name="ease_border_color" format="color" />
+        <attr name="ease_border_width" format="dimension" />
+        <attr name="ease_press_alpha" format="integer" />
+        <attr name="ease_press_color" format="color" />
+        <attr name="ease_radius" format="dimension" />
+
+        <attr name="ease_shape_type" format="enum">
+            <enum name="none" value="0" />
+            <enum name="round" value="1" />
+            <enum name="rectangle" value="2" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>

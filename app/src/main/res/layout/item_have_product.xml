@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/have_product_all_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="18dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="18dp">
+
+        <ImageView
+            android:id="@+id/item_have_product_icon_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/head_default" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_have_product_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#565656"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/item_have_product_yes_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/item_have_product_name_tv"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/item_have_product_name_tv"
+                    android:text="已认证"
+                    android:textColor="#FC4F4F"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/item_have_product_time_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/item_have_product_name_tv"
+                    android:layout_alignParentRight="true"
+                    android:text="--"
+                    android:textColor="#7B7B7B"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/item_have_product_plate_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_frame_gray_item_have_product"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="2dp"
+                    android:text="--"
+                    android:textColor="#565656"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/item_have_product_route_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_have_product_plate_tv"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="40dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="--"
+                    android:textColor="#565656"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/item_have_product_call_iv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/item_have_product_route_tv"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/platform_issue_order_call" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

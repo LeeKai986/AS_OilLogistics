@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="company_order_title">
+        <item>全部</item>
+        <item>未付款</item>
+        <item>已付款</item>
+        <item>未提货</item>
+        <item>已提货</item>
+        <item>完成</item>
+    </array>
+
+</resources>

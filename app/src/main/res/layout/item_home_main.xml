@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:paddingBottom="9dp"
+            android:paddingTop="9dp">
+
+            <TextView
+                android:id="@+id/item_home_main_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/item_home_main_time_tv"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="2017年第六届西北石油化工高峰论坛"
+                android:textColor="#565656"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/item_home_main_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="08/22"
+                android:textColor="#7B7B7B"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#CCCCCC" />
+    </LinearLayout>
+</LinearLayout>

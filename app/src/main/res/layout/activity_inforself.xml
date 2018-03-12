@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contanor_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/main_color">
+
+        <RelativeLayout
+            android:id="@+id/rel_back_inforself"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="个人信息"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cir_head_inforself"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/head_default" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.zpf.oillogistics.customview.NavEditItem
+                android:id="@+id/nav_name_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="姓名"
+                app:goneIcon="true"
+                app:stateHint="请输入姓名"
+                app:stateHintColor="#7B7B7B"
+                app:textColor="#565656">
+
+            </com.zpf.oillogistics.customview.NavEditItem>
+
+            <com.zpf.oillogistics.customview.NavEditItem
+                android:id="@+id/nav_IDCard_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="身份证号码"
+                app:digits="IDCard"
+                app:goneIcon="true"
+                app:maxLength="18"
+                app:stateHint="请输入身份证号码"
+                app:stateHintColor="#7B7B7B"
+                app:textColor="#565656">
+
+            </com.zpf.oillogistics.customview.NavEditItem>
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_phone_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="联系方式"
+                app:digits="phone"
+                app:goneIcon="true"
+                app:maxLength="11"
+                app:stateHint="请输入联系方式"
+                app:stateHintColor="#7B7B7B"
+                app:textColor="#565656">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_city_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="地址"
+                app:goneIcon="true"
+                app:stateHint="请选择地址">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height">
+
+                <EditText
+                    android:id="@+id/edit_adress_inforself"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bar_height"
+                    android:background="@color/white"
+                    android:hint="请填写详细地址"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="#7B7B7B"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rel_location"
+                    android:layout_width="@dimen/title_bar_height"
+                    android:layout_height="@dimen/title_bar_height"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/order_details_loca" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_project_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="经营项目"
+                app:goneIcon="true"
+                app:stateHint="请选择项目">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <TextView
+                android:id="@+id/tv_config_inforself"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="60dp"
+                android:background="@color/main_color"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9">
+
+    <LinearLayout
+        android:id="@+id/lin_wu_complete_company_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/null_order"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="订单空空如也"/>
+
+    </LinearLayout>
+
+    <com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView
+
+        android:id="@+id/lv_complete_company_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:divider="#F9F9F9"
+        android:dividerHeight="10dp">
+
+    </com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
+
+</RelativeLayout>

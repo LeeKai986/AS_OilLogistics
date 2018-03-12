@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/main_color">
+
+        <RelativeLayout
+            android:id="@+id/rel_back_setting"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <com.zpf.oillogistics.customview.NavItem
+        android:id="@+id/nav_password_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginTop="10dp"
+        app:action="修改密码"
+        app:goneIcon="true">
+    </com.zpf.oillogistics.customview.NavItem>
+
+    <com.zpf.oillogistics.customview.NavItem
+        android:id="@+id/nav_feedback_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginTop="10dp"
+        app:action="意见反馈"
+        app:goneIcon="true">
+    </com.zpf.oillogistics.customview.NavItem>
+
+    <com.zpf.oillogistics.customview.NavItem
+        android:id="@+id/nav_version_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginTop="10dp"
+        app:action="当前版本"
+        app:stateText="v1.0.0"
+        app:goneIcon="true"
+        app:goneTo="true">
+
+    </com.zpf.oillogistics.customview.NavItem>
+
+    <com.zpf.oillogistics.customview.NavItem
+        android:id="@+id/nav_clear_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginTop="10dp"
+        app:action="清理缓存"
+        app:goneIcon="true">
+    </com.zpf.oillogistics.customview.NavItem>
+
+
+    <TextView
+        android:id="@+id/tv_exit_self"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_margin="60dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:background="@color/main_color"
+        android:text="退出登录"/>
+
+
+</LinearLayout>

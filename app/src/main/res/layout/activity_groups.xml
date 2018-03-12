@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/main_color">
+
+        <RelativeLayout
+            android:id="@+id/iv_back_groups"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="群组"
+            android:textSize="18sp"
+            android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_groups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/line_bg"
+        android:dividerHeight="1dp"/>
+
+</LinearLayout>

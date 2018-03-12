@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/main_color">
+
+        <RelativeLayout
+            android:id="@+id/iv_back_groupnotice"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="群聊公告"
+            android:textSize="18sp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_config_groupnotice"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="完成"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+
+
+        <EditText
+            android:id="@+id/edit_search_groupnotice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_toLeftOf="@+id/rel_clear_groupname"
+            android:hint="输入群公告"
+            android:gravity="start"
+            android:textColorHint="#CCCCCC"
+            android:textSize="17sp"
+            android:textColor="#565656"
+            android:background="@color/white"/>
+
+
+    <TextView
+        android:id="@+id/tv_search_groupnotice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:padding="10dp"
+        android:textSize="17sp"
+        android:textColor="#565656"
+        android:background="@color/white"/>
+
+
+</LinearLayout>

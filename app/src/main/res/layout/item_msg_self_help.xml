@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height">
+
+        <TextView
+            android:id="@+id/tv_title_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="如何使用，为什么提示手机未注册？"
+            android:textSize="18sp"
+            android:textColor="#565656"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/to"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_msg_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="#7B7B7B"
+        android:textSize="14sp"
+        android:text="需要先下载“石化通APP”安装到手机后，进行注册登录。也可以点击在线客服立即与在线客服人员联系。"
+        android:visibility="gone"/>
+
+</LinearLayout>

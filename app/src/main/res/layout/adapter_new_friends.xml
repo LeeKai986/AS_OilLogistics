@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp">
+
+        <ImageView
+            android:id="@+id/iv_head_newfriends_adapter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/red"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:id="@+id/tv_name_newfriends_adapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="王二狗"
+                android:textSize="17sp"
+                android:textColor="#333333"/>
+
+            <TextView
+                android:id="@+id/tv_phone_newfriends_adapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="130000000000"
+                android:textSize="13sp"
+                android:textColor="#979797"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_add_newfriends_adapter"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="添加"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:background="@drawable/add_friends_bg"/>
+</RelativeLayout>

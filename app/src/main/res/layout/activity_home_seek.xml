@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9f9"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:background="#FC4F4F"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <RelativeLayout
+                android:id="@+id/rel_back_seek"
+                android:layout_width="@dimen/title_bar_height"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/home_seek_top_back" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="7dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_toRightOf="@+id/rel_back_seek">
+
+                <EditText
+                    android:id="@+id/home_seek_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/home_main_msg_iv"
+                    android:background="@drawable/bg_circle_white_seek"
+                    android:drawableLeft="@mipmap/homepage_seek_top"
+                    android:drawablePadding="7dp"
+                    android:hint="请输入关键词"
+                    android:maxLines="1"
+                    android:padding="7dp"
+                    android:textColorHint="#AAAAAA"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_circle_gray_seek"
+                    android:gravity="center"
+                    android:padding="7dp"
+                    android:text="搜索"
+                    android:textColor="#565656" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_history_seek"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最近搜索"
+                    android:textColor="#565656"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_clear_seek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/home_seek_del" />
+            </RelativeLayout>
+
+            <com.zpf.oillogistics.diy.SimpleFlowLayout
+                android:id="@+id/home_seek_sfl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"></com.zpf.oillogistics.diy.SimpleFlowLayout>
+        </LinearLayout>
+
+        <com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView
+            android:id="@+id/home_seek_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#f9f9f9"
+            android:dividerHeight="5dp"
+            android:padding="7dp" />
+    </LinearLayout>
+</LinearLayout>

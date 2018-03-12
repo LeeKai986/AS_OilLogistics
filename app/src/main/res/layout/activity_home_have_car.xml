@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F9F9F9"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="#FC4F4F">
+
+            <RelativeLayout
+                android:id="@+id/rel_back_have_car"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:src="@mipmap/top_back" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="车找货"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FC4F4F"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="26dp"
+            android:paddingRight="26dp">
+
+            <TextView
+                android:id="@+id/have_car_st_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FF8787"
+                android:gravity="center"
+                android:hint="请选择起点"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_change"
+                android:layout_width="22dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@mipmap/issue_incar_change_st_ed" />
+
+            <TextView
+                android:id="@+id/have_car_ed_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FF8787"
+                android:gravity="center"
+                android:hint="请选择终点"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView
+            android:id="@+id/have_car_plv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F9F9F9"
+            android:divider="#F9F9F9"
+            android:dividerHeight="7dp"
+            android:padding="7dp">
+
+        </com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
+    </LinearLayout>
+</LinearLayout>

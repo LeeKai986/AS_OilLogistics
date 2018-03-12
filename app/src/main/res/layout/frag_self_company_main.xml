@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_color"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_phone_self_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="个人中心"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="18sp" />
+
+
+                <LinearLayout
+                    android:id="@+id/lin_mesg_self_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/criv_head_self_company"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:src="@mipmap/head_default" />
+
+
+                    <TextView
+                        android:id="@+id/tv_name_self_company"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_product_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="发布的产品"
+                app:startIcon="@mipmap/public_product">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_shop_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                app:action="发布的求购"
+                app:startIcon="@mipmap/public_shop">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_resource_mesg_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                app:action="发布的货源"
+                app:startIcon="@mipmap/resorce">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_product_mesg_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="关注的产品信息"
+                app:startIcon="@mipmap/attention_product">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_price_mesg_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                app:action="关注的报价信息"
+                app:startIcon="@mipmap/attention_price">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_order_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:action="我的订单"
+                app:startIcon="@mipmap/my_order">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_help_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="使用的帮助"
+                app:startIcon="@mipmap/help">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_about_us_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                app:action="关于我们"
+                app:startIcon="@mipmap/about_us">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_service_call_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                app:action="客服电话"
+                app:actionState="0530-3613333"
+                app:goneTo="true"
+                app:startIcon="@mipmap/service_call">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_setting_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:action="设置"
+                app:startIcon="@mipmap/setting">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

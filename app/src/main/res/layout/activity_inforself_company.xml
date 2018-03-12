@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contanor_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/main_color">
+
+        <RelativeLayout
+            android:id="@+id/rel_back_inforself_company"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="个人信息"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cir_head_inforself_company"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/head_default" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.zpf.oillogistics.customview.NavEditItem
+                android:id="@+id/nav_name_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="企业名称"
+                app:goneIcon="true"
+                app:stateHint="请输入名称"
+                app:textColor="#565656">
+
+            </com.zpf.oillogistics.customview.NavEditItem>
+
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_project_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="经营项目"
+                app:goneIcon="true"
+                app:stateHint="请选择项目">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+
+            <RelativeLayout
+                android:id="@+id/rel_license_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="营业执照"
+                    android:textColor="#565656"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_license_inforself_company"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_permission_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="经营许可证（选填）"
+                    android:textColor="#565656"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_permission_inforself_company"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp" />
+
+            </RelativeLayout>
+
+            <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_city_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="地址"
+                app:goneIcon="true"
+                app:stateHint="请选择地址">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#CCCCCC" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height">
+
+                <EditText
+                    android:id="@+id/edit_adress_inforself_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bar_height"
+                    android:background="@color/white"
+                    android:hint="请填写详细地址"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="#7B7B7B"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rel_location"
+                    android:layout_width="@dimen/title_bar_height"
+                    android:layout_height="@dimen/title_bar_height"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/order_details_loca" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_config_inforself_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="60dp"
+                android:background="@color/main_color"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

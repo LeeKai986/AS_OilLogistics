@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cir_head_resorce_adapter"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_vertical"
+        android:background="@mipmap/head_default"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_adress_resorce_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="北京市北京—山东省德州市"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textColor="#565656"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_goodsName_resorce_adapter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="货物名称：柴油"
+                android:textSize="14sp"
+                android:textColor="#565656"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_num_resorce_adapter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="货量：100吨"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="14sp"
+                android:textColor="#565656"/>
+
+            <TextView
+                android:id="@+id/tv_price_resorce_adapter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="单价：600元/吨"
+                android:textSize="14sp"
+                android:textColor="#565656"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_time_resorce_adapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="起运日期：2017/12/11"
+            android:textSize="14sp"
+            android:textColor="#565656"/>
+
+    </LinearLayout>
+
+</LinearLayout>

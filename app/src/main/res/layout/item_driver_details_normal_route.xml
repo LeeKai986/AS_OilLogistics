@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/item_driver_details_normal_route_st_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1、山东省德州市青云谱区"
+            android:textColor="#565656"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="13dp"
+            android:layout_margin="5dp" />
+
+        <TextView
+            android:id="@+id/item_driver_details_normal_route_ed_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="北京北京市海淀区"
+            android:textColor="#565656"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

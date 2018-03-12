@@ -1,0 +1,182 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('C:/Users/Administrator/.android/debug.keystore')
+            storePassword 'android'
+        }
+    }
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.zpf.oillogistics"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
+        ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
+        }
+
+    }
+    signingConfigs {
+        release {
+            try {
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+                storeFile file('../release/debug.keystore')
+                storePassword 'android'
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    /**
+     * 设置支持的SO库架构
+     */
+    sourceSets {
+        main {
+            jniLibs.srcDir(['libs'])
+        }
+    }
+
+    /**
+     * 分包MultiDex
+     */
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    /**
+     * 解决使用注释时引起的冲突
+     */
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    /**
+     * 执行lint检查，
+     * 关闭有警告提示终止构建
+     */
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+
+    lintOptions {
+        disable 'TypographyFractions', 'TypographyQuotes'
+        enable 'RtlHardcoded', 'RtlCompat', 'RtlEnabled'
+        check 'NewApi', 'InlinedApi'
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'
+        checkReleaseBuilds true
+    }
+
+    /**
+     * 打包忽略掉第三方jar相同的文件
+     */
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            debuggable false
+            zipAlignEnabled true
+            shrinkResources true //删除项目中没用到的资源文件
+            minifyEnabled false //是开启混淆
+            shrinkResources false //android 2.2 设置为false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            debuggable true
+            zipAlignEnabled false
+            shrinkResources false //删除项目中没用到的资源文件
+            minifyEnabled false //是开启混淆
+            shrinkResources false //android studio 2.2 设置为false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.bigkoo:alertview:1.0.3'
+    compile 'org.xutils:xutils:3.3.36'
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:design:25.+'
+    testCompile 'junit:junit:4.12'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile files('libs/hyphenatechat_3.3.4.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/HMSSdkBase_2.5.1.300.jar')
+    compile files('libs/google-play-services.jar')
+    compile files('libs/HMSSdkPush_2.5.1.300.jar')
+    compile files('libs/MiPush_SDK_Client_2_2_19.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile files('libs/Parse-1.9.4.jar')
+    compile files('libs/bolts-android-1.2.0.jar')
+    //circleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    // 轮播图
+    compile 'com.jude:rollviewpager:1.4.6'
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    compile 'liji.library.dev:citypickerview:2.0.1'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:multidex:1.0.0'
+    //
+    compile 'cat.ereza:customactivityoncrash:1.5.0'
+    compile files('libs/AMap2DMap_5.2.0_AMapSearch_5.3.1_AMapLocation_3.5.0_20170817.jar')
+    compile files('libs/MobCommons-2017.0914.1125.jar')
+    compile files('libs/MobTools-2017.0914.1125.jar')
+    compile files('libs/ShareSDK-Core-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-Core-3.1.0.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-3.1.0.jar')
+    compile files('libs/alipaySdk-20170922.jar')
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    // 友盟统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile project(':library')
+    compile files('libs/BaiduLBS_Android_4.4.jar')
+}

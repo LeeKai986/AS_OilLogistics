@@ -167,7 +167,6 @@ public class EaseContactAdapter extends ArrayAdapter<EaseUser> implements Sectio
                     Glide.with(context)
                             .load(UrlUtil.IMAGE_URL + dataBean.getFace())
                             .dontAnimate()
-                            .placeholder(R.mipmap.head_default)
                             .error(R.mipmap.head_default)
                             .fitCenter()
                             .into(holder.avatar);

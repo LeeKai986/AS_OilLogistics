@@ -288,7 +288,6 @@ public class SelfPublicResorceActivity extends BaseActivity {
             if(resorce.getHerder()!=null){
                 Glide.with(SelfPublicResorceActivity.this)
                         .load(UrlUtil.IMAGE_URL +resorce.getHerder())
-                        .placeholder(R.mipmap.head_default)
                         .error(R.mipmap.head_default)
                         .into(vh.cirHead);
             }

@@ -15,13 +15,16 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.bean.NormalBean;
 import com.zpf.oillogistics.bean.RegisterBean;
 import com.zpf.oillogistics.diy.DiyDialog;
-import com.zpf.oillogistics.diy.PickerView;
 import com.zpf.oillogistics.net.JsonUtil;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
@@ -250,7 +253,29 @@ public class RegisterActivity extends BaseActivity {
                 registerMap.put("code", verifyEt.getText().toString());
                 registerMap.put("password", passwordEt.getText().toString());
                 registerMap.put("repassword", againPasswordEt.getText().toString());
-                register();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        //注册失败会抛出HyphenateException
+                        try {
+                            // 调用sdk注册方法
+                            EMClient.getInstance().createAccount(userEt.getText().toString(), "yyt123456");//同步方法
+                            register();
+                        } catch (HyphenateException e) {
+                            //注册失败
+                            int errorCode = e.getErrorCode();
+                            if (errorCode == EMError.NETWORK_ERROR) {
+                                Toast.makeText(getApplicationContext(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+                            } else if (errorCode == EMError.USER_ALREADY_EXIST) {
+                                Toast.makeText(getApplicationContext(), "环信用户已存在！", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "环信注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
             }
         });
 

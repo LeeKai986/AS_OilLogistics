@@ -727,10 +727,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     EaseAtMessageHelper.get().atListToJsonArray(EaseAtMessageHelper.get().getAtMessageUsernames(content)));
         }
 
-        //设置要发送扩展消息用户昵称
-        message.setAttribute(EaseConstant.USER_NAME, "nike");
-        //设置要发送扩展消息用户头像
-        message.setAttribute(EaseConstant.HEAD_IMAGE_URL, "http://img5.duitang.com/uploads/item/201508/30/20150830132007_TjANX.thumb.224_0.jpeg");
+//        //设置要发送扩展消息用户昵称
+//        message.setAttribute(EaseConstant.USER_NAME, "nike");
+//        //设置要发送扩展消息用户头像
+//        message.setAttribute(EaseConstant.HEAD_IMAGE_URL, "http://img5.duitang.com/uploads/item/201508/30/20150830132007_TjANX.thumb.224_0.jpeg");
         sendMessage(message);
 
     }

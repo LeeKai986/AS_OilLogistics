@@ -24,7 +24,6 @@ import com.hyphenate.easeui.DemoHelper;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.easeui.ui.FriendsChatActivity;
 import com.hyphenate.easeui.ui.GroupChatActivity;
-import com.hyphenate.exceptions.HyphenateException;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.utils.MyShare;
@@ -68,9 +67,7 @@ public class ChatFragment extends EaseConversationListFragment {
                         }
                     });
 
-                    EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
-                    //注册一个监听连接状态的listener
-                    EMClient.getInstance().addConnectionListener(new MyConnectionListener());
+
                     break;
             }
             return false;
@@ -118,19 +115,19 @@ public class ChatFragment extends EaseConversationListFragment {
 //        dg.setCanceledOnTouchOutside(false);
 //        dg.setCancelable(false);
 //        dg.show();
-        new Thread() {
-            @Override
-            public void run() {
-                //注册失败会抛出HyphenateException
-                try {
-                    EMClient.getInstance().createAccount(MyShare.getShared().getString("userPhone", ""), "yyt123456");//同步方法
-                    handler.sendEmptyMessage(1);
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(1);
-                }
-            }
-        }.start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                //注册失败会抛出HyphenateException
+//                try {
+//                    EMClient.getInstance().createAccount(MyShare.getShared().getString("userPhone", ""), "yyt123456");//同步方法
+////                    handler.sendEmptyMessage(1);
+//                } catch (HyphenateException e) {
+//                    e.printStackTrace();
+////                    handler.sendEmptyMessage(1);
+//                }
+//            }
+//        }.start();
     }
 
     // 环信的消息监听
@@ -229,6 +226,6 @@ public class ChatFragment extends EaseConversationListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        initV();
+//        initV();
     }
 }

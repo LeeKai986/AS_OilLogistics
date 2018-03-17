@@ -3,18 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/lin_boom_main"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/lin_boom_main"

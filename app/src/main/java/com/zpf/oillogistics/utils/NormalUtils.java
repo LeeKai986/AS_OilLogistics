@@ -213,7 +213,7 @@ public class NormalUtils {
         } else if (sp.getString("statuss", "").equals("1")) {
             return true;
         } else if (sp.getString("statuss", "").equals("2")) {
-            login();
+//            login();
             return false;
         }
 //        else if (sp.getString("statuss", "").equals("2")){
@@ -221,7 +221,7 @@ public class NormalUtils {
 //            return true;
 //        }
         else {
-            login();
+//            login();
 //            MyToast.show(CyApplication.getCyContext(), "个人信息审核中");
             return false;
         }

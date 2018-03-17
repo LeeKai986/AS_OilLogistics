@@ -240,7 +240,6 @@ public class AddFriendsActivity extends BaseActivity {
                                 if (add.getData().getHeader()!=null) {
                                     Glide.with(AddFriendsActivity.this)
                                             .load(UrlUtil.IMAGE_URL + add.getData().getHeader())
-                                            .placeholder(R.mipmap.head_default)
                                             .error(R.mipmap.head_default)
                                             .into(ivHead);
                                 }

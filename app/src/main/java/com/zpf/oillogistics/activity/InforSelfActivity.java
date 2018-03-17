@@ -104,7 +104,6 @@ public class InforSelfActivity extends BaseActivity implements View.OnClickListe
         if (!MyShare.getShared().getString("userHead", "").equals("")) {
             Glide.with(InforSelfActivity.this)
                     .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("userHead", ""))
-                    .placeholder(R.mipmap.head_default)
                     .error(R.mipmap.head_default)
                     .into(cirHead);
         }

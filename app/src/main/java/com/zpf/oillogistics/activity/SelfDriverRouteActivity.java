@@ -189,7 +189,6 @@ public class SelfDriverRouteActivity extends BaseActivity {
             if (route.getHerder() != null) {
                 Glide.with(SelfDriverRouteActivity.this)
                         .load(UrlUtil.IMAGE_URL + route.getHerder())
-                        .placeholder(R.mipmap.head_default)
                         .error(R.mipmap.head_default)
                         .into(vh.ivHead);
             }

@@ -105,7 +105,6 @@ public class SelfCompanyFragment extends Fragment implements View.OnClickListene
         if (!MyShare.getShared().getString("userHead", "").equals("")) {
             Glide.with(getActivity())
                     .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("userHead", ""))
-                    .placeholder(R.mipmap.head_default)
                     .error(R.mipmap.head_default)
                     .into(crivHead);
         }
@@ -197,6 +196,7 @@ public class SelfCompanyFragment extends Fragment implements View.OnClickListene
                 if (!MyShare.getShared().getString("userHead", "").equals("")) {
                     Glide.with(getActivity())
                             .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("userHead", ""))
+                            .error(R.mipmap.head_default)
                             .into(crivHead);
                 }
 

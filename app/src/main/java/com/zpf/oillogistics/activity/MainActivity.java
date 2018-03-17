@@ -1,21 +1,30 @@
 package com.zpf.oillogistics.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.DemoHelper;
 import com.hyphenate.easeui.db.InviteMessgeDao;
+import com.hyphenate.util.NetUtils;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.base.CyApplication;
@@ -30,12 +39,14 @@ import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.sv.DriverPositionUpData;
 import com.zpf.oillogistics.utils.MyShare;
+import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.NormalUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,7 +61,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.main_content)
-    LinearLayout mainContent;
+    FrameLayout mainContent;
     @BindView(R.id.lin_jia_main)
     LinearLayout linJia;
     @BindView(R.id.iv_home_boom_main)
@@ -86,7 +97,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.view1)
     View view1;
 
-    private FragmentManager fragmentManager;
     /*首页fragment*/
     private HomeFragment homeFragment;
     /*报价fragment*/
@@ -133,18 +143,83 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                     }
                                 });
                                 break;
-                            } else {
-                                new Thread(new Runnable() {
+                            } else {//登陆成功
+                                SharedPreferences sp = getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("userId", data.getString("id"));
+                                editor.putString("userPhone", data.getString("phone"));
+                                editor.putString("niname", data.getString("niname"));
+                                editor.putString("userHead", data.getString("face"));
+                                editor.putString("add_time", data.getString("add_time"));
+                                editor.putString("userType", data.getString("status"));//1个人,2企业,3司机
+                                editor.putString("province", data.getString("province"));
+                                editor.putString("city", data.getString("city"));
+                                if (!data.getString("area").equals("null")) {
+                                    editor.putString("area", data.getString("area"));
+                                }
+                                editor.putString("userToken", data.getString("logintoken"));
+                                editor.putString("searchlog", data.getString("searchlog"));
+                                editor.putString("logintime", data.getString("logintime"));
+                                editor.putString("relname", data.getString("relname"));
+                                editor.putString("card", data.getString("card"));
+                                editor.putString("telphone", data.getString("telphone"));
+                                editor.putString("manage", data.getInt("manage") + "");
+                                editor.putString("toaddress", data.getString("toaddress"));
+                                if (!data.getString("suggest").equals("null")) {
+                                    editor.putString("suggest", data.getString("suggest"));
+                                }
+                                editor.putString("companyname", data.getString("companyname"));
+                                editor.putString("enterprise", data.getString("enterprise"));
+                                editor.putString("license", data.getString("license"));
+                                editor.putString("place", data.getString("place"));
+                                editor.putString("adds_time", data.getString("adds_time"));
+                                editor.putString("img", data.getString("img"));
+                                editor.putString("cartcode", data.getString("cartcode"));
+                                editor.putString("car_type", data.getString("car_type"));
+                                editor.putString("load", data.getString("load"));
+                                editor.putString("driverpic", data.getString("driverpic"));
+                                editor.putString("runpic", data.getString("runpic"));
+                                editor.putString("operatepic", data.getString("operatepic"));
+                                editor.putString("supercargopic", data.getString("supercargopic"));
+                                editor.putString("myorder", data.getString("myorder"));
+                                editor.putString("stroke", data.getString("stroke"));
+                                if (!data.getString("longitude").equals("null")) {
+                                    editor.putString("longitude", data.getString("longitude"));
+                                }
+                                if (!data.getString("latitude").equals("null")) {
+                                    editor.putString("latitude", data.getString("latitude"));
+                                }
+                                editor.putString("statuss", data.getString("statuss"));
+                                if (!data.getString("route").equals("null")) {
+                                    editor.putString("route", data.getString("route"));
+                                }
+                                editor.commit();
+
+                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
                                     @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(10000);
-                                            login();
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
+                                    public void onSuccess() {
+                                        runOnUiThread(new Runnable() {
+                                            public void run() {
+                                                EMClient.getInstance().groupManager().loadAllGroups();
+                                                EMClient.getInstance().chatManager().loadAllConversations();
+                                                EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
+                                                //注册一个监听连接状态的listener
+                                                EMClient.getInstance().addConnectionListener(new MyConnectionListener());
+                                            }
+                                        });
+                                        Log.i("main", "登录聊天服务器成功！--");
                                     }
-                                }).start();
+
+                                    @Override
+                                    public void onProgress(int progress, String status) {
+                                        Log.i("main", "登录聊天服务器失败！--");
+                                    }
+
+                                    @Override
+                                    public void onError(int code, String message) {
+                                        Log.i("main", "登录聊天服务器失败！--");
+                                    }
+                                });
                             }
                         }
                     } catch (JSONException e) {
@@ -155,6 +230,82 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return false;
         }
     });
+    private Fragment currentFragment;
+    private Fragment newFragment;
+
+    //实现ConnectionListener接口
+    private class MyConnectionListener implements EMConnectionListener {
+        @Override
+        public void onConnected() {
+        }
+
+        @Override
+        public void onDisconnected(final int error) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (error == EMError.USER_REMOVED) {
+                        // 显示帐号已经被移除
+                        MyToast.show(CyApplication.getCyContext(), "显示帐号已经被移除");
+                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                        // 显示帐号在其他设备登录
+                        MyToast.show(CyApplication.getCyContext(), "显示帐号在其他设备登录");
+                    } else {
+                        if (NetUtils.hasNetwork(MainActivity.this))
+//                            连接不到聊天服务器
+                            MyToast.show(CyApplication.getCyContext(), "连接不到聊天服务器");
+                        else
+//                        当前网络不可用，请检查网络设置
+                            MyToast.show(CyApplication.getCyContext(), "当前网络不可用，请检查网络设置");
+                    }
+                }
+            });
+        }
+    }
+
+    // 环信的消息监听
+    private EMMessageListener mMessageListener = new EMMessageListener() {
+
+        // 收到消息
+        @Override
+        public void onMessageReceived(List<EMMessage> list) {
+
+
+        }
+
+        // 收到透传消息
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> list) {
+
+        }
+
+        // 收到已读回执
+        @Override
+        public void onMessageRead(List<EMMessage> list) {
+
+        }
+
+        // 收到已送达回执
+        @Override
+        public void onMessageDelivered(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageRecalled(List<EMMessage> list) {
+
+        }
+
+        // 消息状态变动
+        @Override
+        public void onMessageChanged(EMMessage emMessage, Object o) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                }
+            });
+        }
+    };
 
     @Override
     protected int setLayout() {
@@ -183,9 +334,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         JPushInterface.setAlias(MainActivity.this, 11, NormalUtils.userPhone());
 
-        fragmentManager = getSupportFragmentManager();
-
-        setTabSelection(0);
 
         selfFlag = MyShare.getShared().getString("userType", "1");
 
@@ -228,19 +376,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 linJia.setVisibility(View.GONE);
             }
         });
+        setFragmentData();
+        if (NormalUtils.personDataPass(MainActivity.this)) {//已登录
+            login();
+        }
+    }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(10000);
-//                    login();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-        login();
+    //初始化 5个主页面
+    private void setFragmentData() {
+        homeFragment = new HomeFragment();
+        currentFragment = homeFragment;
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, homeFragment).commitAllowingStateLoss();
+        setTabSelection(0);
     }
 
     @Override
@@ -253,6 +401,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(MainActivity.this, DriverPositionUpData.class));
+        DemoHelper.getInstance().logout(true, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onError(int i, String s) {
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+            }
+        });
     }
 
     @Override
@@ -350,21 +511,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     public void setTabSelection(int index) {
         // 每次选中之前先清楚掉上次的选中状态
-        // clearSelection();
-        // 开启一个Fragment事务
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        hideFragments(transaction);
         reset();
         switch (index) {
             case 0:
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
-                    transaction.replace(R.id.main_content, homeFragment);
-                } else {
-                    transaction.replace(R.id.main_content, homeFragment);
-//                    homeFragment.onResume();
                 }
+                newFragment = homeFragment;
+                replaceFragment();
                 ivHomeBoom.setBackgroundResource(R.mipmap.main_on);
                 break;
             case 1:
@@ -375,10 +529,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 if (priceFragment == null) {
                     priceFragment = new PriceFragment();
-                    transaction.replace(R.id.main_content, priceFragment);
-                } else {
-                    transaction.replace(R.id.main_content, priceFragment);
                 }
+                newFragment = priceFragment;
+                replaceFragment();
                 ivPriceBoom.setBackgroundResource(R.mipmap.price_on);
                 break;
             case 2:
@@ -389,10 +542,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 if (chatFragment == null) {
                     chatFragment = new ChatFragment();
-                    transaction.replace(R.id.main_content, chatFragment);
-                } else {
-                    transaction.replace(R.id.main_content, chatFragment);
                 }
+                newFragment = chatFragment;
+                replaceFragment();
                 ivChatBoom.setBackgroundResource(R.mipmap.char_on);
                 break;
             case 3:
@@ -404,31 +556,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (selfFlag.equals("1")) {
                     if (selfFragment == null) {
                         selfFragment = new SelfFragment();
-                        transaction.replace(R.id.main_content, selfFragment);
-                    } else {
-                        transaction.replace(R.id.main_content, selfFragment);
                     }
+                    newFragment = selfFragment;
                 } else if (selfFlag.equals("2")) {
                     if (selfCompanyFragment == null) {
                         selfCompanyFragment = new SelfCompanyFragment();
-                        transaction.replace(R.id.main_content, selfCompanyFragment);
-                    } else {
-                        transaction.replace(R.id.main_content, selfCompanyFragment);
                     }
+                    newFragment = selfCompanyFragment;
                 } else {
                     if (selfDriverFragment == null) {
                         selfDriverFragment = new SelfDriverFragment();
-                        transaction.replace(R.id.main_content, selfDriverFragment);
-                    } else {
-                        transaction.replace(R.id.main_content, selfDriverFragment);
                     }
+                    newFragment = selfDriverFragment;
                 }
+                replaceFragment();
                 ivSelfBoom.setBackgroundResource(R.mipmap.self_on);
                 break;
             default:
                 break;
         }
-        transaction.commit();
+    }
+
+    private void replaceFragment() {
+        if (newFragment != currentFragment) {
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
+            if (newFragment.isAdded()) {
+//                newFragment.onResume();
+                transaction.show(newFragment);
+            } else {
+                transaction.add(R.id.main_content, newFragment);
+            }
+            transaction.hide(currentFragment).commitAllowingStateLoss();
+            currentFragment = newFragment;
+        }
     }
 
     /**
@@ -498,4 +659,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             System.exit(0);
         }
     }
+
 }

@@ -265,7 +265,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
                     break;
 
                 case MSG_REFRESH: {
-//                    getGroups();
+                    getGroups();
 //                    getContactList();
 //                    conversationList.clear();
 //                    conversationList.addAll(loadConversationList());
@@ -410,6 +410,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
                         @Override
                         public void run() {
                             getContactList();
+                            conversationList.clear();
                             conversationList.addAll(loadConversationList());
                             conversationListView.init(conversationList);
                         }

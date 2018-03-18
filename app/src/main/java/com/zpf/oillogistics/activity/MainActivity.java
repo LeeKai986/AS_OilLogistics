@@ -377,7 +377,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
         setFragmentData();
-        if (NormalUtils.personDataPass(MainActivity.this)) {//已登录
+        if (NormalUtils.isLogin(MainActivity.this)) {//已登录
             login();
         }
     }

@@ -227,6 +227,29 @@ public class NormalUtils {
         }
     }
 
+    // 审核状态判断
+    public static boolean isLogin(Context context) {
+        getContext.getCt(context);
+        SharedPreferences sp = CyApplication.getCyContext().getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
+        if (sp.getString("statuss", "").equals("")) {
+            return false;
+        } else if (sp.getString("statuss", "").equals("1")) {
+            return true;
+        } else if (sp.getString("statuss", "").equals("2")) {
+//            login();
+            return false;
+        }
+//        else if (sp.getString("statuss", "").equals("2")){
+//            login();
+//            return true;
+//        }
+        else {
+//            login();
+//            MyToast.show(CyApplication.getCyContext(), "个人信息审核中");
+            return false;
+        }
+    }
+
     // 身份验证跳转
     public static void personDataVerify() {
         SharedPreferences sp = CyApplication.getCyContext().getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);

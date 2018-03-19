@@ -94,7 +94,7 @@ public abstract class EaseContactListFragment extends EaseBaseFragment implement
                     if (message.obj != null && !message.obj.toString().equals("")) {
                         friendDetailsBean = JsonUtil.friendDetailsBeanResolve(message.obj.toString());
                         //init list
-                        contactListLayout.init(friendDetailsBean, contactList, contactBlackList, 0);
+                        contactListLayout.init(null, contactList, contactBlackList, 0);
                     } else {
                         Log.i("The FriendDetails-->", "未能获取数据");
                     }
@@ -296,17 +296,19 @@ public abstract class EaseContactListFragment extends EaseBaseFragment implement
                         contactBlackList.add(user);
                     }
                 }
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                            mhandler.sendEmptyMessage(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+                contactListLayout.init(null, contactList, contactBlackList, 0);
+//                getFriendDetails(contactList);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(1000);
+//                            mhandler.sendEmptyMessage(2);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
             }
         }
 //

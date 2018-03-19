@@ -18,13 +18,14 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.zpf.oillogistics.R;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.db.PersonInfo;
 import com.hyphenate.easeui.domain.EaseAvatarOptions;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.util.EMLog;
+import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.bean.FriendDetailsBean;
 import com.zpf.oillogistics.net.UrlUtil;
@@ -258,9 +259,10 @@ public class EaseContactAdapter extends ArrayAdapter<EaseUser> implements Sectio
                 final ArrayList<EaseUser> newValues = new ArrayList<EaseUser>();
                 for (int i = 0; i < count; i++) {
                     final EaseUser user = mOriginalList.get(i);
-                    String username = user.getUsername();
-
-                    if (username.startsWith(prefixString)) {
+                    String username1 = user.getUsername();
+                    PersonInfo userinfo = CyApplication.findUserData(username1);
+                    String username = userinfo.getRelname();
+                    if (username.startsWith(prefixString) || username1.startsWith(prefixString)) {
                         newValues.add(user);
                     } else {
                         final String[] words = username.split(" ");

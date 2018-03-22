@@ -254,6 +254,7 @@ public class MsgHomeProductActivity extends BaseActivity {
         productMap = new HashMap<>();
         productMap.put("id", NormalUtils.userId());
         productMap.put("page", page + "");
+        productMap.put("page_size", "10");
         productThread = new SimplifyThread(UrlUtil.USER_FOLLOW, productMap);
         productThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override

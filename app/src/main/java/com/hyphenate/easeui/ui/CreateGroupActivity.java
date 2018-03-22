@@ -155,8 +155,7 @@ public class CreateGroupActivity extends BaseActivity {
                         String[] members = contactListLayout.getCheckList().toArray(new String[n]);
                         EMGroupOptions option = new EMGroupOptions();
                         option.maxUsers = 200;
-                        option.inviteNeedConfirm = true;
-
+                        option.inviteNeedConfirm = false;
                         option.style = EMGroupManager.EMGroupStyle.EMGroupStylePrivateOnlyOwnerInvite;
 
                         EMClient.getInstance().groupManager().createGroup(

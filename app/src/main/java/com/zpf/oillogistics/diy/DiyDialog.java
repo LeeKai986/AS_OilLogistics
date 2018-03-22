@@ -3,10 +3,8 @@ package com.zpf.oillogistics.diy;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.base.CyApplication;
+import com.zpf.oillogistics.utils.DateTimeUtil;
 import com.zpf.oillogistics.utils.MyShareFriend;
 import com.zpf.oillogistics.utils.MyToast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -153,7 +151,7 @@ public class DiyDialog {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public static void dateSelectDialog(Context context, final GetTimeListener getTimeListener) {
+    public static void dateSelectDialog(final Context context, final GetTimeListener getTimeListener) {
         final Dialog dialog = new Dialog(context, R.style.diy_dialog);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_time_select, null);
         FrameLayout fl = view.findViewById(R.id.product_fl);
@@ -183,6 +181,13 @@ public class DiyDialog {
         confirmTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Date startTime = new Date();
+                Date endTime = DateTimeUtil.getDateTime(datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth() + " 23:59");
+                int t = DateTimeUtil.compareDate(startTime, endTime);
+                if (t > 0) {
+                    MyToast.show(context, "请选择有效时间");
+                    return;
+                }
                 getTimeListener.getTime(datePicker.getYear() + "/" + (datePicker.getMonth() + 1) + "/" + datePicker.getDayOfMonth());
                 dialog.dismiss();
             }

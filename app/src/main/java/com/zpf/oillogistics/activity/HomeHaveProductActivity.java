@@ -349,7 +349,7 @@ public class HomeHaveProductActivity extends BaseActivity {
             if (bean.getLoad() != null) {
                 vh.tvPlate.setText(bean.getCartcode());
             }
-
+            vh.ivCall.setVisibility(View.GONE);
             vh.ivCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -381,6 +381,7 @@ public class HomeHaveProductActivity extends BaseActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(HomeHaveProductActivity.this, DriverDetailsActivity.class);
                     intent.putExtra("phone", bean.getPhone());
+                    intent.putExtra("id", bean.getId() + "");
                     startActivity(intent);
                 }
             });

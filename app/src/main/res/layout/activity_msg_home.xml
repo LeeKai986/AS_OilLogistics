@@ -88,10 +88,11 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_xt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:text="您有一条新得消息"
+                        android:text=""
                         android:textColor="#7B7B7B"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -160,10 +161,11 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_cp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:text="暂无新消息"
+                        android:text=""
                         android:textColor="#7B7B7B"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -232,10 +234,11 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_bj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:text="暂无新消息"
+                        android:text=""
                         android:textColor="#7B7B7B"
                         android:textSize="13sp" />
                 </LinearLayout>

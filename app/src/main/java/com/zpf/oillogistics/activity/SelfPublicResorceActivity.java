@@ -152,6 +152,7 @@ public class SelfPublicResorceActivity extends BaseActivity {
         HashMap hp = new HashMap<String, String>();
         hp.put("id", MyShare.getShared().getString("userId",""));
         hp.put("page", page+"");
+        hp.put("page_size", "10");
         SimplifyThread simplifyThread = new SimplifyThread(UrlUtil.URL_FREIGT_SUPPLY, hp);
         simplifyThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override

@@ -52,6 +52,12 @@ public class MsgHomeActivity extends BaseActivity {
     // 报价消息数量
     @BindView(R.id.msg_home_quote_num_tv)
     TextView quoteNumTv;
+    @BindView(R.id.tv_xt)
+    TextView tv_xt;
+    @BindView(R.id.tv_cp)
+    TextView tv_cp;
+    @BindView(R.id.tv_bj)
+    TextView tv_bj;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -65,19 +71,25 @@ public class MsgHomeActivity extends BaseActivity {
                     if (msgClickBean != null && msgClickBean.getData() != null && msgClickBean.getData().getSys() != 0) {
                         systemNumTv.setVisibility(View.VISIBLE);
                         systemNumTv.setText(msgClickBean.getData().getSys() + "");
+                        tv_xt.setText("您有新的消息");
                     } else {
+                        tv_xt.setText("暂无新消息");
                         systemNumTv.setVisibility(View.GONE);
                     }
                     if (msgClickBean != null && msgClickBean.getData() != null && msgClickBean.getData().getGoods() != 0) {
                         productNumTv.setVisibility(View.VISIBLE);
                         productNumTv.setText(msgClickBean.getData().getGoods() + "");
+                        tv_cp.setText("您有新的消息");
                     } else {
+                        tv_cp.setText("暂无新消息");
                         productNumTv.setVisibility(View.GONE);
                     }
                     if (msgClickBean != null && msgClickBean.getData() != null && msgClickBean.getData().getOffer() != 0) {
                         quoteNumTv.setVisibility(View.VISIBLE);
                         quoteNumTv.setText(msgClickBean.getData().getOffer() + "");
+                        tv_bj.setText("您有新的消息");
                     } else {
+                        tv_bj.setText("暂无新消息");
                         quoteNumTv.setVisibility(View.GONE);
                     }
                     break;

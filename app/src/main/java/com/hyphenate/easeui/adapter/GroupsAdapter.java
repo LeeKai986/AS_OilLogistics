@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
@@ -14,11 +13,8 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
-import com.hyphenate.util.DateUtils;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.utils.DateTimeUtil;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,14 +58,14 @@ public class GroupsAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (view == null) {
             view = inflater.inflate(R.layout.adapter_groups, viewGroup, false);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-        EMGroup group= (EMGroup) getItem(i);
+        EMGroup group = (EMGroup) getItem(i);
 
-        if(group!=null) {
+        if (group != null) {
             if (group.getGroupName() != null && !group.getGroupName().equals(""))
                 holder.tvName.setText(group.getGroupName());
             else
@@ -77,7 +73,7 @@ public class GroupsAdapter extends BaseAdapter {
 
             EMConversation conversation = EMClient.getInstance().chatManager().getConversation(group.getGroupId());
 
-            if (conversation!=null&&conversation.getAllMsgCount() != 0) {
+            if (conversation != null && conversation.getAllMsgCount() != 0) {
                 // show the content of latest message
                 EMMessage lastMessage = conversation.getLastMessage();
                 String content = null;
@@ -91,7 +87,11 @@ public class GroupsAdapter extends BaseAdapter {
 
                 if (conversation.getUnreadMsgCount() > 0) {
                     // show unread message count
-                    holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));
+                    if (conversation.getUnreadMsgCount() <= 99) {
+                        holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));
+                    } else {
+                        holder.unreadLabel.setText("99+");
+                    }
                     holder.unreadLabel.setVisibility(View.VISIBLE);
                 } else {
                     holder.unreadLabel.setVisibility(View.INVISIBLE);

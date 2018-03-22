@@ -1,7 +1,5 @@
 package com.zpf.oillogistics.activity;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,12 +19,15 @@ import com.zpf.oillogistics.bean.AttenQuoteBean;
 import com.zpf.oillogistics.net.JsonUtil;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
+import com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshBase;
+import com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView;
 import com.zpf.oillogistics.utils.DateTimeUtil;
-import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.NormalUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -41,7 +42,7 @@ public class MsgHomeQuoteActivity extends BaseActivity {
     // 布局相关
     // lv
     @BindView(R.id.msg_home_quote_lv)
-    ListView lv;
+    PullToRefreshListView lv;
     @BindView(R.id.rel_back)
     RelativeLayout relBack;
     // adapter
@@ -54,27 +55,30 @@ public class MsgHomeQuoteActivity extends BaseActivity {
     HashMap<String, String> quoteMap;
     // 关注的报价信息返回
     AttenQuoteBean attenQuoteBean;
-
-    Dialog dg;
-
+    private List<AttenQuoteBean.DataBean> mList = new ArrayList<>();
+    //    Dialog dg;
+    private int page = 1;
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
-
+            lv.onRefreshComplete();
             switch (message.what) {
                 case 0:
                     break;
                 case 1:
+                    attenQuoteBean = JsonUtil.attenQuoteBeanResolve(message.obj.toString());
                     if (attenQuoteBean != null) {
                         if (attenQuoteBean.getData() != null) {
                             if (attenQuoteBean.getData().size() == 0) {
                                 MyToast.show(MsgHomeQuoteActivity.this, "暂无数据");
+                                break;
                             }
-                            adapter.setBean(attenQuoteBean);
+                            mList.addAll(attenQuoteBean.getData());
+                            adapter.setBean(mList);
                             lv.setAdapter(adapter);
                         } else {
                             MyToast.show(MsgHomeQuoteActivity.this, attenQuoteBean.getMsg());
-                            adapter.setBean(attenQuoteBean);
+                            adapter.setBean(mList);
                             lv.setAdapter(adapter);
                         }
                     } else {
@@ -86,22 +90,22 @@ public class MsgHomeQuoteActivity extends BaseActivity {
         }
     });
 
-    Handler hd = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
-            if (dg != null && dg.isShowing()) {
-                dg.dismiss();
-            }
-            switch (message.what) {
-                case 0:
-                    MyToast.show(MsgHomeQuoteActivity.this, message.obj.toString());
-                    break;
-                case 1:
-                    break;
-            }
-            return false;
-        }
-    });
+//    Handler hd = new Handler(new Handler.Callback() {
+//        @Override
+//        public boolean handleMessage(Message message) {
+//            if (dg != null && dg.isShowing()) {
+//                dg.dismiss();
+//            }
+//            switch (message.what) {
+//                case 0:
+//                    MyToast.show(MsgHomeQuoteActivity.this, message.obj.toString());
+//                    break;
+//                case 1:
+//                    break;
+//            }
+//            return false;
+//        }
+//    });
 
     @Override
     protected int setLayout() {
@@ -110,14 +114,38 @@ public class MsgHomeQuoteActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        getdata();
+        lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mList.clear();
+                page = 1;
+                getdata();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getdata();
+            }
+        });
+        lv.setScrollingWhileRefreshingEnabled(true);
+        lv.setMode(PullToRefreshBase.Mode.BOTH);
+    }
+
+    private void getdata() {
         quoteMap = new HashMap<>();
         quoteMap.put("id", NormalUtils.userId());
+        quoteMap.put("page", page + "");
+        quoteMap.put("page_size", "20");
         quoteThread = new SimplifyThread(UrlUtil.USER_OFFER, quoteMap);
         quoteThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override
             public void resultBody(String res) {
-                attenQuoteBean = JsonUtil.attenQuoteBeanResolve(res);
-                handler.sendEmptyMessage(1);
+                Message msg = new Message();
+                msg.obj = res;
+                msg.what = 1;
+                handler.sendMessage(msg);
             }
 
             @Override
@@ -126,30 +154,30 @@ public class MsgHomeQuoteActivity extends BaseActivity {
             }
         });
 
-        dg = ProgressDialog.show(MsgHomeQuoteActivity.this, "", "获取数据中...");
-        dg.setCanceledOnTouchOutside(false);
-        dg.show();
-        HashMap<String, String> getAttentionNum = new HashMap<>();
-        getAttentionNum.put("id", MyShare.getShared().getString("userId", ""));
-        getAttentionNum.put("type", "3");
-        SimplifyThread getAttentionThread = new SimplifyThread(UrlUtil.URL_USER_NUM, getAttentionNum);
-        getAttentionThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
-            @Override
-            public void resultBody(String res) {
-                Message msg = new Message();
-                msg.obj = res;
-                msg.what = 1;
-                hd.sendMessage(msg);
-            }
-
-            @Override
-            public void errorBody(String error) {
-                Message msg = new Message();
-                msg.obj = error;
-                msg.what = 0;
-                hd.sendMessage(msg);
-            }
-        });
+//        dg = ProgressDialog.show(MsgHomeQuoteActivity.this, "", "获取数据中...");
+//        dg.setCanceledOnTouchOutside(false);
+//        dg.show();
+//        HashMap<String, String> getAttentionNum = new HashMap<>();
+//        getAttentionNum.put("id", MyShare.getShared().getString("userId", ""));
+//        getAttentionNum.put("type", "3");
+//        SimplifyThread getAttentionThread = new SimplifyThread(UrlUtil.URL_USER_NUM, getAttentionNum);
+//        getAttentionThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
+//            @Override
+//            public void resultBody(String res) {
+//                Message msg = new Message();
+//                msg.obj = res;
+//                msg.what = 1;
+//                hd.sendMessage(msg);
+//            }
+//
+//            @Override
+//            public void errorBody(String error) {
+//                Message msg = new Message();
+//                msg.obj = error;
+//                msg.what = 0;
+//                hd.sendMessage(msg);
+//            }
+//        });
     }
 
     @Override
@@ -175,16 +203,16 @@ public class MsgHomeQuoteActivity extends BaseActivity {
 
     class MsgHomeQuoteAdapter extends BaseAdapter {
 
-        private AttenQuoteBean bean;
+        private List<AttenQuoteBean.DataBean> bean;
 
-        public void setBean(AttenQuoteBean bean) {
+        public void setBean(List<AttenQuoteBean.DataBean> bean) {
             this.bean = bean;
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return bean != null && bean.getData() != null && bean.getData().size() != 0 ? bean.getData().size() : 0;
+            return bean != null && bean.size() != 0 ? bean.size() : 0;
         }
 
         @Override
@@ -210,7 +238,7 @@ public class MsgHomeQuoteActivity extends BaseActivity {
             } else {
                 vh = (MsgHomeQuoteViewHolder) view.getTag();
             }
-            final AttenQuoteBean.DataBean dataBean = bean.getData().get(i);
+            final AttenQuoteBean.DataBean dataBean = bean.get(i);
             if (dataBean.getTitle() != null && !dataBean.getTitle().equals("")) {
                 vh.titleTv.setText("【" + dataBean.getRegion() + "】");
             }

@@ -366,14 +366,14 @@ public class HomeHaveCarActivity extends BaseActivity {
             }
 
             //订购显示
-            if (mList.get(i).getIdentity() == 3) {
-                vh.relCall.setVisibility(View.GONE);
-                vh.tvTakeOrder.setVisibility(View.VISIBLE);
-            } else {
-                vh.relCall.setVisibility(View.VISIBLE);
-                vh.tvTakeOrder.setVisibility(View.GONE);
-            }
-
+//            if (mList.get(i).getIdentity() == 3) {
+//                vh.relCall.setVisibility(View.GONE);
+//                vh.tvTakeOrder.setVisibility(View.VISIBLE);
+//            } else {
+//                vh.relCall.setVisibility(View.VISIBLE);
+//                vh.tvTakeOrder.setVisibility(View.GONE);
+//            }
+            vh.relCall.setVisibility(View.GONE);
             vh.relCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

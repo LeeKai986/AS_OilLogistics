@@ -151,6 +151,7 @@ public class SelfPublicShopActivity extends BaseActivity {
         HashMap hp = new HashMap<>();
         hp.put("uid", MyShare.getShared().getString("userId", ""));
         hp.put("page", page + "");
+        hp.put("page_size", "10");
         SimplifyThread simplifyThread = new SimplifyThread(UrlUtil.URL_USER_BUY, hp);
         simplifyThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override

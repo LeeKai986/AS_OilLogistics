@@ -85,6 +85,7 @@ public class DriverDetailsActivity extends BaseActivity {
     // 司机详情返回
     DriverDetailsBean driverDetailsBean;
 
+    private String id = "";
     private String phone = "";
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -113,6 +114,14 @@ public class DriverDetailsActivity extends BaseActivity {
     });
 
     @Override
+    protected void onDestroy() {
+        if (handler != null) {
+            handler = null;
+        }
+        super.onDestroy();
+    }
+
+    @Override
     protected int setLayout() {
         return R.layout.activity_driver_details;
     }
@@ -120,6 +129,7 @@ public class DriverDetailsActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+        id = getIntent().getExtras().getString("id");
         phone = getIntent().getExtras().getString("phone");
         driverInfo();
     }
@@ -139,7 +149,6 @@ public class DriverDetailsActivity extends BaseActivity {
                 && !driverDetailsBean.getData().getInfo().getFace().equals("")) {
             Glide.with(DriverDetailsActivity.this)
                     .load(UrlUtil.IMAGE_URL + driverDetailsBean.getData().getInfo().getFace())
-                    .placeholder(R.mipmap.head_default)
                     .error(R.mipmap.head_default)
                     .into(headerIv);
         }
@@ -246,6 +255,7 @@ public class DriverDetailsActivity extends BaseActivity {
 
     private void driverInfo() {
         driverInfoMap = new HashMap<>();
+        driverInfoMap.put("id", id);
         driverInfoMap.put("phone", phone);
         driverInfoThread = new SimplifyThread(UrlUtil.RUN_DRIVERINFO, driverInfoMap);
         driverInfoThread.setOnGetResultListener(new SimplifyThread.OnResultListener() {

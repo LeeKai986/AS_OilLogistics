@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,13 +18,12 @@ import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.Newa;
-import com.zpf.oillogistics.bean.response.GetOrderResponse;
 import com.zpf.oillogistics.bean.response.InformaListResponse;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
+import com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshBase;
 import com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView;
 import com.zpf.oillogistics.utils.DateTimeUtil;
-import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 
 import java.util.ArrayList;
@@ -49,9 +49,9 @@ public class HomeInformationActivity extends BaseActivity {
     HomeInformationAdapter adapter;
     @BindView(R.id.rel_back)
     RelativeLayout relBack;
-
+    private int page = 1;
     private List<Newa> msgList = new ArrayList<>();
-    private HashMap<String,String> hashMap=new HashMap<>();
+    private HashMap<String, String> hashMap = new HashMap<>();
 
     @Override
     protected int setLayout() {
@@ -71,7 +71,23 @@ public class HomeInformationActivity extends BaseActivity {
                 finish();
             }
         });
+        plv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                msgList.clear();
+                page = 1;
+                getInformation();
 
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                page++;
+                getInformation();
+            }
+        });
+        plv.setScrollingWhileRefreshingEnabled(true);
+        plv.setMode(PullToRefreshBase.Mode.BOTH);
         adapter = new HomeInformationAdapter();
         plv.setAdapter(adapter);
     }
@@ -87,7 +103,8 @@ public class HomeInformationActivity extends BaseActivity {
      */
     private void getInformation() {
 
-
+        hashMap.put("page", page + "");
+        hashMap.put("page_size", "20");
         SimplifyThread simplifyThread = new SimplifyThread(UrlUtil.URL_SLIDESHOW_NEWS, hashMap);
         simplifyThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override
@@ -110,19 +127,20 @@ public class HomeInformationActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            plv.onRefreshComplete();
             switch (msg.what) {
                 case MessageWhat.SELF_SLIDESHOW_NEWS:
                     if (msg.obj != null) {
                         try {
                             InformaListResponse orderRe = gson.fromJson(msg.obj.toString(), InformaListResponse.class);
-                            if(orderRe.getStatus()==0){
+                            if (orderRe.getStatus() == 0) {
                                 msgList.addAll(orderRe.getData().getNews().getData());
-                                if(msgList==null&&msgList.size()==0){
+                                if (msgList == null && msgList.size() == 0) {
                                     MyToast.show(HomeInformationActivity.this, "暂无数据");
                                 }
                                 adapter.notifyDataSetChanged();
 
-                            }else {
+                            } else {
                                 MyToast.show(HomeInformationActivity.this, orderRe.getMsg());
                             }
 
@@ -142,7 +160,7 @@ public class HomeInformationActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            if (msgList!=null)
+            if (msgList != null)
                 return msgList.size();
             return 0;
         }
@@ -172,13 +190,12 @@ public class HomeInformationActivity extends BaseActivity {
             }
 
 
-
-            if(msgList.get(i).getTitle()!=null){
+            if (msgList.get(i).getTitle() != null) {
                 vh.tvTitle.setText(msgList.get(i).getTitle());
             }
 
-            if(msgList.get(i).getTime()!=0){
-                vh.tvTime.setText(DateTimeUtil.stampToDate("MM/dd",msgList.get(i).getTime()+"000"));
+            if (msgList.get(i).getTime() != 0) {
+                vh.tvTime.setText(DateTimeUtil.stampToDate("MM/dd", msgList.get(i).getTime() + "000"));
             }
 
             vh.allLl.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +203,7 @@ public class HomeInformationActivity extends BaseActivity {
                 public void onClick(View view) {
 
                     Intent intent = new Intent(HomeInformationActivity.this, InformationDetailsActivity.class);
-                    intent.putExtra("inforID", msgList.get(i).getId()+"");
+                    intent.putExtra("inforID", msgList.get(i).getId() + "");
                     intent.putExtra("flag", "information");
                     startActivity(intent);
                 }
@@ -196,7 +213,7 @@ public class HomeInformationActivity extends BaseActivity {
 
         class MsgHomeSystemViewHolder {
             LinearLayout allLl;
-            TextView tvTitle,tvTime;
+            TextView tvTitle, tvTime;
         }
     }
 }

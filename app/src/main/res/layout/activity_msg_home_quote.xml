@@ -39,12 +39,12 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <ListView
+        <com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView
             android:id="@+id/msg_home_quote_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F9F9F9"
             android:divider="#FFFFFF"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="0dp"></com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
     </LinearLayout>
 </LinearLayout>

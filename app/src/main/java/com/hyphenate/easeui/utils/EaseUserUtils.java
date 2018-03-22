@@ -23,8 +23,14 @@ import com.zpf.oillogistics.net.UrlUtil;
 import java.util.HashMap;
 
 public class EaseUserUtils {
-    private static Context ct;
     static EaseUserProfileProvider userProvider;
+    private static EaseUserUtils easeUtils;
+
+    public static void init() {
+        if (easeUtils == null) {
+            easeUtils = new EaseUserUtils();
+        }
+    }
 
     static {
         userProvider = EaseUI.getInstance().getUserProfileProvider();

@@ -10,6 +10,7 @@ import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.DemoHelper;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.db.PersonInfo;
+import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
@@ -178,5 +179,6 @@ public class CyApplication extends MultiDexApplication {
         options.setAcceptInvitationAlways(false);
         EaseUI.getInstance().init(context, options);
         DemoHelper.getInstance().init(this);
+        EaseUserUtils.init();
     }
 }

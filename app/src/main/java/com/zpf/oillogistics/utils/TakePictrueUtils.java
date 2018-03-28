@@ -139,7 +139,6 @@ public class TakePictrueUtils {
             Intent tempIntent = intent;
             try {                             //不存储
                 ((Activity) context).startActivityForResult(tempIntent, PHOTO_NOT_STORE);
-                System.out.println("haha");
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
@@ -192,7 +191,7 @@ public class TakePictrueUtils {
     public void savePictureToSD(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         FileOutputStream fos = null;
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);//第2个参数表示压缩率，100表示不压缩
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//第2个参数表示压缩率，100表示不压缩
         try {
             fos = new FileOutputStream(tempFile);
             fos.write(baos.toByteArray());

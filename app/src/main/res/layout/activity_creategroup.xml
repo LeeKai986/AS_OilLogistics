@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,18 +10,18 @@
         android:background="@color/main_color">
 
         <RelativeLayout
-        android:id="@+id/iv_back_creategroup"
-        android:layout_width="@dimen/title_bar_height"
-        android:layout_height="@dimen/title_bar_height">
+            android:id="@+id/iv_back_creategroup"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height">
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@mipmap/back"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/back" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_title"
@@ -29,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="建群"
-            android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_config_creategroup"
@@ -40,8 +40,8 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:text="确定"
-            android:textSize="14sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -56,30 +56,30 @@
             android:id="@+id/tv_goupname"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="群聊名称"
-            android:textSize="14sp"
             android:textColor="#565656"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/edit_name_groupname"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_goupname"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/rel_clear_groupname"
+            android:layout_toRightOf="@+id/tv_goupname"
+            android:background="@color/white"
+            android:ellipsize="end"
             android:hint="输入群名称"
             android:maxLines="1"
-            android:ellipsize="end"
-            android:textColorHint="#CCCCCC"
-            android:textSize="17sp"
             android:textColor="#565656"
-            android:background="@color/white"/>
+            android:textColorHint="#CCCCCC"
+            android:textSize="17sp" />
 
         <RelativeLayout
             android:id="@+id/rel_clear_groupname"
@@ -93,9 +93,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@mipmap/x_text_clear"/>
+                android:background="@mipmap/x_text_clear" />
         </RelativeLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,7 +112,7 @@
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:background="@mipmap/search_chat"/>
+            android:background="@mipmap/search_chat" />
 
         <EditText
             android:id="@+id/edit_search_creategroup"
@@ -115,20 +120,20 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:ellipsize="end"
             android:gravity="center"
             android:hint="搜索"
             android:maxLines="1"
-            android:ellipsize="end"
             android:textColorHint="#CCCCCC"
-            android:textSize="16sp"
-            android:background="@color/white"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/content_container_groupcreate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <com.hyphenate.easeui.widget.EaseContactList
             android:id="@+id/contact_list_groupcreate"

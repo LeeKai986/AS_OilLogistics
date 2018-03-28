@@ -218,11 +218,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/issue_product_right"
                 android:hint="请选择"
                 android:textColorHint="#7B7B7B"
                 android:textSize="15sp" />
         </RelativeLayout>
+        <!--android:drawableRight="@mipmap/issue_product_right"-->
 
         <View
             android:layout_width="match_parent"
@@ -260,6 +260,7 @@
                     android:layout_marginLeft="10dp"
                     android:background="@null"
                     android:hint="请填写"
+                    android:clickable="false"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:textColorHint="#7B7B7B"

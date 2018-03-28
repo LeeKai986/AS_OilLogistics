@@ -371,7 +371,6 @@ public class HomeHaveProductActivity extends BaseActivity {
             if (bean.getHerder() != null && !bean.getHerder().equals("")) {
                 Glide.with(HomeHaveProductActivity.this)
                         .load(UrlUtil.IMAGE_URL + bean.getHerder())
-                        .placeholder(R.mipmap.head_default)
                         .error(R.mipmap.head_default)
                         .into(vh.ivIcon);
             }

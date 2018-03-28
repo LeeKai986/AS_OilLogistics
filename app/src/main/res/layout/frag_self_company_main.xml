@@ -140,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 app:action="我的订单"
                 app:startIcon="@mipmap/my_order">
 

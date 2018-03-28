@@ -250,6 +250,7 @@
                     android:id="@+id/platform_issue_order_buy_num_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <View
@@ -595,7 +596,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="订购"
+                android:text="拨打电话"
                 android:textColor="#7B7B7B"
                 android:textSize="17sp" />
         </LinearLayout>

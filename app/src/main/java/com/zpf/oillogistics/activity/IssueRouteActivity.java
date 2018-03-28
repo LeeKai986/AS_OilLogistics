@@ -30,6 +30,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.zpf.oillogistics.utils.MyShare.getShared;
+
 /**
  * Created by Administrator on 2017/9/14.
  * <p>
@@ -89,6 +91,14 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
         tvEnd.setOnClickListener(this);
         relBack.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
+        String load = MyShare.getShared().getString("load", "");
+        String car_type = MyShare.getShared().getString("car_type", "");
+        if (load != null && !load.equals("")) {
+            editLoad.setText(load);
+        }
+        if (car_type != null && !car_type.equals("")) {
+            tvType.setText(car_type);
+        }
     }
 
     @Override
@@ -201,12 +211,12 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.issue_route_type_rl:
-                DiyDialog.routeTypeDialog(IssueRouteActivity.this, new DiyDialog.RouteTypeListener() {
-                    @Override
-                    public void routeType(String res) {
-                        tvType.setText(res);
-                    }
-                });
+//                DiyDialog.routeTypeDialog(IssueRouteActivity.this, new DiyDialog.RouteTypeListener() {
+//                    @Override
+//                    public void routeType(String res) {
+//                        tvType.setText(res);
+//                    }
+//                });
                 break;
             case R.id.tv_submit:
                 toSubmitw();
@@ -241,7 +251,7 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
 
         HashMap subHp = new HashMap();
 
-        subHp.put("uid", MyShare.getShared().getString("userId", ""));
+        subHp.put("uid", getShared().getString("userId", ""));
         subHp.put("startplace", starArea);
         subHp.put("endplace", endArea);
         subHp.put("time", DateTimeUtil.dateToStamp("yyyy/MM/dd", tvTime.getText().toString()));

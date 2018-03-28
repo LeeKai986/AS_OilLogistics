@@ -20,7 +20,7 @@ public class UrlUtil {
     // 测试服
     public static final String URL = "http://Tozpa.com/api";
     // 测试服image
-    public static final String IMAGE_URL = "http://Tozpa.com";
+    public static final String IMAGE_URL = "http://img.yyt.tozpa.com";
     // 分享地址
     public static final String SHARE_URL = "http://Tozpa.com/api/user/share";
 

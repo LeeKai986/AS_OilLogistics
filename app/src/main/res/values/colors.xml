@@ -74,4 +74,5 @@
     <color name="home_yuan_reduce_color">#66B33D</color>
     <color name="home_yuan_increase_color">#FC4F4F</color>
     <color name="wideline">#F9F9F9</color>
+    <color name="line">#CCCCCC</color>
 </resources>

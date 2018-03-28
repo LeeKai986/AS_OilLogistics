@@ -400,35 +400,47 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
             if (dataBean.getStatus() == 3) {
                 arriveTimeLl.setVisibility(View.VISIBLE);
                 getShipTime();
-                if (MyShare.getShared().getString("userType", "").equals("2")) {
-                    buyTv.setText("订购");
-                    buyTv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (buyNumTv.getText().toString().equals("")) {
-                                MyToast.show(PlatformIssueOrderActivity.this, "请选择采购数量");
-                                return;
-                            } else {
-                                Intent intent = new Intent(PlatformIssueOrderActivity.this, OrderConfirmActivity.class);
-                                intent.putExtra("number", buyNumTv.getText().toString().replace("吨", ""));
-                                intent.putExtra("id", dataBean.getId() + "");
-                                startActivity(intent);
-                            }
+                buyTv.setText("拨打电话");
+                buyNumLl.setVisibility(View.GONE);
+                buyTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (infoBean != null && infoBean.getPhone() != null) {
+//                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + infoBean.getPhone()));
+//                            startActivity(intent);
+                            CallPermission.callPhone(PlatformIssueOrderActivity.this, infoBean.getPhone());
                         }
-                    });
-                } else {
-                    buyNumLl.setVisibility(View.GONE);
-                    buyTv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (MyShare.getShared().getString("userType", "").equals("1")) {
-                                MyToast.show(PlatformIssueOrderActivity.this, "您当前账号类型为个人,不可下单");
-                            } else if (MyShare.getShared().getString("userType", "").equals("3")) {
-                                MyToast.show(PlatformIssueOrderActivity.this, "您当前账号类型为司机,不可下单");
-                            }
-                        }
-                    });
-                }
+                    }
+                });
+//                if (MyShare.getShared().getString("userType", "").equals("2")) {
+//                    buyTv.setText("订购");
+//                    buyTv.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if (buyNumTv.getText().toString().equals("")) {
+//                                MyToast.show(PlatformIssueOrderActivity.this, "请选择采购数量");
+//                                return;
+//                            } else {
+//                                Intent intent = new Intent(PlatformIssueOrderActivity.this, OrderConfirmActivity.class);
+//                                intent.putExtra("number", buyNumTv.getText().toString().replace("吨", ""));
+//                                intent.putExtra("id", dataBean.getId() + "");
+//                                startActivity(intent);
+//                            }
+//                        }
+//                    });
+//                } else {
+//                    buyNumLl.setVisibility(View.GONE);
+//                    buyTv.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if (MyShare.getShared().getString("userType", "").equals("1")) {
+//                                MyToast.show(PlatformIssueOrderActivity.this, "您当前账号类型为个人,不可下单");
+//                            } else if (MyShare.getShared().getString("userType", "").equals("3")) {
+//                                MyToast.show(PlatformIssueOrderActivity.this, "您当前账号类型为司机,不可下单");
+//                            }
+//                        }
+//                    });
+//                }
             } else {
                 buyTv.setText("拨打电话");
                 buyNumLl.setVisibility(View.GONE);

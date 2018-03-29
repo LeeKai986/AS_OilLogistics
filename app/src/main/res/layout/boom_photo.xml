@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/pop_layout"
@@ -11,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:background="#00ffffff"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/takePhotoBtn"
@@ -36,7 +37,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/main_color"
             android:padding="10dp"
-            android:text="从相册选择"
+            android:text="从手机相册选择"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />

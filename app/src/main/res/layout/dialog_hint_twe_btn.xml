@@ -60,7 +60,7 @@
                 android:gravity="center"
                 android:padding="9dp"
                 android:text="取消"
-                android:textColor="#0076FF"
+                android:textColor="@color/btn_logout_normal"
                 android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.hyphenate.util.DensityUtil;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.bean.FirmDetailsWantBuyBean;
@@ -198,23 +199,18 @@ public class FirmDetailsActivity extends BaseActivity {
                     .into(new SimpleTarget<GlideDrawable>() {
                         @Override
                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            int width;
-                            WindowManager wm = (WindowManager) FirmDetailsActivity.this.getSystemService(Context.WINDOW_SERVICE);
-                            width = wm.getDefaultDisplay().getWidth();
-                            ViewGroup.LayoutParams layoutParams = imageIv.getLayoutParams();
-                            layoutParams.width = width;
-                            layoutParams.height = (int) ((resource.getIntrinsicHeight() / ((float) resource.getIntrinsicWidth()) * width));
-                            Log.i("Pwinth-->", width + "");
-                            Log.i("winth-->", resource.getIntrinsicWidth() + "");
-                            Log.i("height-->", resource.getIntrinsicHeight() + "");
-//                            ViewGroup.LayoutParams layoutParams1 = imageLl.getLayoutParams();
-//                            layoutParams1.width = width;
-//                            layoutParams1.height = resource.getIntrinsicHeight() / resource.getIntrinsicWidth() * width;
-//                            imageLl.setLayoutParams(layoutParams1);
-//                            imageIv.setLayoutParams(layoutParams);
                             imageIv.setImageDrawable(resource);
+
                         }
                     });
+            int width;
+            WindowManager wm = (WindowManager) FirmDetailsActivity.this.getSystemService(Context.WINDOW_SERVICE);
+            width = wm.getDefaultDisplay().getWidth();
+            ViewGroup.LayoutParams layoutParams = imageIv.getLayoutParams();
+            layoutParams.width = width;
+            layoutParams.height = width - DensityUtil.dip2px(FirmDetailsActivity.this, 40);
+            Log.i("Pwinth-->", width + "");
+            imageIv.setLayoutParams(layoutParams);
         }
     }
 

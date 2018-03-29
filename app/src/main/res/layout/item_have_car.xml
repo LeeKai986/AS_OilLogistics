@@ -11,8 +11,8 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:paddingBottom="16dp"
-        android:paddingLeft="13dp"
-        android:paddingRight="13dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="16dp">
 
         <ImageView
@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout

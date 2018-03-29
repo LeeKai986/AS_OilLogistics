@@ -11,15 +11,14 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:paddingBottom="18dp"
-        android:paddingLeft="13dp"
-        android:paddingRight="13dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="18dp">
 
         <ImageView
             android:id="@+id/item_have_product_icon_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@mipmap/head_default" />
 
@@ -97,6 +96,7 @@
                 <ImageView
                     android:id="@+id/item_have_product_call_iv"
                     android:layout_width="30dp"
+                    android:visibility="gone"
                     android:layout_height="30dp"
                     android:layout_alignBottom="@+id/item_have_product_route_tv"
                     android:layout_alignParentRight="true"

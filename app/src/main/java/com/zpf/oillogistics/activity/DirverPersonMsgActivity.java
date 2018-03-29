@@ -117,7 +117,6 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
         if (!MyShare.getShared().getString("userHead", "").equals("")) {
             Glide.with(DirverPersonMsgActivity.this)
                     .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("userHead", ""))
-                    .placeholder(R.mipmap.head_default)
                     .error(R.mipmap.head_default)
                     .into(cirHead);
         }
@@ -177,6 +176,9 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                 }
             }
         }
+
+        navCity.setTvActionState(CyApplication.area.replace("-", ""));
+        editAdress.setText(CyApplication.adress);
     }
 
     @Override
@@ -453,8 +455,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        navCity.setTvActionState(CyApplication.area.replace("-", ""));
-        editAdress.setText(CyApplication.adress);
+
     }
 
     @Override
@@ -479,7 +480,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                 intent.putExtra("city", city);
                 intent.putExtra("adress", adress);
                 intent.putExtra("nav", false);//是否导航
-                startActivity(intent);
+                startActivityForResult(intent, 999);
 
                 break;
             case R.id.cir_head_inforself:
@@ -591,6 +592,10 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                 if (null != data) {
                     takePictrue.setPictureToImageView(data, false);
                 }
+                break;
+            case 999:
+                navCity.setTvActionState(CyApplication.area.replace("-", ""));
+                editAdress.setText(CyApplication.adress);
                 break;
             default:
                 break;

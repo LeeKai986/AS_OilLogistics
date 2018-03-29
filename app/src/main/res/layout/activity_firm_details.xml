@@ -322,6 +322,7 @@
                     <ImageView
                         android:id="@+id/firm_details_image_iv"
                         android:layout_width="match_parent"
+                        android:scaleType="fitXY"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>

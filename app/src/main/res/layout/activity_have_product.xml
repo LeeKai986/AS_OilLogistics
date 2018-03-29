@@ -90,7 +90,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F9F9F9"
-            android:divider="#F9F9F9"
-            android:padding="7dp"></com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
+            android:divider="#F9F9F9"></com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
     </LinearLayout>
 </LinearLayout>

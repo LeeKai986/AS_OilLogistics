@@ -118,26 +118,28 @@ public class NavItem extends RelativeLayout {
 
 
         //设置ivMesg是否显示
-        boolean goneTo=ta.getBoolean(R.styleable.NavItem_goneTo,false);
-        if(goneTo){
+        boolean goneTo = ta.getBoolean(R.styleable.NavItem_goneTo, false);
+        if (goneTo) {
             ivMesg.setVisibility(GONE);
-        }else {
+        } else {
             ivMesg.setVisibility(VISIBLE);
         }
 
         //设置mIvStartIcon是否显示
-        boolean goneIcon=ta.getBoolean(R.styleable.NavItem_goneIcon,false);
-        if(goneIcon){
+        boolean goneIcon = ta.getBoolean(R.styleable.NavItem_goneIcon, false);
+        if (goneIcon) {
             mIvStartIcon.setVisibility(GONE);
-        }else {
+        } else {
             mIvStartIcon.setVisibility(VISIBLE);
         }
         ta.recycle();
     }
 
     public void setTvActionState(String state) {
-        mTvActionState.setText(state);
+        String adr2 = state.replace("null", "");
+        mTvActionState.setText(adr2);
     }
+
     public String getTvActionState() {
         return mTvActionState.getText().toString();
     }
@@ -145,11 +147,12 @@ public class NavItem extends RelativeLayout {
     public void setTvTitle(String state) {
         mTvActionTitle.setText(state);
     }
-    public void setMesgVisibility(int visibility){
+
+    public void setMesgVisibility(int visibility) {
         ivMesg.setVisibility(visibility);
     }
 
-    public void setIconVisibility(int visibility){
+    public void setIconVisibility(int visibility) {
         mIvStartIcon.setVisibility(visibility);
     }
 }

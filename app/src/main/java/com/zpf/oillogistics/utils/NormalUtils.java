@@ -5,12 +5,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.view.WindowManager;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.db.InviteMessgeDao;
 import com.zpf.oillogistics.activity.DirverPersonMsgActivity;
 import com.zpf.oillogistics.activity.InforSelfActivity;
 import com.zpf.oillogistics.activity.InforSelfCompanyActivity;
@@ -20,13 +22,11 @@ import com.zpf.oillogistics.diy.DiyDialog;
 import com.zpf.oillogistics.diy.GetContext;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
+import com.zpf.oillogistics.receiver.DetailsReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -199,7 +199,7 @@ public class NormalUtils {
     }
 
     // 审核状态判断
-    public static boolean personDataPass(Context context) {
+    public static boolean personDataPass(final Context context) {
         getContext.getCt(context);
         SharedPreferences sp = CyApplication.getCyContext().getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
         if (sp.getString("statuss", "").equals("")) {
@@ -218,14 +218,41 @@ public class NormalUtils {
         } else if (sp.getString("statuss", "").equals("2")) {
 //            login();
             return false;
-        }
-//        else if (sp.getString("statuss", "").equals("2")){
-//            login();
-//            return true;
-//        }
-        else {
-//            login();
-//            MyToast.show(CyApplication.getCyContext(), "个人信息审核中");
+        } else if (sp.getString("statuss", "").equals("3")) {
+//            MyToast.show(CyApplication.getCyContext(), "审核未通过");
+            DiyDialog.hintTweBtnDialog(context, "您的审核未通过，请重新提交信息", new DiyDialog.HintTweBtnListener() {
+                @Override
+                public void confirm() {
+                    String selfFlag = MyShare.getShared().getString("userType", "1");
+                    if (selfFlag.equals("2")) {//企业
+                        context.startActivity(new Intent(context, InforSelfCompanyActivity.class));
+                    } else if (selfFlag.equals("3")) {
+                        context.startActivity(new Intent(context, DirverPersonMsgActivity.class));
+                    }
+
+                }
+            });
+            return false;
+        } else {
+//            MyToast.show(context, "个人信息审核中");
+            DiyDialog.hintTweBtnDialog(context, "待审核状态，是否登录其他账号", new DiyDialog.HintTweBtnListener() {
+                @Override
+                public void confirm() {
+                    EMClient.getInstance().logout(true);
+                    new InviteMessgeDao(context).clearMessage();
+                    SharedPreferences.Editor editor = MyShare.getShared().edit();
+                    editor.clear();
+                    editor.commit();
+                    CyApplication.province = "";
+                    CyApplication.area = "";
+                    CyApplication.adress = "";
+                    CyApplication.lat = "";
+                    CyApplication.lon = "";
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
             return false;
         }
     }
@@ -249,7 +276,7 @@ public class NormalUtils {
         else {
 //            login();
 //            MyToast.show(CyApplication.getCyContext(), "个人信息审核中");
-            return false;
+            return true;
         }
     }
 

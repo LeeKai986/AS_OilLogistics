@@ -21,21 +21,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
@@ -56,7 +52,6 @@ import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.bean.DriverDetailsBean;
 import com.zpf.oillogistics.customview.SelectMapPopupWindow;
-import com.zpf.oillogistics.customview.SelectPicPopupWindow;
 import com.zpf.oillogistics.diy.DiyDialog;
 import com.zpf.oillogistics.net.JsonUtil;
 import com.zpf.oillogistics.net.SimplifyThread;
@@ -64,7 +59,6 @@ import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.BaiduMapManager;
 import com.zpf.oillogistics.utils.DateTimeUtil;
 import com.zpf.oillogistics.utils.MyToast;
-import com.zpf.oillogistics.utils.TakePictrueUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -337,6 +331,7 @@ public class MapActivity extends BaseActivity implements SensorEventListener, On
         tvConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -378,7 +373,7 @@ public class MapActivity extends BaseActivity implements SensorEventListener, On
                 lvSearch.setVisibility(View.GONE);
                 editSearch.setText(mList.get(i).key);
                 tvAdress.setText(mList.get(i).key);
-                CyApplication.area = CyApplication.province + mList.get(i).city + mList.get(i).district;
+                CyApplication.area = mList.get(i).city + mList.get(i).district;
                 CyApplication.adress = mList.get(i).key;
                 CyApplication.lat = mList.get(i).pt.latitude + "";
                 CyApplication.lon = mList.get(i).pt.longitude + "";

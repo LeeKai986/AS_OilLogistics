@@ -366,7 +366,8 @@ public class MsgHomeProductActivity extends BaseActivity {
                 vh.addressTv.setText("平台");
 
                 if (MyShare.getShared().getString("userType", "").equals("2")) {
-                    vh.tvOrder.setVisibility(View.VISIBLE);
+//                    vh.tvOrder.setVisibility(View.VISIBLE);
+                    vh.tvOrder.setVisibility(View.GONE);
                 }
 
             } else if (dataBean.getStatus() == 2) {

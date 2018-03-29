@@ -511,7 +511,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     public void setTabSelection(int index) {
         // 每次选中之前先清楚掉上次的选中状态
-        reset();
+
         switch (index) {
             case 0:
                 if (homeFragment == null) {
@@ -519,6 +519,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 newFragment = homeFragment;
                 replaceFragment();
+                reset();
                 ivHomeBoom.setBackgroundResource(R.mipmap.main_on);
                 break;
             case 1:
@@ -532,12 +533,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 newFragment = priceFragment;
                 replaceFragment();
+                reset();
                 ivPriceBoom.setBackgroundResource(R.mipmap.price_on);
                 break;
             case 2:
                 if (!NormalUtils.personDataPass(MainActivity.this)) {
-//                    MyToast.show(MainActivity.this, "请先验证身份");
-//                    NormalUtils.personDataVerify(MainActivity.this);
                     return;
                 }
                 if (chatFragment == null) {
@@ -545,12 +545,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 newFragment = chatFragment;
                 replaceFragment();
+                reset();
                 ivChatBoom.setBackgroundResource(R.mipmap.char_on);
                 break;
             case 3:
                 if (!NormalUtils.personDataPass(MainActivity.this)) {
-//                    MyToast.show(MainActivity.this, "请先验证身份");
-//                    NormalUtils.personDataVerify(MainActivity.this);
                     return;
                 }
                 if (selfFlag.equals("1")) {
@@ -570,6 +569,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     newFragment = selfDriverFragment;
                 }
                 replaceFragment();
+                reset();
                 ivSelfBoom.setBackgroundResource(R.mipmap.self_on);
                 break;
             default:

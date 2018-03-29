@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dream.life.library.throwable.utils.CheckUtil;
 import com.google.gson.Gson;
@@ -35,7 +33,6 @@ import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.response.IndexResponse;
 import com.zpf.oillogistics.bean.response.OilClassResponse;
 import com.zpf.oillogistics.bean.response.ProductClassResponsse;
-import com.zpf.oillogistics.customview.SelectPicPopupWindow;
 import com.zpf.oillogistics.diy.DiyDialog;
 import com.zpf.oillogistics.diy.DiyToast;
 import com.zpf.oillogistics.diy.PickerView;
@@ -245,13 +242,13 @@ public class IssueProductActivity extends BaseActivity {
             public void onClick(View view) {
 
                 List<String> updataTypes = new ArrayList<>();
-                updataTypes.add("上传");
-                updataTypes.add("相机");
+                updataTypes.add("拍照");
+                updataTypes.add("从手机相册选择");
                 DiyDialog.singleSelectDialog(IssueProductActivity.this, updataTypes, new DiyDialog.SingleSelectListener() {
                     @Override
                     public void SingleSelect(String res) {
                         takePictrue = new TakePictrueUtils(IssueProductActivity.this, "product");
-                        if (res.equals("上传")) {
+                        if (res.equals("从手机相册选择")) {
                             takePictrue.startWall();
                         } else {
                             //判断是否开户相册权限
@@ -541,7 +538,7 @@ public class IssueProductActivity extends BaseActivity {
             oneTypes.add(firstList.get(i).getName());
         }
 
-        for (int k = 0; firstList != null&&k < firstList.size(); k++) {
+        for (int k = 0; firstList != null && k < firstList.size(); k++) {
             secondList = firstList.get(k).getChild();
             if (secondList != null) {
                 for (int l = 0; secondList != null && l < secondList.size(); l++) {

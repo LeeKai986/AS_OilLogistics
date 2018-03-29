@@ -16,7 +16,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.hyphenate.util.DensityUtil;
 import com.zpf.oillogistics.R;
+import com.zpf.oillogistics.activity.FirmDetailsActivity;
 import com.zpf.oillogistics.bean.OilOrChemtryInfoBean;
 import com.zpf.oillogistics.net.UrlUtil;
 
@@ -52,40 +54,38 @@ public class PlatformIssueOrderImageFragment extends Fragment {
     }
 
     public void setData(OilOrChemtryInfoBean.DataBeanX.DataBean dataBean) {
-        if (dataBean.getImg() != null && !dataBean.getImg().equals("")) {
-            Glide.with(getActivity())
-                    .load(UrlUtil.IMAGE_URL + dataBean.getImg())
-                    .placeholder(R.mipmap.default_goodsdetails)
-                    .dontAnimate()
-                    .fitCenter()
-                    .into(new SimpleTarget<GlideDrawable>() {
-                        /**
-                         * {@inheritDoc}
-                         *
-                         * @param e
-                         * @param errorDrawable
-                         */
-                        @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                            super.onLoadFailed(e, errorDrawable);
-                            iv.setImageDrawable(getResources().getDrawable(R.mipmap.default_goodsdetails));
-                            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-                        }
+//        if (dataBean.getImg() != null && !dataBean.getImg().equals("")) {
+        Glide.with(getActivity())
+                .load(UrlUtil.IMAGE_URL + dataBean.getImg())
+                .placeholder(R.mipmap.default_goodsdetails)
+                .dontAnimate()
+                .fitCenter()
+                .into(new SimpleTarget<GlideDrawable>() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param e
+                     * @param errorDrawable
+                     */
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        iv.setImageDrawable(getResources().getDrawable(R.mipmap.default_goodsdetails));
+                        iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                    }
 
-                        @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-                            width = wm.getDefaultDisplay().getWidth();
-                            ViewGroup.LayoutParams layoutParams = iv.getLayoutParams();
-                            layoutParams.width = width;
-                            layoutParams.height = (int) ((resource.getIntrinsicHeight() / ((float) resource.getIntrinsicWidth()) * width));
-                            Log.i("Pwinth-->", width + "");
-                            Log.i("winth-->", resource.getIntrinsicWidth() + "");
-                            Log.i("height-->", resource.getIntrinsicHeight() + "");
-                            iv.setLayoutParams(layoutParams);
-                            iv.setImageDrawable(resource);
-                        }
-                    });
-        }
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        iv.setImageDrawable(resource);
+                    }
+                });
+//        }
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        width = wm.getDefaultDisplay().getWidth();
+        ViewGroup.LayoutParams layoutParams = iv.getLayoutParams();
+        layoutParams.width = width;
+        layoutParams.height = width - DensityUtil.dip2px(getActivity(), 40);
+        Log.i("Pwinth-->", width + "");
+        iv.setLayoutParams(layoutParams);
     }
 }

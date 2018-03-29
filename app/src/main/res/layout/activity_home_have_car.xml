@@ -91,8 +91,7 @@
             android:layout_height="match_parent"
             android:background="#F9F9F9"
             android:divider="#F9F9F9"
-            android:dividerHeight="7dp"
-            android:padding="7dp">
+            android:dividerHeight="7dp">
 
         </com.zpf.oillogistics.pulltorefreshlibrary.PullToRefreshListView>
     </LinearLayout>

@@ -67,7 +67,7 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
     TextView tvSubmit;
     //载重
     @BindView(R.id.edit_load)
-    EditText editLoad;
+    TextView editLoad;
 
     String starArea = "";
     String endArea = "";

@@ -246,13 +246,14 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
                         .cancelTextColor("#C9C9C9")
                         .province("北京市")
                         .city("北京")
+                        .district("东城区")
                         .textColor(Color.parseColor("#000000"))
                         .provinceCyclic(true)
                         .cityCyclic(false)
                         .districtCyclic(false)
                         .visibleItemsCount(5)
                         .itemPadding(10)
-                        .onlyShowProvinceAndCity(true)
+                        .onlyShowProvinceAndCity(false)
                         .build();
                 cityPicker.show();
 
@@ -264,8 +265,11 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        adressArea = province.getName() + "-" + city.getName();
-                        navCityInfor.setTvActionState(province.getName() + city.getName());
+                        if (district.getName() != null && !district.getName().equals(""))
+                            adressArea = province.getName() + "-" + city.getName() + "-" + district.getName();
+                        else
+                            adressArea = province.getName() + "-" + city.getName();
+                        navCityInfor.setTvActionState(province.getName() + city.getName() + district.getName());
                     }
 
                     @Override

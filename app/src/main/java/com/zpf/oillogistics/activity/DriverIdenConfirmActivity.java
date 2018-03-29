@@ -318,13 +318,13 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
 
     private void takePic() {
         List<String> updataTypes = new ArrayList<>();
-        updataTypes.add("上传");
-        updataTypes.add("相机");
+        updataTypes.add("拍照");
+        updataTypes.add("从手机相册选择");
         DiyDialog.singleSelectDialog(DriverIdenConfirmActivity.this, updataTypes, new DiyDialog.SingleSelectListener() {
             @Override
             public void SingleSelect(String res) {
                 takePictrue = new TakePictrueUtils(DriverIdenConfirmActivity.this, imgFlag);
-                if (res.equals("上传")) {
+                if (res.equals("从手机相册选择")) {
                     takePictrue.startWall();
                 } else {
                     takePictrue.startCamera();

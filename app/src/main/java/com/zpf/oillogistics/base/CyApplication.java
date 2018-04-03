@@ -11,6 +11,7 @@ import com.hyphenate.easeui.DemoHelper;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.db.PersonInfo;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.mob.MobSDK;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
@@ -70,6 +71,7 @@ public class CyApplication extends MultiDexApplication {
             initBaiduMap();
             initHx();
             MobclickAgent.setDebugMode(true);
+            MobSDK.init(this);
         } catch (Exception e) {
 
         }

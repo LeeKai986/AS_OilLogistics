@@ -41,11 +41,14 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_circle_bule_five"
-            android:padding="5dp"
+            android:background="@drawable/bg_circle_red_item_have_car"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
             android:text="  立即体验  "
             android:textColor="@color/colorWhite"
-            android:textSize="21sp"
+            android:textSize="18sp"
             android:visibility="gone" />
 
 

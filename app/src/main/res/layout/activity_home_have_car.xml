@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="车找货"
+                android:text="货源"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
         </RelativeLayout>

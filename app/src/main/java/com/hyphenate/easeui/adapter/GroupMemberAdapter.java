@@ -1,15 +1,24 @@
 package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.hyphenate.easeui.db.PersonInfo;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.zpf.oillogistics.R;
+import com.zpf.oillogistics.base.CyApplication;
+import com.zpf.oillogistics.base.MessageWhat;
+import com.zpf.oillogistics.bean.response.AddFriendResponse;
+import com.zpf.oillogistics.net.SimplifyThread;
+import com.zpf.oillogistics.net.UrlUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -119,4 +128,6 @@ public class GroupMemberAdapter extends BaseAdapter {
         void addMenber();
 
     }
+
+
 }

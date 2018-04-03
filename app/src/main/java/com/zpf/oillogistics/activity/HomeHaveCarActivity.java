@@ -319,7 +319,6 @@ public class HomeHaveCarActivity extends BaseActivity {
             if (mList.get(i).getHerder() != null && !mList.get(i).getHerder().equals("")) {
                 Glide.with(HomeHaveCarActivity.this)
                         .load(UrlUtil.IMAGE_URL + mList.get(i).getHerder())
-                        .placeholder(R.mipmap.head_default)
                         .error(R.mipmap.head_default)
                         .into(vh.ivHead);
             }

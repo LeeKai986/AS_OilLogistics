@@ -317,7 +317,7 @@ public class HomeSeekActivity extends BaseActivity {
             if (mList.get(i).getImg() != null) {
                 Glide.with(HomeSeekActivity.this)
                         .load(UrlUtil.IMAGE_URL + mList.get(i).getImg())
-                        .placeholder(R.drawable.ease_default_expression)
+                        .error(R.drawable.ease_default_expression)
                         .into(vh.ivIcon);
             }
 

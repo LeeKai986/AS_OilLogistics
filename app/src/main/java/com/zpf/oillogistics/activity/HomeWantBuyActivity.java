@@ -534,7 +534,6 @@ public class HomeWantBuyActivity extends BaseActivity {
             if (buy.getImg() != null) {
                 Glide.with(HomeWantBuyActivity.this)
                         .load(UrlUtil.IMAGE_URL + buy.getImg())
-                        .placeholder(R.mipmap.default_goods)
                         .error(R.mipmap.default_goods)
                         .into(vh.ivIcon);
             }

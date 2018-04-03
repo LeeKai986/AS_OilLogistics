@@ -20,6 +20,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/head_default" />
 
         <LinearLayout
@@ -85,10 +86,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/item_have_product_plate_tv"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="40dp"
-                    android:maxLines="1"
+                    android:layout_marginTop="5dp"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="--"
                     android:textColor="#565656"
                     android:textSize="15sp" />
@@ -96,11 +97,11 @@
                 <ImageView
                     android:id="@+id/item_have_product_call_iv"
                     android:layout_width="30dp"
-                    android:visibility="gone"
                     android:layout_height="30dp"
                     android:layout_alignBottom="@+id/item_have_product_route_tv"
                     android:layout_alignParentRight="true"
-                    android:background="@mipmap/platform_issue_order_call" />
+                    android:background="@mipmap/platform_issue_order_call"
+                    android:visibility="gone" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

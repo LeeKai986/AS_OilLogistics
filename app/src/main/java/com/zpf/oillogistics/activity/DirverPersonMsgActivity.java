@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -37,7 +35,6 @@ import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.TakePictrueUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -144,7 +141,12 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                     MyShare.getShared().getString("city", ""));
             adressArea += ("-" + MyShare.getShared().getString("city", ""));
         }
-
+        //加载区
+        if (!MyShare.getShared().getString("area", "").equals("")) {
+            navCity.setTvActionState(MyShare.getShared().getString("province", "") +
+                    MyShare.getShared().getString("city", "") + MyShare.getShared().getString("area", ""));
+            adressArea += "-" + MyShare.getShared().getString("area", "");
+        }
         CyApplication.area = adressArea;
 
         //加载详情地址
@@ -677,15 +679,8 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
 
         //图片Base64编码上传
         String imageString = "";
-        if (takePictrue != null && takePictrue.imageUri != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(takePictrue.imageUri.getPath());
-            //第一步:将Bitmap压缩至字节数组输出流ByteArrayOutputStream
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
-            //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
-            byte[] byteArray = byteArrayOutputStream.toByteArray();
-            imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
-            params.put("face", "data:image/jpg;base64," + imageString);
+        if (takePictrue != null && takePictrue.bitmaptoString() != null) {
+            params.put("face", "data:image/jpg;base64," + takePictrue.bitmaptoString());
         } else {
             params.put("face", imageString);
         }

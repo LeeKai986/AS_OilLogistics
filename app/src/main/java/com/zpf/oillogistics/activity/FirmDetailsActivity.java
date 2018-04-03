@@ -193,7 +193,6 @@ public class FirmDetailsActivity extends BaseActivity {
         if (info != null && info.getIntruduce() != null) {
             Glide.with(FirmDetailsActivity.this)
                     .load(UrlUtil.IMAGE_URL + info.getImg())
-                    .placeholder(R.mipmap.default_goodsdetails)
                     .error(R.mipmap.default_goodsdetails)
                     .fitCenter()
                     .into(new SimpleTarget<GlideDrawable>() {

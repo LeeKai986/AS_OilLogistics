@@ -139,6 +139,7 @@
                 android:id="@+id/iv_IDCard_driver"
                 android:layout_width="180dp"
                 android:layout_height="100dp"
+                android:scaleType="fitXY"
                 android:src="@mipmap/driver_iden_confirm_identity" />
 
             <ImageView
@@ -335,6 +336,7 @@
                             android:id="@+id/iv_driLicence1_driver"
                             android:layout_width="180dp"
                             android:layout_height="100dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/driver_iden_confirm_driver" />
 
                         <ImageView
@@ -363,6 +365,7 @@
                         <ImageView
                             android:id="@+id/iv_licence2_driver"
                             android:layout_width="180dp"
+                            android:scaleType="fitXY"
                             android:layout_height="100dp"
                             android:src="@mipmap/driver_iden_confirm_driving" />
 
@@ -393,6 +396,7 @@
                             android:id="@+id/iv_licence3_driver"
                             android:layout_width="180dp"
                             android:layout_height="100dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/driver_iden_confirm_sport" />
 
                         <ImageView
@@ -422,6 +426,7 @@
                             android:id="@+id/iv_licence4_driver"
                             android:layout_width="180dp"
                             android:layout_height="100dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/driver_iden_confirm_escort" />
 
                         <ImageView

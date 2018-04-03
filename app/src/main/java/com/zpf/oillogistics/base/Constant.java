@@ -15,10 +15,19 @@ public class Constant {
 
     //获取好友
     public static final String URL_SLIDESHOW_INDEX = API_URI + "Slideshow/index";
+//
+//    //图片保存路径
+//    public static String APK_IMAG_URI = Environment.getExternalStorageDirectory() + "/Oillogistics/imag/";
+//    //app缓存路径
+//    public static String APK_CASHE_URI = Environment.getExternalStorageDirectory() + "/Oillogistics/";
+//    //图片保存路径
+//    public static String APK_IMAG_URI = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Oillogistics/imag/";
+//    //app缓存路径
+//    public static String APK_CASHE_URI = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Oillogistics/";
 
-
-    //图片保存路径
-    public static String APK_IMAG_URI = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Oillogistics/imag/";
+    public static String APK_IMAG_URI = Environment
+            .getExternalStorageDirectory().getAbsolutePath() + "/Oillogistics/picture";
     //app缓存路径
-    public static String APK_CASHE_URI = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Oillogistics/";
+    public static String APK_CASHE_URI = Environment
+            .getExternalStorageDirectory().getAbsolutePath() + "/Oillogistics/";
 }

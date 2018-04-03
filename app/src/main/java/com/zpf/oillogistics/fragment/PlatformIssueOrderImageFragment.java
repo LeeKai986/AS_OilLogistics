@@ -18,7 +18,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.hyphenate.util.DensityUtil;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.activity.FirmDetailsActivity;
 import com.zpf.oillogistics.bean.OilOrChemtryInfoBean;
 import com.zpf.oillogistics.net.UrlUtil;
 
@@ -57,7 +56,7 @@ public class PlatformIssueOrderImageFragment extends Fragment {
 //        if (dataBean.getImg() != null && !dataBean.getImg().equals("")) {
         Glide.with(getActivity())
                 .load(UrlUtil.IMAGE_URL + dataBean.getImg())
-                .placeholder(R.mipmap.default_goodsdetails)
+                .error(R.mipmap.default_goodsdetails)
                 .dontAnimate()
                 .fitCenter()
                 .into(new SimpleTarget<GlideDrawable>() {

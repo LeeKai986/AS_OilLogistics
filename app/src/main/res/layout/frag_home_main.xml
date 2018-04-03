@@ -92,7 +92,7 @@
                         android:gravity="center_horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="20dp"
-                        android:text="石油类"
+                        android:text="石油"
                         android:textColor="#333333"
                         android:textSize="13sp" />
 
@@ -106,7 +106,7 @@
                         android:gravity="center_horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="20dp"
-                        android:text="化工类"
+                        android:text="化工"
                         android:textColor="#333333"
                         android:textSize="13sp" />
 
@@ -134,7 +134,7 @@
                         android:gravity="center_horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="20dp"
-                        android:text="货找车"
+                        android:text="车源"
                         android:textColor="#333333"
                         android:textSize="13sp" />
 
@@ -148,7 +148,7 @@
                         android:gravity="center_horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="20dp"
-                        android:text="车找货"
+                        android:text="货源"
                         android:textColor="#333333"
                         android:textSize="13sp" />
                 </LinearLayout>

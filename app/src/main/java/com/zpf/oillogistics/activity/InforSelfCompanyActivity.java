@@ -57,6 +57,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.zpf.oillogistics.base.CyApplication.area;
+
 /**
  * Created by Administrator on 2017/9/18.
  */
@@ -132,7 +134,6 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
         if (!MyShare.getShared().getString("enterprise", "").equals("")) {
             Glide.with(InforSelfCompanyActivity.this)
                     .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("enterprise", ""))
-                    .placeholder(R.mipmap.default_goods)
                     .error(R.mipmap.default_goods)
                     .into(ivLicense);
         }
@@ -141,7 +142,6 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
         if (!MyShare.getShared().getString("license", "").equals("")) {
             Glide.with(InforSelfCompanyActivity.this)
                     .load(UrlUtil.IMAGE_URL + MyShare.getShared().getString("license", ""))
-                    .placeholder(R.mipmap.default_goods)
                     .error(R.mipmap.default_goods)
                     .into(ivPermission);
         }
@@ -166,7 +166,13 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
             adressArea += ("-" + MyShare.getShared().getString("city", ""));
 
         }
-        CyApplication.area = adressArea;
+        //加载区
+        if (!MyShare.getShared().getString("area", "").equals("")) {
+            navCityInfor.setTvActionState(MyShare.getShared().getString("province", "") +
+                    MyShare.getShared().getString("city", "") + MyShare.getShared().getString("area", ""));
+            adressArea += "-" + MyShare.getShared().getString("area", "");
+        }
+        area = adressArea;
 
         //加载详情地址
         if (!MyShare.getShared().getString("toaddress", "").equals("")) {
@@ -202,8 +208,8 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        if (!CyApplication.area.equals("")) {
-            navCityInfor.setTvActionState(CyApplication.area.replace("-", ""));
+        if (!area.equals("")) {
+            navCityInfor.setTvActionState(area.replace("-", ""));
         }
         if (!CyApplication.adress.equals("")) {
             editAdress.setText(CyApplication.adress);
@@ -323,13 +329,13 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
 
             takePictrue = new TakePictrueUtils(InforSelfCompanyActivity.this, imageFlag);
 
-            //图片分类
-            if (imageFlag.equals("perm"))
-                licenseUrl = takePictrue.imageUri.getPath();
-            else if (imageFlag.equals("license"))
-                enterUrl = takePictrue.imageUri.getPath();
-            else
-                headUrl = takePictrue.imageUri.getPath();
+//            //图片分类
+//            if (imageFlag.equals("perm"))
+//                licenseUrl = takePictrue.imageUri.getPath();
+//            else if (imageFlag.equals("license"))
+//                enterUrl = takePictrue.imageUri.getPath();
+//            else
+//                headUrl = takePictrue.imageUri.getPath();
 
             switch (v.getId()) {
                 case R.id.takePhotoBtn:
@@ -377,11 +383,23 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
                     Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
 
                     if (bitmap != null) {
+
+                        //图片分类
+//                        if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("perm")) {//经营许可证
+//                            licenseUrl = takePictrue.bitmaptoString();
+//                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("license")) {//营业执照
+//                            enterUrl = takePictrue.bitmaptoString();
+//                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("head")) {
+//                            headUrl = takePictrue.bitmaptoString();
+//                        }
                         if (imageFlag.equals("head")) {
                             cirHead.setImageBitmap(bitmap);//将图片显示到ImageView上面
-                        } else if (imageFlag.equals("license")) {
+                            headUrl = takePictrue.bitmaptoString();
+                        } else if (imageFlag.equals("license")) {//营业执照
                             ivLicense.setImageBitmap(bitmap);//将图片显示到ImageView上面
-                        } else if (imageFlag.equals("perm")) {
+                            enterUrl = takePictrue.bitmaptoString();
+                        } else if (imageFlag.equals("perm")) {//经营许可证
+                            licenseUrl = takePictrue.bitmaptoString();
                             ivPermission.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                     }
@@ -450,26 +468,24 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
         params.put("longitude", longitude);
         params.put("latitude", latitude);
         //头像图片Base64编码上传
+
+
         if (!headUrl.equals("")) {
-            params.put("face", "data:image/jpg;base64," + toBase64Str(headUrl));
+            params.put("face", "data:image/jpg;base64," + headUrl);
         } else {
-//            params.put("face",MyShare.getShared().getString("userHead", ""));
             params.put("face", "");
         }
 
         //营业执照图片Base64编码上传
         if (!enterUrl.equals("")) {
-            params.put("enterprise", "data:image/jpg;base64," + toBase64Str(enterUrl));
+            params.put("enterprise", "data:image/jpg;base64," + enterUrl);
         } else {
-//            params.put("enterprise",MyShare.getShared().getString("enterprise", ""));
             params.put("enterprise", "");
         }
-
         //经营许可图片Base64编码上传
         if (!licenseUrl.equals("")) {
-            params.put("license", "data:image/jpg;base64," + toBase64Str(licenseUrl));
+            params.put("license", "data:image/jpg;base64," + licenseUrl);
         } else {
-//            params.put("license",MyShare.getShared().getString("license", ""));
             params.put("license", "");
         }
 

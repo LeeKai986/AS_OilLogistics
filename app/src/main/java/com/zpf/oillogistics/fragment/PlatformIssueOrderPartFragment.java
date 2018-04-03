@@ -37,6 +37,14 @@ public class PlatformIssueOrderPartFragment extends Fragment {
     // 价格
     @BindView(R.id.platform_issue_order_part_price_tv)
     TextView priceTv;
+    @BindView(R.id.goodsdetail)
+    TextView goodsDetail;
+
+    public void setClassid(String classid) {
+        this.classid = classid;
+    }
+
+    private String classid;
 
     @Nullable
     @Override
@@ -51,16 +59,19 @@ public class PlatformIssueOrderPartFragment extends Fragment {
             nameTv.setText(dataBean.getTitle());
         }
         if (dataBean.getPrice() != null && !dataBean.getPrice().equals("")) {
-            priceTv.setText( dataBean.getPrice() + "元/吨");
+            priceTv.setText(dataBean.getPrice() + "元/吨");
+        }
+        if (dataBean.getIntruduce() != null && !dataBean.getIntruduce().equals("")) {
+            goodsDetail.setText(dataBean.getIntruduce());
         }
 
-        String modle="";
-        if (dataBean.getClassify() != null ) {
-            modle=dataBean.getClassify();
+        String modle = "";
+        if (dataBean.getClassify() != null) {
+            modle = dataBean.getClassify();
         }
 
-        if(dataBean.getModel()!=null){
-            modle+=dataBean.getModel();
+        if (dataBean.getModel() != null) {
+            modle += dataBean.getModel();
         }
         typeTv.setText(modle);
     }

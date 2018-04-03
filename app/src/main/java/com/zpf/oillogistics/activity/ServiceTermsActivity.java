@@ -2,9 +2,12 @@ package com.zpf.oillogistics.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.net.UrlUtil;
 
 /**
  * Created by Administrator on 2017/9/13.
@@ -27,7 +30,14 @@ public class ServiceTermsActivity extends BaseActivity {
                 finish();
             }
         });
-
+        WebView webview = (WebView) findViewById(R.id.webview);
+        WebSettings webSettings = webview.getSettings();//获取webview设置属性
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//把html中的内容放大webview等宽的一列中
+        webSettings.setJavaScriptEnabled(true);//支持js
+//        webSettings.setBuiltInZoomControls(true); // 显示放大缩小
+//        webSettings.setSupportZoom(true); // 可以缩放
+        webview.loadUrl(UrlUtil.AGREEMENT);
+//        DensityUtil.
     }
 
     @Override

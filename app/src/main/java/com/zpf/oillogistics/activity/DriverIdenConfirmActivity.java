@@ -1,11 +1,13 @@
 package com.zpf.oillogistics.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.TakePictrueUtils;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +52,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static android.R.attr.bitmap;
 
 /**
  * Created by Administrator on 2017/9/19.
@@ -327,7 +332,13 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                 if (res.equals("从手机相册选择")) {
                     takePictrue.startWall();
                 } else {
-                    takePictrue.startCamera();
+                    //判断是否开户相册权限
+                    if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(DriverIdenConfirmActivity.this, android.Manifest.permission.CAMERA)) {
+                        takePictrue.startCamera();
+                    } else {
+                        //提示用户开户权限
+                        MyToast.show(DriverIdenConfirmActivity.this, "请赋予应用相机权限");
+                    }
                 }
             }
         });
@@ -340,11 +351,21 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
         switch (requestCode) {
             case TakePictrueUtils.PHOTO_CAMERA:
                 //表示从相机获得的照片，需要进行裁剪
-                takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+                //表示从相机获得的照片，需要进行裁剪
+                // 由于可以调起多个相机先进行文件大小确认
+                if (takePictrue.tempFile.exists()) {
+                    try {
+                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
+                            takePictrue.startPhotoCut(takePictrue.imageUri, 720, 400, true);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case TakePictrueUtils.PHOTO_WALL:
                 if (null != data) {
-                    takePictrue.startPhotoCut(data.getData(), 300, true);
+                    takePictrue.startPhotoCut(data.getData(), 720, 400, true);
                 }
                 break;
             case TakePictrueUtils.PHOTO_STORE:
@@ -454,7 +475,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                                     IDCardHaveStr = "1";
                                     Glide.with(DriverIdenConfirmActivity.this)
                                             .load(UrlUtil.IMAGE_URL + driverIdenBean.getData().getImg())
-                                            .placeholder(R.mipmap.shenfenzheng)
                                             .error(R.mipmap.shenfenzheng)
                                             .into(ivIDCard);
                                 }
@@ -463,7 +483,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                                     jsHaveStr = "1";
                                     Glide.with(DriverIdenConfirmActivity.this)
                                             .load(UrlUtil.IMAGE_URL + driverIdenBean.getData().getDriverpic())
-                                            .placeholder(R.mipmap.shenfenzheng)
                                             .error(R.mipmap.shenfenzheng)
                                             .into(ivLicence1);
                                 }
@@ -472,7 +491,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                                     xsHaveStr = "1";
                                     Glide.with(DriverIdenConfirmActivity.this)
                                             .load(UrlUtil.IMAGE_URL + driverIdenBean.getData().getRunpic())
-                                            .placeholder(R.mipmap.shenfenzheng)
                                             .error(R.mipmap.shenfenzheng)
                                             .into(ivLicence2);
                                 }
@@ -480,7 +498,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                                         !driverIdenBean.getData().getOperatepic().equals("")) {
                                     Glide.with(DriverIdenConfirmActivity.this)
                                             .load(UrlUtil.IMAGE_URL + driverIdenBean.getData().getOperatepic())
-                                            .placeholder(R.mipmap.shenfenzheng)
                                             .error(R.mipmap.shenfenzheng)
                                             .into(ivLicence3);
                                 }
@@ -488,7 +505,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
                                         !driverIdenBean.getData().getSupercargopic().equals("")) {
                                     Glide.with(DriverIdenConfirmActivity.this)
                                             .load(UrlUtil.IMAGE_URL + driverIdenBean.getData().getSupercargopic())
-                                            .placeholder(R.mipmap.shenfenzheng)
                                             .error(R.mipmap.shenfenzheng)
                                             .into(ivLicence4);
                                 }

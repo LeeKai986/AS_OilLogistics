@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">石化通</string>
+    <string name="app_name">石化宝典</string>
 
     <!--输入限制-->
     <string name="input_type">._@0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
@@ -56,8 +56,9 @@
     <string name="button_pushtotalk">按住说话</string>
     <string name="button_send">发送</string>
     <string name="attach_smile">表情</string>
-    <string name="attach_picture">图片</string>
+    <string name="attach_picture">相册</string>
     <string name="attach_take_pic">拍照</string>
+    <string name="emp"> </string>
     <string name="attach_location">位置</string>
     <string name="attach_video">视频</string>
     <string name="attach_file">文件</string>

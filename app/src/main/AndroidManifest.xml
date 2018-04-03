@@ -94,7 +94,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SplashActivity"/>
+        <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.ForgetActivity" />
         <activity android:name=".activity.RegisterActivity" />
@@ -130,6 +130,11 @@
         <!-- 通讯录 -->
         <activity
             android:name="com.hyphenate.easeui.ui.FriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <!-- 通讯录 -->
+        <activity
+            android:name="com.hyphenate.easeui.ui.MyFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <!-- 修改群组名称 -->

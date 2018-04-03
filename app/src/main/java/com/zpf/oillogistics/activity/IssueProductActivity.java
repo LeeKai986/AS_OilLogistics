@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,6 +43,7 @@ import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.TakePictrueUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -130,18 +132,25 @@ public class IssueProductActivity extends BaseActivity {
 
 
         //加载地址
-        if (MyShare.getShared().getString("province", "") != null) {
+        if (MyShare.getShared().getString("province", "") != null && MyShare.getShared().getString("province", "") != null) {
             adressArea = MyShare.getShared().getString("province", "");
             tvArea.setText(MyShare.getShared().getString("province", ""));
         }
 
         //加载市
-        if (!MyShare.getShared().getString("city", "").equals("")) {
+        if (MyShare.getShared().getString("city", "") != null && !MyShare.getShared().getString("city", "").equals("")) {
             tvArea.setText(MyShare.getShared().getString("province", "") +
                     MyShare.getShared().getString("city", ""));
             adressArea += ("-" + MyShare.getShared().getString("city", ""));
         }
-
+        //加载区
+        if (MyShare.getShared().getString("area", "") != null && !MyShare.getShared().getString("area", "").equals("")) {
+            tvArea.setText(MyShare.getShared().getString("province", "") +
+                    MyShare.getShared().getString("city", "") + MyShare.getShared().getString("area", ""));
+            adressArea += "-" + MyShare.getShared().getString("area", "");
+        }
+        String adressArea2 = adressArea.replace("null", "");
+        tvArea.setText(adressArea2.replace("-", ""));
         //加载详情地址
         if (MyShare.getShared().getString("toaddress", "") != null) {
             editAdress.setText(MyShare.getShared().getString("toaddress", ""));
@@ -244,10 +253,10 @@ public class IssueProductActivity extends BaseActivity {
                 List<String> updataTypes = new ArrayList<>();
                 updataTypes.add("拍照");
                 updataTypes.add("从手机相册选择");
+                takePictrue = new TakePictrueUtils(IssueProductActivity.this, "product");
                 DiyDialog.singleSelectDialog(IssueProductActivity.this, updataTypes, new DiyDialog.SingleSelectListener() {
                     @Override
                     public void SingleSelect(String res) {
-                        takePictrue = new TakePictrueUtils(IssueProductActivity.this, "product");
                         if (res.equals("从手机相册选择")) {
                             takePictrue.startWall();
                         } else {
@@ -258,7 +267,6 @@ public class IssueProductActivity extends BaseActivity {
                                 //提示用户开户权限
                                 MyToast.show(IssueProductActivity.this, "请赋予应用相机权限");
                             }
-//                            takePictrue.startCamera();
                         }
                     }
                 });
@@ -350,11 +358,16 @@ public class IssueProductActivity extends BaseActivity {
         }
 
         subHp.put("uid", MyShare.getShared().getString("userId", ""));
-        subHp.put("img", "");
-        if (takePictrue != null) {
-            String imageString = takePictrue.bitmaptoString();
-            if (imageString != null)
-                subHp.put("img", "data:image/jpg;base64," + imageString);
+
+//        if (takePictrue != null) {
+//            String imageString = takePictrue.bitmaptoString();
+//            if (imageString != null)
+//                subHp.put("img", "data:image/jpg;base64," + imageString);
+//        }
+        if (takePictrue != null && takePictrue.bitmaptoString() != null) {
+            subHp.put("img", "data:image/jpg;base64," + takePictrue.bitmaptoString());
+        } else {
+            subHp.put("img", "");
         }
         subHp.put("intruduce", editMarker.getText().toString());
 
@@ -489,7 +502,8 @@ public class IssueProductActivity extends BaseActivity {
                 if (takePictrue.tempFile.exists()) {
                     try {
                         if (new FileInputStream(takePictrue.tempFile).available() != 0) {
-                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+                            String fileSrc = takePictrue.tempFile.getAbsolutePath();
+                            takePictrue.startPhotoCut(Uri.fromFile(new File(fileSrc)), 300, true);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

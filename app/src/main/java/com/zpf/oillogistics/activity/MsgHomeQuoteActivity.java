@@ -239,10 +239,10 @@ public class MsgHomeQuoteActivity extends BaseActivity {
                 vh = (MsgHomeQuoteViewHolder) view.getTag();
             }
             final AttenQuoteBean.DataBean dataBean = bean.get(i);
-            if (dataBean.getTitle() != null && !dataBean.getTitle().equals("")) {
+            if (dataBean.getRegion() != null && !dataBean.getRegion().equals("")) {
                 vh.titleTv.setText("【" + dataBean.getRegion() + "】");
             }
-            if (dataBean.getContent() != null && !dataBean.getContent().equals("")) {
+            if (dataBean.getTitle() != null && !dataBean.getTitle().equals("")) {
                 vh.contentTv.setText(dataBean.getTitle());
             }
             if (dataBean.getTime() != null && !dataBean.getTime().equals("")) {

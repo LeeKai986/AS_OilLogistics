@@ -1,6 +1,7 @@
 package com.zpf.oillogistics.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -46,7 +47,7 @@ public class GuidanceActivity extends BaseActivity {
     // iv集
     ArrayList<ImageView> ivs;
     // 图片id集
-    int[] images = {R.mipmap.guide_1, R.mipmap.guide_2, R.mipmap.guide_3};
+    int[] images = {R.mipmap.guide_1, R.mipmap.guide_2, R.mipmap.guide_3, R.mipmap.guide_4};
     // 圆点间隔
     int pointWidth;
     // 蓝色圆点
@@ -99,6 +100,7 @@ public class GuidanceActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     runOnUiThread(new Runnable() {
+                                        @SuppressLint("NewApi")
                                         @Override
                                         public void run() {
 
@@ -181,6 +183,8 @@ public class GuidanceActivity extends BaseActivity {
                 int len = (int) (pointWidth * positionOffset) + position * pointWidth;
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bluePoint.getLayoutParams();// 获取当前蓝点的布局参数
                 params.leftMargin = len;// 设置左边距
+                params.width = 20;
+                params.height = 20;
                 bluePoint.setLayoutParams(params);// 重新给蓝点设置布局参数
             }
 

@@ -19,6 +19,7 @@
             android:id="@+id/iv_head_have_car_item"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:scaleType="fitXY"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/head_default" />
 

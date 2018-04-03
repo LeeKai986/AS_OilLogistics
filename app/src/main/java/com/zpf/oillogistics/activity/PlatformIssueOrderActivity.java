@@ -351,6 +351,13 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
 
         ArrayList<Fragment> list = new ArrayList<>();
         platformIssueOrderPartFragment = new PlatformIssueOrderPartFragment();
+        if (getIntent().getStringExtra("classid").equals("1")) {
+            //   石油类
+            platformIssueOrderPartFragment.setClassid("1");
+        } else {
+            //化工类
+            platformIssueOrderPartFragment.setClassid("2");
+        }
         platformIssueOrderImageFragment = new PlatformIssueOrderImageFragment();
         list.add(platformIssueOrderPartFragment);
         list.add(platformIssueOrderImageFragment);
@@ -479,7 +486,7 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
                     companyNameTv.setText(infoBean.getCompanyname());
                 }
             } else {
-                companyNameTv.setText("石化通订购平台");
+                companyNameTv.setText("石化宝典订购平台");
             }
 
             if (infoBean.getPhone() != null && !infoBean.getPhone().equals("")) {

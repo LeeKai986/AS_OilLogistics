@@ -753,7 +753,6 @@ public class HomeFragment extends Fragment {
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             Glide.with(fgActy)
                     .load(UrlUtil.IMAGE_URL + list.get(position).getImg())
-                    .placeholder(R.mipmap.default_banner)
                     .error(R.mipmap.default_banner)
                     .into(view);
             return view;

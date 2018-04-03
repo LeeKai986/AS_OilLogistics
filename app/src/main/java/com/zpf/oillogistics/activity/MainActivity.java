@@ -435,7 +435,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 if (!selfFlag.equals("3")) {
                     if (linJia.getVisibility() == View.GONE) {
-                        ivJiaBoom.setBackgroundResource(R.mipmap.x_red);
+                        ivJiaBoom.setBackgroundResource(R.mipmap.home_jias);
                         view1.setVisibility(View.VISIBLE);
                         linJia.setVisibility(View.VISIBLE);
                     } else {

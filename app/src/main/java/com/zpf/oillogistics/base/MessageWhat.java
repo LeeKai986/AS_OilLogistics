@@ -46,6 +46,7 @@ public class MessageWhat {
     public static final int SELF_FREIGT_DELSUPPLY=0x37;
     public static final int ORDER_PAY=0x38;
     public static final int SELF_DRIVER_MSG=0x39;
+    public static final int SELF_FRIENDSLIST_MSG=0x40;
 
     public static final int SDK_PAY_FLAG = 0x1001;
     public static final int SDK_AUTH_FLAG = 0x1002;

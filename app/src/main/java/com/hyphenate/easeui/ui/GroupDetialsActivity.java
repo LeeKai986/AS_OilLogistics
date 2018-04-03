@@ -2,6 +2,8 @@ package com.hyphenate.easeui.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -11,17 +13,25 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.adapter.GroupMemberAdapter;
+import com.hyphenate.easeui.db.PersonInfo;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.base.CyApplication;
+import com.zpf.oillogistics.base.MessageWhat;
+import com.zpf.oillogistics.bean.response.AddFriendResponse;
+import com.zpf.oillogistics.net.SimplifyThread;
+import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.MyToast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +70,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
     List<String> memberList = new ArrayList<>();
     private String groupNme = "";
     private String groupid = "";
-    private String groupNotice="";
+    private String groupNotice = "";
     private EMGroup group;
     private List<String> adminList = Collections.synchronizedList(new ArrayList<String>());
 
@@ -139,7 +149,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
             case R.id.lin_notice_groupdetails:
                 Intent inNotice = new Intent(GroupDetialsActivity.this, GroupNoticeActivity.class);
                 inNotice.putExtra("groupid", groupid);
-                inNotice.putExtra("isAdmin",isCanAddMember(group));
+                inNotice.putExtra("isAdmin", isCanAddMember(group));
                 startActivity(inNotice);
                 break;
             case R.id.tv_config_groupdetails:
@@ -162,12 +172,12 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
                  * @throws HyphenateException
                  */
                 try {
-                    groupNotice=EMClient.getInstance().groupManager().fetchGroupAnnouncement(groupid);
+                    groupNotice = EMClient.getInstance().groupManager().fetchGroupAnnouncement(groupid);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            if(groupNotice!=null)
+                            if (groupNotice != null)
                                 tvNotice.setText(groupNotice);
                             else
                                 tvNotice.setText("暂无");
@@ -199,7 +209,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
     /**
      * 修改群名
      */
-    private void changeGroupNme(){
+    private void changeGroupNme() {
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -249,22 +259,25 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+//                            for (int i = 0; i < memberList.size(); i++) {
+//                                getUserDetails(memberList.get(i));
+//                            }
                             adapter = new GroupMemberAdapter(memberList, GroupDetialsActivity.this, isCanAddMember(group));
                             adapter.setMemberClickListener(GroupDetialsActivity.this);
                             gridMenber.setAdapter(adapter);
-
+                            adapter.notifyDataSetChanged();
                             //群名称
                             tvGroupname.setText(group.getGroupName());
 
                             //设置屏蔽状态
-                            if(group.isMsgBlocked()){
+                            if (group.isMsgBlocked()) {
                                 swichView.setChecked(true);
-                            }else {
+                            } else {
                                 swichView.setChecked(false);
                             }
 
                             //根据成员角色显示各自界面
-                            if(isCanAddMember(group)){
+                            if (isCanAddMember(group)) {
                                 linDissolve.setVisibility(View.VISIBLE);
                                 tvConfig.setVisibility(View.VISIBLE);
                                 linGroupname.setOnClickListener(GroupDetialsActivity.this);
@@ -272,7 +285,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
                                 linClear.setOnClickListener(GroupDetialsActivity.this);
                                 linDissolve.setOnClickListener(GroupDetialsActivity.this);
                                 tvConfig.setOnClickListener(GroupDetialsActivity.this);
-                            }else {
+                            } else {
                                 linExcit.setVisibility(View.VISIBLE);
                                 linExcit.setOnClickListener(GroupDetialsActivity.this);
                             }
@@ -290,7 +303,6 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 退出群组
-     *
      */
     private void exitGrop() {
         new Thread(new Runnable() {
@@ -307,7 +319,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "退出失败"+ " " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "退出失败" + " " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -317,7 +329,6 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 解散群组
-     *
      */
     private void deleteGrop() {
         new Thread(new Runnable() {
@@ -367,6 +378,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 是否是管理员
+     *
      * @param group
      * @return
      */
@@ -384,6 +396,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 是否是管理员
+     *
      * @param id
      * @return
      */
@@ -400,6 +413,7 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 能否添加成员
+     *
      * @param group
      * @return
      */
@@ -411,4 +425,60 @@ public class GroupDetialsActivity extends BaseActivity implements View.OnClickLi
         }
         return false;
     }
+
+    /**
+     * 查找好友
+     */
+
+
+    private void getUserDetails(String phone) {
+        HashMap<String, String> friendsHp = new HashMap<>();
+        friendsHp.put("phone", phone);
+        SimplifyThread simplifyThread = new SimplifyThread(UrlUtil.URL_USER_NICK, friendsHp);
+        simplifyThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
+            @Override
+            public void resultBody(String res) {
+                Message message = new Message();
+                message.obj = res;
+                message.what = MessageWhat.ADDFRIENDS_GET_SELECT;
+                handler2.sendMessage(message);
+            }
+
+            @Override
+            public void errorBody(String error) {
+                handler2.sendEmptyMessage(MessageWhat.REQUST_ERROR);
+            }
+        });
+    }
+
+    private static Handler handler2 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MessageWhat.ADDFRIENDS_GET_SELECT:
+                    if (msg.obj != null) {
+                        try {
+                            Gson gson = new Gson();
+                            AddFriendResponse add = gson.fromJson(msg.obj.toString(), AddFriendResponse.class);
+                            if (add.getStatus() == 0) {
+                                if (add.getData() != null) {
+                                    PersonInfo personInfo = new PersonInfo();
+                                    personInfo.setPhone(add.getData().getPhone());
+                                    personInfo.setHeader(add.getData().getHeader());
+                                    personInfo.setRelname(add.getData().getRelname());
+                                    CyApplication.saveUserData(personInfo);
+
+                                }
+                            }
+
+                        } catch (Exception e) {
+                        }
+
+                    } else {
+                    }
+                    break;
+            }
+        }
+    };
 }

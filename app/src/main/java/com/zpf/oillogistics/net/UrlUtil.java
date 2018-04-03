@@ -17,6 +17,16 @@ public class UrlUtil {
 //    public static final String IMAGE_URL = "http://yuanyoutong.zpftech.com";
 //    //  分享地址
 //    public static final String SHARE_URL = "http://yuanyoutong.zpftech.com/api/user/share";
+
+
+//    // 正式
+//    public static final String URL = "http://www.shihuatong66.com/api";
+//    // 正式服image
+//    public static final String IMAGE_URL = "http://img-ali-hb1.shihuatong66.com";
+//    // 正式分享地址
+//    public static final String SHARE_URL = "http://www.shihuatong66.com/api/user/share";
+
+
     // 测试服
     public static final String URL = "http://Tozpa.com/api";
     // 测试服image
@@ -40,7 +50,8 @@ public class UrlUtil {
     // 找回密码
     public static final String LOGIN_FINDPWD = URL + "/login/findPwd";
     // 登陆
-    public static final String LOGIN_LOGIN = URL + "/login/login";
+    public static final String LOGIN_LOGIN = URL + "/login/login";  // 登陆
+    public static final String AGREEMENT = URL + "/about/agreement";
 
 
     /**
@@ -124,6 +135,7 @@ public class UrlUtil {
      * 聊天接口
      */
     public static final String URL_USER_NICK = URL + "/user/nick";
+    public static final String URL_FRIENDSLIST = URL + "/friends/get";
     /**
      * 个人中心
      */

@@ -133,28 +133,62 @@ public class RegisterActivity extends BaseActivity {
                 case 2:
                     if (registerBean != null) {
                         if (registerBean.getMsg().contains("成功")) {
-                            MyToast.show(RegisterActivity.this, "注册成功,请完善个人信息");
-                            SharedPreferences sp = getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sp.edit();
-                            editor.clear().commit();
-                            editor.putString("userId", registerBean.getData().getUser().getId() + "");
-                            editor.putString("userType", registerBean.getData().getUser().getStatus() + "");
-                            editor.putString("userPhone", registerBean.getData().getUser().getPhone());
-                            editor.putString("password", passwordEt.getText().toString());
-                            editor.putString("userToken", registerBean.getData().getUser().getLogintoken());
-                            editor.putString("statuss", registerBean.getData().getUser().getStatuss() + "");
-                            editor.commit();
-                            if (sp.getString("userType", "").equals("1")) {
-                                Intent intent = new Intent(RegisterActivity.this, InforSelfActivity.class);
-                                startActivity(intent);
-                            } else if (sp.getString("userType", "").equals("2")) {
-                                Intent intent = new Intent(RegisterActivity.this, InforSelfCompanyActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Intent intent = new Intent(RegisterActivity.this, DirverPersonMsgActivity.class);
-                                startActivity(intent);
-                            }
-                            finish();
+
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    //注册失败会抛出HyphenateException
+                                    try {
+                                        // 调用sdk注册方法
+                                        EMClient.getInstance().createAccount(userEt.getText().toString(), "yyt123456");//同步方法
+                                    } catch (final HyphenateException e) {
+                                        final int errorCode = e.getErrorCode();
+                                        //注册失败
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (errorCode == EMError.NETWORK_ERROR) {
+                                                    Toast.makeText(getApplicationContext(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+                                                } else if (errorCode == EMError.USER_ALREADY_EXIST) {
+                                                    MyToast.show(RegisterActivity.this, "注册成功,请完善个人信息");
+                                                    SharedPreferences sp = getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sp.edit();
+                                                    editor.clear().commit();
+                                                    editor.putString("userId", registerBean.getData().getUser().getId() + "");
+                                                    editor.putString("userType", registerBean.getData().getUser().getStatus() + "");
+                                                    editor.putString("userPhone", registerBean.getData().getUser().getPhone());
+                                                    editor.putString("password", passwordEt.getText().toString());
+                                                    editor.putString("userToken", registerBean.getData().getUser().getLogintoken());
+                                                    editor.putString("statuss", registerBean.getData().getUser().getStatuss() + "");
+                                                    editor.commit();
+
+
+                                                    if (sp.getString("userType", "").equals("1")) {
+                                                        Intent intent = new Intent(RegisterActivity.this, InforSelfActivity.class);
+                                                        startActivity(intent);
+                                                    } else if (sp.getString("userType", "").equals("2")) {
+                                                        Intent intent = new Intent(RegisterActivity.this, InforSelfCompanyActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        Intent intent = new Intent(RegisterActivity.this, DirverPersonMsgActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "环信注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }
+
+
+                                            }
+                                        });
+
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+
+
                         } else {
                             MyToast.show(RegisterActivity.this, registerBean.getMsg());
                         }
@@ -253,28 +287,8 @@ public class RegisterActivity extends BaseActivity {
                 registerMap.put("code", verifyEt.getText().toString());
                 registerMap.put("password", passwordEt.getText().toString());
                 registerMap.put("repassword", againPasswordEt.getText().toString());
-                new Thread() {
-                    @Override
-                    public void run() {
-                        //注册失败会抛出HyphenateException
-                        try {
-                            // 调用sdk注册方法
-                            EMClient.getInstance().createAccount(userEt.getText().toString(), "yyt123456");//同步方法
-                            register();
-                        } catch (HyphenateException e) {
-                            //注册失败
-                            int errorCode = e.getErrorCode();
-                            if (errorCode == EMError.NETWORK_ERROR) {
-                                Toast.makeText(getApplicationContext(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
-                            } else if (errorCode == EMError.USER_ALREADY_EXIST) {
-                                Toast.makeText(getApplicationContext(), "环信用户已存在！", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "环信注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+                register();
+
 
             }
         });

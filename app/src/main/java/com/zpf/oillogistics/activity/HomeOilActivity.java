@@ -190,10 +190,10 @@ public class HomeOilActivity extends BaseActivity {
 
         if (getIntent().getStringExtra("manage").equals("1")) {
             oilMap.put("class", "1");
-            tvTitle.setText("石油类");
+            tvTitle.setText("石油");
         } else {
             oilMap.put("class", "2");
-            tvTitle.setText("化工类");
+            tvTitle.setText("化工");
         }
 
         oilMap.put("type", "");
@@ -788,7 +788,6 @@ public class HomeOilActivity extends BaseActivity {
             if (dataBean.getImg() != null) {
                 Glide.with(HomeOilActivity.this)
                         .load(UrlUtil.IMAGE_URL + dataBean.getImg())
-                        .placeholder(R.mipmap.default_goods)
                         .error(R.mipmap.default_goods)
                         .into(vh.iconIv);
             }

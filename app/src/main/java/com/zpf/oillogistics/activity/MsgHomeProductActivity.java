@@ -343,7 +343,6 @@ public class MsgHomeProductActivity extends BaseActivity {
             if (dataBean.getImg() != null && !dataBean.getImg().equals("")) {
                 Glide.with(MsgHomeProductActivity.this)
                         .load(UrlUtil.IMAGE_URL + dataBean.getImg())
-                        .placeholder(R.mipmap.default_goods)
                         .error(R.mipmap.default_goods)
                         .into(vh.iconIv);
             }

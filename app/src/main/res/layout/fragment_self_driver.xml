@@ -102,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/title_bar_height"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 app:action="一键下单"
                 app:startIcon="@mipmap/self_driver_one_key_take_order"
                 app:textColor="#FC4F4F">

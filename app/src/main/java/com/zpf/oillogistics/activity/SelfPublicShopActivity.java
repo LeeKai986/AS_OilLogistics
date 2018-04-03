@@ -313,7 +313,6 @@ public class SelfPublicShopActivity extends BaseActivity {
             if (product.getImg() != null) {
                 Glide.with(SelfPublicShopActivity.this)
                         .load(UrlUtil.IMAGE_URL + product.getImg())
-                        .placeholder(R.mipmap.default_goods)
                         .error(R.mipmap.default_goods)
                         .into(vh.iconIv);
             }

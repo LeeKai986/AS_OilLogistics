@@ -128,8 +128,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 DiyDialog.hintOneBtnDialog(MainActivity.this, "您的账号处于禁用状态，请更换账号重新登录", new DiyDialog.HintTweBtnListener() {
                                     @Override
                                     public void confirm() {
-                                        EMClient.getInstance().logout(true);
-                                        new InviteMessgeDao(MainActivity.this).clearMessage();
+//                                        EMClient.getInstance().logout(true);
+//                                        new InviteMessgeDao(MainActivity.this).clearMessage();
                                         SharedPreferences.Editor editor = MyShare.getShared().edit();
                                         editor.clear();
                                         editor.commit();
@@ -195,31 +195,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 }
                                 editor.commit();
 
-                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
-                                    @Override
-                                    public void onSuccess() {
-                                        runOnUiThread(new Runnable() {
-                                            public void run() {
-                                                EMClient.getInstance().groupManager().loadAllGroups();
-                                                EMClient.getInstance().chatManager().loadAllConversations();
-                                                EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
-                                                //注册一个监听连接状态的listener
-                                                EMClient.getInstance().addConnectionListener(new MyConnectionListener());
-                                            }
-                                        });
-                                        Log.i("main", "登录聊天服务器成功！--");
-                                    }
-
-                                    @Override
-                                    public void onProgress(int progress, String status) {
-                                        Log.i("main", "登录聊天服务器失败！--");
-                                    }
-
-                                    @Override
-                                    public void onError(int code, String message) {
-                                        Log.i("main", "登录聊天服务器失败！--");
-                                    }
-                                });
+//                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
+//                                    @Override
+//                                    public void onSuccess() {
+//                                        runOnUiThread(new Runnable() {
+//                                            public void run() {
+//                                                EMClient.getInstance().groupManager().loadAllGroups();
+//                                                EMClient.getInstance().chatManager().loadAllConversations();
+//                                                EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
+//                                                //注册一个监听连接状态的listener
+//                                                EMClient.getInstance().addConnectionListener(new MyConnectionListener());
+//                                            }
+//                                        });
+//                                        Log.i("main", "登录聊天服务器成功！--");
+//                                    }
+//
+//                                    @Override
+//                                    public void onProgress(int progress, String status) {
+//                                        Log.i("main", "登录聊天服务器失败！--");
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(int code, String message) {
+//                                        Log.i("main", "登录聊天服务器失败！--");
+//                                    }
+//                                });
                             }
                         }
                     } catch (JSONException e) {
@@ -401,19 +401,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(MainActivity.this, DriverPositionUpData.class));
-        DemoHelper.getInstance().logout(true, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onError(int i, String s) {
-            }
-
-            @Override
-            public void onProgress(int i, String s) {
-            }
-        });
+//        DemoHelper.getInstance().logout(true, new EMCallBack() {
+//            @Override
+//            public void onSuccess() {
+//            }
+//
+//            @Override
+//            public void onError(int i, String s) {
+//            }
+//
+//            @Override
+//            public void onProgress(int i, String s) {
+//            }
+//        });
     }
 
     @Override

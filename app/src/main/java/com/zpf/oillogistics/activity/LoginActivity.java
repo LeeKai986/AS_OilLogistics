@@ -8,13 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.net.SimplifyThread;
@@ -135,29 +132,30 @@ public class LoginActivity extends BaseActivity {
                                     editor.putString("route", data.getString("route"));
                                 }
                                 editor.commit();
-
-
-                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
-                                    @Override
-                                    public void onSuccess() {
-//                                        EMClient.getInstance().groupManager().loadAllGroups();
-//                                        EMClient.getInstance().chatManager().loadAllConversations();
-                                        Log.i("main", "登录聊天服务器成功！--");
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        finish();
-
-                                    }
-
-                                    @Override
-                                    public void onProgress(int progress, String status) {
-                                        Log.i("main", "登录聊天服务器失败！--");
-                                    }
-
-                                    @Override
-                                    public void onError(int code, String message) {
-                                        Log.i("main", "登录聊天服务器失败！--");
-                                    }
-                                });
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+//
+//                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
+//                                    @Override
+//                                    public void onSuccess() {
+////                                        EMClient.getInstance().groupManager().loadAllGroups();
+////                                        EMClient.getInstance().chatManager().loadAllConversations();
+//                                        Log.i("main", "登录聊天服务器成功！--");
+//                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                        finish();
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onProgress(int progress, String status) {
+//                                        Log.i("main", "登录聊天服务器失败！--");
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(int code, String message) {
+//                                        Log.i("main", "登录聊天服务器失败！--");
+//                                    }
+//                                });
                             } else {
                                 MyToast.show(LoginActivity.this, jo.getString("msg"));
                             }

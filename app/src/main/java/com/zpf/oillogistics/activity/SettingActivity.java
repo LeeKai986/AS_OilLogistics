@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.db.InviteMessgeDao;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.base.Constant;
@@ -121,8 +119,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.tv_exit_self:
-                EMClient.getInstance().logout(true);
-                new InviteMessgeDao(SettingActivity.this).clearMessage();
+//                EMClient.getInstance().logout(true);
+//                new InviteMessgeDao(SettingActivity.this).clearMessage();
                 SharedPreferences.Editor editor = MyShare.getShared().edit();
                 editor.clear();
                 editor.commit();

@@ -47,7 +47,7 @@ public class GuidanceActivity extends BaseActivity {
     // iv集
     ArrayList<ImageView> ivs;
     // 图片id集
-    int[] images = {R.mipmap.guide_1, R.mipmap.guide_2, R.mipmap.guide_3, R.mipmap.guide_4};
+    int[] images = {R.mipmap.guide_1, R.mipmap.guide_2, R.mipmap.guide_4};//, R.mipmap.guide_3
     // 圆点间隔
     int pointWidth;
     // 蓝色圆点

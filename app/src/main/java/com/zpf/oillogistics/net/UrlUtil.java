@@ -19,20 +19,20 @@ public class UrlUtil {
 //    public static final String SHARE_URL = "http://yuanyoutong.zpftech.com/api/user/share";
 
 
-//    // 正式
-//    public static final String URL = "http://www.shihuatong66.com/api";
-//    // 正式服image
-//    public static final String IMAGE_URL = "http://img-ali-hb1.shihuatong66.com";
-//    // 正式分享地址
-//    public static final String SHARE_URL = "http://www.shihuatong66.com/api/user/share";
+    // 正式
+    public static final String URL = "http://www.shihuatong66.com/api";
+    // 正式服image
+    public static final String IMAGE_URL = "http://img-ali-hb1.shihuatong66.com";
+    // 正式分享地址
+    public static final String SHARE_URL = "http://www.shihuatong66.com/api/user/share";
 
 
-    // 测试服
-    public static final String URL = "http://Tozpa.com/api";
-    // 测试服image
-    public static final String IMAGE_URL = "http://img.yyt.tozpa.com";
-    // 分享地址
-    public static final String SHARE_URL = "http://Tozpa.com/api/user/share";
+//    // 测试服
+//    public static final String URL = "http://Tozpa.com/api";
+//    // 测试服image
+//    public static final String IMAGE_URL = "http://img.yyt.tozpa.com";
+//    // 分享地址
+//    public static final String SHARE_URL = "http://Tozpa.com/api/user/share";
 
     // 首页数据接口
     public static final String HOME_DATA = "http://info.oilchem.net/ciuderoil/queryCrudeOil?username=dongmingjy&pwd=20171121";

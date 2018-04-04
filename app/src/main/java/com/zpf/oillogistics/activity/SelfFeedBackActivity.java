@@ -1,16 +1,14 @@
 package com.zpf.oillogistics.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.google.gson.Gson;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.adapter.AddPictureGridAdapter;
 import com.zpf.oillogistics.base.BaseActivity;
-import com.zpf.oillogistics.base.Constant;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.response.SelfChangeResponse;
 import com.zpf.oillogistics.customview.SelectPicPopupWindow;
@@ -34,8 +31,7 @@ import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.TakePictrueUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +69,7 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
     private List<Bitmap> list = new ArrayList<>();
     private TakePictrueUtils takePictrue;
 
-    private String imgBase64="";
+    private String imgBase64 = "";
 
     @Override
     protected int setLayout() {
@@ -98,7 +94,7 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.rel_back_feedback_self:
                 finish();
                 break;
@@ -168,11 +164,17 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
         public void onClick(View v) {
             picWindow.dismiss();
 
-            takePictrue=new TakePictrueUtils(SelfFeedBackActivity.this,"feed");
+            takePictrue = new TakePictrueUtils(SelfFeedBackActivity.this, "feed");
 
             switch (v.getId()) {
                 case R.id.takePhotoBtn:
-                    takePictrue.startCamera();
+                    //判断是否开户相册权限
+                    if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(SelfFeedBackActivity.this, android.Manifest.permission.CAMERA)) {
+                        takePictrue.startCamera();
+                    } else {
+                        //提示用户开户权限
+                        MyToast.show(SelfFeedBackActivity.this, "请赋予应用相机权限");
+                    }
                     break;
                 case R.id.pickPhotoBtn:
                     takePictrue.startWall();
@@ -189,7 +191,16 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
         switch (requestCode) {
             case TakePictrueUtils.PHOTO_CAMERA:
                 //表示从相机获得的照片，需要进行裁剪
-                takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+                // 由于可以调起多个相机先进行文件大小确认
+                if (takePictrue.tempFile.exists()) {
+                    try {
+                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
+                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case TakePictrueUtils.PHOTO_WALL:
                 if (null != data) {
@@ -198,9 +209,9 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
                 break;
             case TakePictrueUtils.PHOTO_STORE:
                 if (null != data) {
-                    Bitmap bitmap=takePictrue.setPictureToImageView(data, true);
-                    if(bitmap!=null) {
-                        imgBase64+=("data:image/jpg;base64,"+toBase64Str(takePictrue.imageUri.getPath()).trim()+"#");
+                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+                    if (bitmap != null) {
+                        imgBase64 += ("data:image/jpg;base64," + takePictrue.bitmaptoString() + "#");
                         list.add(bitmap);
                         adapter.notifyDataSetChanged();
                     }
@@ -221,16 +232,16 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
      */
     private void inner_postAsync() {
 
-        Map<String, String> params=new HashMap<>();
-        params.put("id", MyShare.getShared().getString("userId",""));
-        params.put("feedback",editContant.getText().toString());
+        Map<String, String> params = new HashMap<>();
+        params.put("id", MyShare.getShared().getString("userId", ""));
+        params.put("feedback", editContant.getText().toString());
 
         //图片Base64编码上传
-        if(!imgBase64.equals("")) {
-            imgBase64=imgBase64.substring(0,imgBase64.length()-1);
-            params.put("img",imgBase64);
-        }else {
-            params.put("img",imgBase64);
+        if (!imgBase64.equals("")) {
+            imgBase64 = imgBase64.substring(0, imgBase64.length() - 1);
+            params.put("img", imgBase64);
+        } else {
+            params.put("img", imgBase64);
         }
 
         RequestBody requestBody = null;
@@ -261,7 +272,7 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
         requestBody = builder.build();
         // 请求对象
         final Request request = new Request.Builder().url(UrlUtil.URL_FEEDBACK_FEEDBACK).post(requestBody).build();
-        OkHttpClient mClient =new OkHttpClient();
+        OkHttpClient mClient = new OkHttpClient();
         mClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -294,7 +305,7 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
                             if (change.getStatus() == 0) {
 
                                 MyToast.show(SelfFeedBackActivity.this, "提交成功!");
-                                startActivity(new Intent(SelfFeedBackActivity.this,FeedbackListActivity.class));
+                                startActivity(new Intent(SelfFeedBackActivity.this, FeedbackListActivity.class));
                                 finish();
 
                             } else {
@@ -313,7 +324,7 @@ public class SelfFeedBackActivity extends BaseActivity implements View.OnClickLi
         }
     };
 
-    private String toBase64Str(String url){
+    private String toBase64Str(String url) {
 
         Bitmap bitmap = BitmapFactory.decodeFile(url);
         //第一步:将Bitmap压缩至字节数组输出流ByteArrayOutputStream

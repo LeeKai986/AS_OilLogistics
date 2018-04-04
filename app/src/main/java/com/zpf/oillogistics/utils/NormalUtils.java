@@ -5,14 +5,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.view.WindowManager;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.db.InviteMessgeDao;
 import com.zpf.oillogistics.activity.DirverPersonMsgActivity;
 import com.zpf.oillogistics.activity.InforSelfActivity;
 import com.zpf.oillogistics.activity.InforSelfCompanyActivity;
@@ -22,7 +19,6 @@ import com.zpf.oillogistics.diy.DiyDialog;
 import com.zpf.oillogistics.diy.GetContext;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
-import com.zpf.oillogistics.receiver.DetailsReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +125,7 @@ public class NormalUtils {
                                         DiyDialog.hintTweBtnDialog(tContext, "当前账号处于待审核状态,是否登陆其他账号?", new DiyDialog.HintTweBtnListener() {
                                             @Override
                                             public void confirm() {
-                                                EMClient.getInstance().logout(true);
+//                                                EMClient.getInstance().logout(true);
                                                 MyShare.getShared().edit().clear().commit();
                                                 CyApplication.province = "";
                                                 CyApplication.area = "";
@@ -146,7 +142,7 @@ public class NormalUtils {
                                         DiyDialog.hintOneBtnDialog(tContext, "该账号已被禁用,请更换账号重新登陆", new DiyDialog.HintTweBtnListener() {
                                             @Override
                                             public void confirm() {
-                                                EMClient.getInstance().logout(true);
+//                                                EMClient.getInstance().logout(true);
                                                 MyShare.getShared().edit().clear().commit();
                                                 CyApplication.province = "";
                                                 CyApplication.area = "";
@@ -216,7 +212,20 @@ public class NormalUtils {
         } else if (sp.getString("statuss", "").equals("1")) {
             return true;
         } else if (sp.getString("statuss", "").equals("2")) {
-//            login();
+            DiyDialog.hintTweBtnDialog(context, "您尚未完善信息，请完善个人信息", new DiyDialog.HintTweBtnListener() {
+                @Override
+                public void confirm() {
+                    String selfFlag = MyShare.getShared().getString("userType", "1");
+                    if (selfFlag.equals("2")) {//企业
+                        context.startActivity(new Intent(context, InforSelfCompanyActivity.class));
+                    } else if (selfFlag.equals("3")) {
+                        context.startActivity(new Intent(context, DirverPersonMsgActivity.class));
+                    } else {
+                        context.startActivity(new Intent(context, InforSelfActivity.class));
+                    }
+
+                }
+            });
             return false;
         } else if (sp.getString("statuss", "").equals("3")) {
 //            MyToast.show(CyApplication.getCyContext(), "审核未通过");
@@ -228,6 +237,8 @@ public class NormalUtils {
                         context.startActivity(new Intent(context, InforSelfCompanyActivity.class));
                     } else if (selfFlag.equals("3")) {
                         context.startActivity(new Intent(context, DirverPersonMsgActivity.class));
+                    } else {
+                        context.startActivity(new Intent(context, InforSelfActivity.class));
                     }
 
                 }
@@ -238,8 +249,8 @@ public class NormalUtils {
             DiyDialog.hintTweBtnDialog(context, "待审核状态，是否登录其他账号", new DiyDialog.HintTweBtnListener() {
                 @Override
                 public void confirm() {
-                    EMClient.getInstance().logout(true);
-                    new InviteMessgeDao(context).clearMessage();
+//                    EMClient.getInstance().logout(true);
+//                    new InviteMessgeDao(context).clearMessage();
                     SharedPreferences.Editor editor = MyShare.getShared().edit();
                     editor.clear();
                     editor.commit();
@@ -267,7 +278,7 @@ public class NormalUtils {
             return true;
         } else if (sp.getString("statuss", "").equals("2")) {
 //            login();
-            return false;
+            return true;
         }
 //        else if (sp.getString("statuss", "").equals("2")){
 //            login();

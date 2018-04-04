@@ -53,6 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_horizontal"
                         android:text="首页"
                         android:textColor="@color/main_boom_text"
@@ -84,6 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_horizontal"
                         android:text="报价"
                         android:textColor="@color/main_boom_text"
@@ -116,6 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_horizontal"
                         android:text="发布"
                         android:textColor="@color/main_boom_text"
@@ -129,7 +132,8 @@
                 android:id="@+id/rel_chat_boom_main"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,6 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_horizontal"
                         android:text="聊天"
                         android:textColor="@color/main_boom_text"
@@ -179,6 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:gravity="center_horizontal"
                         android:text="我的"
                         android:textColor="@color/main_boom_text"

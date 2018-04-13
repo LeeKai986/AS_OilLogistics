@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2017/9/18.
  * <p>
- * 货找车
+ * 货找车 车源
  */
 
 public class HomeHaveProductActivity extends BaseActivity {
@@ -339,10 +339,16 @@ public class HomeHaveProductActivity extends BaseActivity {
             }
 
             //地址
-            if (bean.getStartplace() != null && bean.getEndplace() != null) {
-                vh.tvRoute.setText(bean.getStartplace().replace("-", "") + "-" + bean.getEndplace().replace("-", ""));
+            if (bean.getStartplace() != null) {
+                vh.tvRoute.setText(bean.getStartplace().replace("-", ""));
             } else {
                 vh.tvRoute.setText("--");
+            }
+            //地址
+            if (bean.getEndplace() != null) {
+                vh.tvRoute2.setText(bean.getEndplace().replace("-", ""));
+            } else {
+                vh.tvRoute2.setText("--");
             }
 
             //车牌号
@@ -381,6 +387,9 @@ public class HomeHaveProductActivity extends BaseActivity {
                     Intent intent = new Intent(HomeHaveProductActivity.this, DriverDetailsActivity.class);
                     intent.putExtra("phone", bean.getPhone());
                     intent.putExtra("id", bean.getId() + "");
+                    intent.putExtra("startplace", bean.getStartplace() + "");
+                    intent.putExtra("endplace", bean.getEndplace() + "");
+                    intent.putExtra("time", bean.getTime() + "");
                     startActivity(intent);
                 }
             });
@@ -401,6 +410,8 @@ public class HomeHaveProductActivity extends BaseActivity {
             TextView tvPlate;
             @BindView(R.id.item_have_product_route_tv)
             TextView tvRoute;
+            @BindView(R.id.item_have_product_route_tv2)
+            TextView tvRoute2;
             @BindView(R.id.item_have_product_call_iv)
             ImageView ivCall;
             @BindView(R.id.have_product_all_ll)

@@ -227,7 +227,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        oneStTv.setText(province + "\n" + city + district);
+                        oneStTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -269,7 +269,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        oneEdTv.setText(province + "\n" + city + district);
+                        oneEdTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -311,7 +311,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        tweStTv.setText(province + "\n" + city + district);
+                        tweStTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -353,7 +353,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        tweEdTv.setText(province + "\n" + city + district);
+                        tweEdTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -395,7 +395,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        thrStTv.setText(province + "\n" + city + district);
+                        thrStTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -437,7 +437,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //ProvinceBean 省份信息
                         //CityBean     城市信息
                         //DistrictBean 区县信息
-                        thrEdTv.setText(province + "\n" + city + district);
+                        thrEdTv.setText(province + "\n" + city + "市" + district);
                     }
 
                     @Override
@@ -521,10 +521,10 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
                         //CityBean     城市信息
                         //DistrictBean 区县信息
                         if (district.getName() != null && !district.getName().equals(""))
-                            adressArea = province.getName() + "-" + city.getName() + "-" + district.getName();
+                            adressArea = province.getName() + "-" + city.getName() + "市" + "-" + district.getName();
                         else
-                            adressArea = province.getName() + "-" + city.getName();
-                        navCity.setTvActionState(province.getName() + city.getName() + district.getName());
+                            adressArea = province.getName() + "-" + city.getName() + "市";
+                        navCity.setTvActionState(province.getName() + city.getName() + "市" + district.getName());
                     }
 
                     @Override

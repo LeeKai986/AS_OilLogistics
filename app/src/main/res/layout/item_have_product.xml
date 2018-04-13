@@ -19,6 +19,7 @@
             android:id="@+id/item_have_product_icon_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:scaleType="fitXY"
             android:src="@mipmap/head_default" />
@@ -82,12 +83,53 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/aaa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_have_product_plate_tv"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="起始地址:"
+                    android:textColor="@color/btn_login_pressed"
+                    android:textSize="15sp" />
+
+                <TextView
                     android:id="@+id/item_have_product_route_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/item_have_product_plate_tv"
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/aaa"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="--"
+                    android:textColor="#565656"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/bbb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_have_product_route_tv"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="终点地址:"
+                    android:textColor="@color/btn_login_pressed"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/item_have_product_route_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_have_product_route_tv"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/bbb"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="--"

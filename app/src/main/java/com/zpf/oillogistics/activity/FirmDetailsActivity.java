@@ -153,8 +153,8 @@ public class FirmDetailsActivity extends BaseActivity {
 //            relationTv.setText("供应价格");
 //            relationTv.setBackgroundResource(R.drawable.bg_circle_red_platform);
 //        }
-        if (info != null && info.getPrice() != null) {
-            unitPriceTv.setText("价格：" + info.getPrice() + "元/吨");
+        if (info != null && info.getNumber() != null) {
+            unitPriceTv.setText("求购数量：" + info.getNumber() + "吨");
         }
         if (info != null && info.getTime() != 0) {
             cTimeTv.setText(DateTimeUtil.stampToDate("yyyy,MM/dd HH:mm:ss", info.getTime() + "000"));

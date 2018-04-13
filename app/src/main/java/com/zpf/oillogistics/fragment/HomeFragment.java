@@ -64,6 +64,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * Created by Administrator on 2017/9/13.
@@ -71,7 +73,7 @@ import butterknife.ButterKnife;
  * 主页
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     // 布局相关
     // 检索
@@ -165,6 +167,8 @@ public class HomeFragment extends Fragment {
     TextView tv26;
     @BindView(R.id.tv_27)
     TextView tv27;
+    @BindView(R.id.bga_refresh)
+    BGARefreshLayout bgaRefresh;
 
 
     private FragmentActivity fgActy;
@@ -182,7 +186,34 @@ public class HomeFragment extends Fragment {
         intiView();
 //        rollImage();
 //        local();
+        bgaRefresh.setDelegate(this);
+        bgaRefresh.setRefreshViewHolder(new BGANormalRefreshViewHolder(getActivity(), true));
+        bgaRefresh.setIsShowLoadingMoreView(false);
         return view;
+    }
+
+    /**
+     * 开始刷新
+     *
+     * @param refreshLayout
+     */
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        indexData();
+        homeData();
+        homePriceTrendData();
+
+    }
+
+    /**
+     * 开始加载更多。由于监听了ScrollView、RecyclerView、AbsListView滚动到底部的事件，所以这里采用返回boolean来处理是否加载更多。否则使用endLoadingMore方法会失效
+     *
+     * @param refreshLayout
+     * @return 如果要开始加载更多则返回true，否则返回false。（返回false的场景：没有网络、一共只有x页数据并且已经加载了x页数据了）
+     */
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 
     private void setOilTrendData(PriceTrendResponse priceTrend) {
@@ -416,7 +447,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         indexData();
-        homeData();
+        homeDatar();
         homePriceTrendData();
     }
 
@@ -508,6 +539,24 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * 原油数据
+     */
+    private void homeDatar() {
+        mHandler.postDelayed(r, 100);//延时100毫秒
+    }
+
+    Handler mHandler = new Handler();
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            homeData();
+            //do something
+            //每隔120s循环执行run方法
+            mHandler.postDelayed(this, 120000);
+        }
+    };
 
     /**
      * 原油价格走势数据
@@ -676,6 +725,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         MyToast.show(CyApplication.getCyContext(), "返回数据失败!");
                     }
+                    bgaRefresh.endRefreshing();
                     break;
                 case 4:
                     MsgClickBean msgClickBean = new Gson().fromJson(msg.obj.toString(), MsgClickBean.class);
@@ -705,6 +755,7 @@ public class HomeFragment extends Fragment {
                     }
                     break;
                 case 0:
+                    bgaRefresh.endRefreshing();
                     MyToast.show(CyApplication.getCyContext(), msg.obj.toString());
                     break;
 

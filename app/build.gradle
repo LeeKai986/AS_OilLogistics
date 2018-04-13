@@ -179,4 +179,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile project(':library')
     compile files('libs/BaiduLBS_Android_4.4.jar')
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.7'//bga下拉刷新
 }

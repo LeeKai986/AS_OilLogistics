@@ -87,6 +87,16 @@
 
 
             <com.zpf.oillogistics.customview.NavItem
+                android:id="@+id/nav_resource_mesg_self_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_marginTop="10dp"
+                app:action="发布的货源"
+                app:startIcon="@mipmap/resorce">
+
+            </com.zpf.oillogistics.customview.NavItem>
+
+            <com.zpf.oillogistics.customview.NavItem
                 android:id="@+id/nav_product_mesg_self"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/title_bar_height"

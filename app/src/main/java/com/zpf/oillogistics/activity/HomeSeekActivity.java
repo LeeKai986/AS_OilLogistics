@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.zpf.oillogistics.R.id.home_seek_et;
+
 /**
  * Created by Administrator on 2017/9/14.
  * <p>
@@ -51,7 +52,7 @@ public class HomeSeekActivity extends BaseActivity {
     @BindView(R.id.rel_back_seek)
     RelativeLayout relBack;
     //edit
-    @BindView(R.id.home_seek_et)
+    @BindView(home_seek_et)
     EditText seekEt;
     //清除
     @BindView(R.id.iv_clear_seek)
@@ -78,6 +79,7 @@ public class HomeSeekActivity extends BaseActivity {
 
     //列表页
     int upPage = 1;
+    private boolean refresh = true;
 
     @Override
     protected int setLayout() {
@@ -119,12 +121,14 @@ public class HomeSeekActivity extends BaseActivity {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mList.clear();
                 upPage = 1;
+                refresh = true;
                 search();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 upPage++;
+                refresh = false;
                 search();
             }
         });
@@ -189,7 +193,11 @@ public class HomeSeekActivity extends BaseActivity {
                                 mList.addAll(oil.getData().getData());
 
                             } else {
-                                MyToast.show(HomeSeekActivity.this, "暂无数据!");
+                                if (refresh) {
+                                    MyToast.show(HomeSeekActivity.this, "暂无数据!");
+                                } else {
+                                    MyToast.show(HomeSeekActivity.this, "暂无更多数据!");
+                                }
                             }
 
                             if (adapter == null) {
@@ -250,6 +258,7 @@ public class HomeSeekActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 searchStr = ((TextView) view).getText().toString();
+                seekEt.setText(searchStr);
                 search();
             }
         });

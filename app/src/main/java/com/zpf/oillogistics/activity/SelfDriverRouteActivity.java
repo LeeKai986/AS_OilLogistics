@@ -1,5 +1,6 @@
 package com.zpf.oillogistics.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -184,7 +186,7 @@ public class SelfDriverRouteActivity extends BaseActivity {
                 vh = (ViewHolder) view.getTag();
             }
 
-            DriverRouteResponse.DataBeanX.DataBean route = mList.get(i);
+            final DriverRouteResponse.DataBeanX.DataBean route = mList.get(i);
             //头像
             if (route.getHerder() != null) {
                 Glide.with(SelfDriverRouteActivity.this)
@@ -227,6 +229,18 @@ public class SelfDriverRouteActivity extends BaseActivity {
             if (route.getTime() != null) {
                 vh.tvTime.setText("承运日期:" + DateTimeUtil.stampToDate("yyyy/MM/dd", route.getTime() + "000"));
             }
+            vh.linAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(SelfDriverRouteActivity.this, DriverDetailsActivity.class);
+                    intent.putExtra("phone", route.getPhone());
+                    intent.putExtra("id", route.getId() + "");
+                    intent.putExtra("startplace", route.getStartplace() + "");
+                    intent.putExtra("endplace", route.getEndplace() + "");
+                    intent.putExtra("time", route.getTime() + "");
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 
@@ -241,6 +255,8 @@ public class SelfDriverRouteActivity extends BaseActivity {
             TextView tvNum;
             @BindView(R.id.tv_time)
             TextView tvTime;
+            @BindView(R.id.have_product_all_ll)
+            LinearLayout linAll;
 
             ViewHolder(View view) {
                 ButterKnife.bind(this, view);

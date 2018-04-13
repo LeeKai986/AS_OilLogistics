@@ -18,6 +18,7 @@ import com.zpf.oillogistics.activity.MsgHomeQuoteActivity;
 import com.zpf.oillogistics.activity.SelfAboutUsActivity;
 import com.zpf.oillogistics.activity.SelfHelpActivity;
 import com.zpf.oillogistics.activity.SelfPublicProductActivity;
+import com.zpf.oillogistics.activity.SelfPublicResorceActivity;
 import com.zpf.oillogistics.activity.SelfPublicShopActivity;
 import com.zpf.oillogistics.activity.SettingActivity;
 import com.zpf.oillogistics.base.CyApplication;
@@ -51,6 +52,8 @@ public class SelfFragment extends Fragment implements View.OnClickListener, Deta
     NavItem navProduct;
     @BindView(R.id.nav_shop_self)
     NavItem navShop;
+    @BindView(R.id.nav_resource_mesg_self_company)
+    NavItem navResource;
     @BindView(R.id.nav_product_mesg_self)
     NavItem navProductMesg;
     @BindView(R.id.nav_price_mesg_self)
@@ -115,7 +118,7 @@ public class SelfFragment extends Fragment implements View.OnClickListener, Deta
         navSetting.setOnClickListener(this);
         navServiceCall.setOnClickListener(this);
         navProductMesg.setOnClickListener(this);
-
+        navResource.setOnClickListener(this);
         //动态注册广播接收器
         msgReceiver = new DetailsReceiver();
         msgReceiver.setReceiveChangeListener(this);
@@ -147,6 +150,9 @@ public class SelfFragment extends Fragment implements View.OnClickListener, Deta
                 break;
             case R.id.nav_product_mesg_self:
                 intent.startAct(MsgHomeProductActivity.class);
+                break;
+            case R.id.nav_resource_mesg_self_company:
+                intent.startAct(SelfPublicResorceActivity.class);
                 break;
             case R.id.nav_price_mesg_self:
                 intent.startAct(MsgHomeQuoteActivity.class);

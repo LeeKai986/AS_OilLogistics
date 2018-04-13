@@ -17,6 +17,7 @@ import com.zpf.oillogistics.net.JsonUtil;
 import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.CallPermission;
+import com.zpf.oillogistics.utils.DateTimeUtil;
 import com.zpf.oillogistics.utils.MyToast;
 
 import java.util.HashMap;
@@ -76,6 +77,12 @@ public class DriverDetailsActivity extends BaseActivity {
     // 拨打电话
     @BindView(R.id.driver_details_call_tv)
     TextView callTv;
+    @BindView(R.id.driver_start)
+    TextView driver_start;
+    @BindView(R.id.driver_end)
+    TextView driver_end;
+    @BindView(R.id.driver_time)
+    TextView driver_time;
 
     // 数据相关
     // 司机详情
@@ -87,6 +94,9 @@ public class DriverDetailsActivity extends BaseActivity {
 
     private String id = "";
     private String phone = "";
+    private String startplace = "";
+    private String endplace = "";
+    private String time = "";
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -131,6 +141,9 @@ public class DriverDetailsActivity extends BaseActivity {
 
         id = getIntent().getExtras().getString("id");
         phone = getIntent().getExtras().getString("phone");
+        startplace = getIntent().getExtras().getString("startplace");
+        endplace = getIntent().getExtras().getString("endplace");
+        time = getIntent().getExtras().getString("time");
         driverInfo();
     }
 
@@ -145,6 +158,9 @@ public class DriverDetailsActivity extends BaseActivity {
     }
 
     private void setData() {
+        driver_start.setText(startplace);
+        driver_end.setText(endplace);
+        driver_time.setText(DateTimeUtil.stampToDate("yyyy/MM/dd", time + "000"));
         if (driverDetailsBean.getData().getInfo() != null && driverDetailsBean.getData().getInfo().getFace() != null
                 && !driverDetailsBean.getData().getInfo().getFace().equals("")) {
             Glide.with(DriverDetailsActivity.this)

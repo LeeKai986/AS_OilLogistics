@@ -4,14 +4,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +29,8 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.base.BaseTakePhotoActivity;
+import com.zpf.oillogistics.base.CustomHelper;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.response.IndexResponse;
 import com.zpf.oillogistics.bean.response.OilClassResponse;
@@ -41,10 +42,11 @@ import com.zpf.oillogistics.net.SimplifyThread;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
-import com.zpf.oillogistics.utils.TakePictrueUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +69,7 @@ import okhttp3.Response;
  * 发产品
  */
 
-public class IssueProductActivity extends BaseActivity {
+public class IssueProductActivity extends BaseTakePhotoActivity {
 
     // 布局相关
 //    // 大分类
@@ -114,17 +116,19 @@ public class IssueProductActivity extends BaseActivity {
 
     HashMap<String, String> subHp = new HashMap<>();
     ArrayList<OilClassResponse.DataBean> oilList = new ArrayList<>();
-    TakePictrueUtils takePictrue;
     List<ProductClassResponsse.DataBean> firstList;
     List<ProductClassResponsse.DataBean.ChildBean> secondList;
 
     private String adressArea = "";
     private String typeStr = "";
+    private CustomHelper customHelper;
+    private String imageString;
 
 
     @Override
     protected int setLayout() {
         return R.layout.activity_issue_product;
+
     }
 
     @Override
@@ -167,7 +171,7 @@ public class IssueProductActivity extends BaseActivity {
                 finish();
             }
         });
-
+        customHelper = CustomHelper.init();
 //        bigTypeRl.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -253,20 +257,13 @@ public class IssueProductActivity extends BaseActivity {
                 List<String> updataTypes = new ArrayList<>();
                 updataTypes.add("拍照");
                 updataTypes.add("从手机相册选择");
-                takePictrue = new TakePictrueUtils(IssueProductActivity.this, "product");
                 DiyDialog.singleSelectDialog(IssueProductActivity.this, updataTypes, new DiyDialog.SingleSelectListener() {
                     @Override
                     public void SingleSelect(String res) {
                         if (res.equals("从手机相册选择")) {
-                            takePictrue.startWall();
+                            customHelper.onClick(getTakePhoto(), 1, 1, 1);
                         } else {
-                            //判断是否开户相册权限
-                            if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(IssueProductActivity.this, android.Manifest.permission.CAMERA)) {
-                                takePictrue.startCamera();
-                            } else {
-                                //提示用户开户权限
-                                MyToast.show(IssueProductActivity.this, "请赋予应用相机权限");
-                            }
+                            customHelper.onClick(getTakePhoto(), 2, 1, 1);
                         }
                     }
                 });
@@ -280,6 +277,50 @@ public class IssueProductActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        final ArrayList<TImage> images = result.getImages();
+        if (images != null && images.size() > 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvPic.setVisibility(View.GONE);
+                    Bitmap bitmap = BitmapFactory.decodeFile(images.get(0).getCompressPath());//filePath
+                    ivPic.setImageBitmap(bitmap);
+                    imageString = bitmaptoString(bitmap);
+                }
+            });
+        }
+    }
+
+    /**
+     * Bitmap转码
+     *
+     * @return
+     */
+
+    public String bitmaptoString(Bitmap bitmap) {
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            byte[] bytes = bStream.toByteArray();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        }
+        return null;
+    }
+
 
     /**
      * 产品分类
@@ -364,8 +405,8 @@ public class IssueProductActivity extends BaseActivity {
 //            if (imageString != null)
 //                subHp.put("img", "data:image/jpg;base64," + imageString);
 //        }
-        if (takePictrue != null && takePictrue.bitmaptoString() != null) {
-            subHp.put("img", "data:image/jpg;base64," + takePictrue.bitmaptoString());
+        if (!TextUtils.isEmpty(imageString)) {
+            subHp.put("img", "data:image/jpg;base64," + imageString);
         } else {
             subHp.put("img", "");
         }
@@ -495,43 +536,6 @@ public class IssueProductActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TakePictrueUtils.PHOTO_CAMERA:
-                //表示从相机获得的照片，需要进行裁剪
-                // 由于可以调起多个相机先进行文件大小确认
-                if (takePictrue.tempFile.exists()) {
-                    try {
-                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
-                            String fileSrc = takePictrue.tempFile.getAbsolutePath();
-                            takePictrue.startPhotoCut(Uri.fromFile(new File(fileSrc)), 300, true);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case TakePictrueUtils.PHOTO_WALL:
-                if (null != data) {
-                    takePictrue.startPhotoCut(data.getData(), 300, true);
-                }
-                break;
-            case TakePictrueUtils.PHOTO_STORE:
-                if (null != data) {
-                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
-                    if (bitmap != null) {
-                        tvPic.setVisibility(View.GONE);
-                        ivPic.setImageBitmap(bitmap);//将图片显示到ImageView上面
-                    }
-                }
-                break;
-            case TakePictrueUtils.PHOTO_NOT_STORE:
-                if (null != data) {
-                    takePictrue.setPictureToImageView(data, false);
-                }
-                break;
-            default:
-                break;
-        }
     }
 
 
@@ -661,4 +665,5 @@ public class IssueProductActivity extends BaseActivity {
             }
         }
     }
+
 }

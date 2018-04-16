@@ -26,7 +26,8 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.base.BaseTakePhotoActivity;
+import com.zpf.oillogistics.base.CustomHelper;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.response.SelfChangeResponse;
@@ -39,8 +40,10 @@ import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.TakePictrueUtils;
 
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +66,7 @@ import static com.zpf.oillogistics.base.CyApplication.area;
  * Created by Administrator on 2017/9/18.
  */
 
-public class InforSelfCompanyActivity extends BaseActivity implements View.OnClickListener {
+public class InforSelfCompanyActivity extends BaseTakePhotoActivity implements View.OnClickListener {
 
     @BindView(R.id.rel_back_inforself_company)
     RelativeLayout relBack;
@@ -104,6 +107,8 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
     private String adressArea = "";
     private String longitude = "";
     private String latitude = "";
+    private CustomHelper customHelper;
+    private String imageString;
 
     @Override
     protected int setLayout() {
@@ -327,7 +332,7 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
         public void onClick(View v) {
             picWindow.dismiss();
 
-            takePictrue = new TakePictrueUtils(InforSelfCompanyActivity.this, imageFlag);
+//            takePictrue = new TakePictrueUtils(InforSelfCompanyActivity.this, imageFlag);
 
 //            //图片分类
 //            if (imageFlag.equals("perm"))
@@ -341,14 +346,14 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
                 case R.id.takePhotoBtn:
                     //判断是否开户相册权限
                     if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(InforSelfCompanyActivity.this, android.Manifest.permission.CAMERA)) {
-                        takePictrue.startCamera();
+                        customHelper.onClick(getTakePhoto(), 2, 1, 1);
                     } else {
                         //提示用户开户权限
                         MyToast.show(InforSelfCompanyActivity.this, "请赋予应用相机权限");
                     }
                     break;
                 case R.id.pickPhotoBtn:
-                    takePictrue.startWall();
+                    customHelper.onClick(getTakePhoto(), 1, 1, 1);
                     break;
                 default:
                     break;
@@ -357,62 +362,115 @@ public class InforSelfCompanyActivity extends BaseActivity implements View.OnCli
     };
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TakePictrueUtils.PHOTO_CAMERA:
-                //表示从相机获得的照片，需要进行裁剪
-                // 由于可以调起多个相机先进行文件大小确认
-                if (takePictrue.tempFile.exists()) {
-                    try {
-                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
-                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case TakePictrueUtils.PHOTO_WALL:
-                if (null != data) {
-                    takePictrue.startPhotoCut(data.getData(), 300, true);
-                }
-                break;
-            case TakePictrueUtils.PHOTO_STORE:
-                if (null != data) {
-                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+    public void takeCancel() {
+        super.takeCancel();
+    }
 
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        final ArrayList<TImage> images = result.getImages();
+        if (images != null && images.size() > 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bitmap = BitmapFactory.decodeFile(images.get(0).getCompressPath());//filePath
                     if (bitmap != null) {
-
-                        //图片分类
-//                        if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("perm")) {//经营许可证
-//                            licenseUrl = takePictrue.bitmaptoString();
-//                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("license")) {//营业执照
-//                            enterUrl = takePictrue.bitmaptoString();
-//                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("head")) {
-//                            headUrl = takePictrue.bitmaptoString();
-//                        }
                         if (imageFlag.equals("head")) {
                             cirHead.setImageBitmap(bitmap);//将图片显示到ImageView上面
-                            headUrl = takePictrue.bitmaptoString();
+                            headUrl = bitmaptoString(bitmap);
                         } else if (imageFlag.equals("license")) {//营业执照
                             ivLicense.setImageBitmap(bitmap);//将图片显示到ImageView上面
-                            enterUrl = takePictrue.bitmaptoString();
+                            enterUrl = bitmaptoString(bitmap);
                         } else if (imageFlag.equals("perm")) {//经营许可证
-                            licenseUrl = takePictrue.bitmaptoString();
                             ivPermission.setImageBitmap(bitmap);//将图片显示到ImageView上面
+                            licenseUrl = bitmaptoString(bitmap);
                         }
                     }
+
                 }
-                break;
-            case TakePictrueUtils.PHOTO_NOT_STORE:
-                if (null != data) {
-                    takePictrue.setPictureToImageView(data, false);
-                }
-                break;
-            default:
-                break;
+            });
         }
+    }
+
+    /**
+     * Bitmap转码
+     *
+     * @return
+     */
+
+    public String bitmaptoString(Bitmap bitmap) {
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            byte[] bytes = bStream.toByteArray();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        }
+        return null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case TakePictrueUtils.PHOTO_CAMERA:
+//                //表示从相机获得的照片，需要进行裁剪
+//                // 由于可以调起多个相机先进行文件大小确认
+//                if (takePictrue.tempFile.exists()) {
+//                    try {
+//                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
+//                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_WALL:
+//                if (null != data) {
+//                    takePictrue.startPhotoCut(data.getData(), 300, true);
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_STORE:
+//                if (null != data) {
+//                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+//
+//                    if (bitmap != null) {
+//
+//                        //图片分类
+////                        if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("perm")) {//经营许可证
+////                            licenseUrl = takePictrue.bitmaptoString();
+////                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("license")) {//营业执照
+////                            enterUrl = takePictrue.bitmaptoString();
+////                        } else if (takePictrue != null && takePictrue.bitmaptoString() != null && imageFlag.equals("head")) {
+////                            headUrl = takePictrue.bitmaptoString();
+////                        }
+//                        if (imageFlag.equals("head")) {
+//                            cirHead.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                            headUrl = takePictrue.bitmaptoString();
+//                        } else if (imageFlag.equals("license")) {//营业执照
+//                            ivLicense.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                            enterUrl = takePictrue.bitmaptoString();
+//                        } else if (imageFlag.equals("perm")) {//经营许可证
+//                            licenseUrl = takePictrue.bitmaptoString();
+//                            ivPermission.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_NOT_STORE:
+//                if (null != data) {
+//                    takePictrue.setPictureToImageView(data, false);
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     /**

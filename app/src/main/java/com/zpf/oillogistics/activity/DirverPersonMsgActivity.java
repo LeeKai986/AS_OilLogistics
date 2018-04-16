@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +26,8 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.base.BaseTakePhotoActivity;
+import com.zpf.oillogistics.base.CustomHelper;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.response.SelfChangeResponse;
@@ -33,10 +37,13 @@ import com.zpf.oillogistics.customview.SelectPicPopupWindow;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
-import com.zpf.oillogistics.utils.TakePictrueUtils;
 
-import java.io.FileInputStream;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +64,7 @@ import okhttp3.Response;
  * 司机个人信息
  */
 
-public class DirverPersonMsgActivity extends BaseActivity implements View.OnClickListener {
+public class DirverPersonMsgActivity extends BaseTakePhotoActivity implements View.OnClickListener {
 
     //返回
     @BindView(R.id.rel_back_inforself)
@@ -97,9 +104,10 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
     @BindView(R.id.tv_config_inforself)
     TextView tvConfig;
 
-
+    private CustomHelper customHelper;
+    private String imageString;
     //图片处理类
-    private TakePictrueUtils takePictrue;
+//    private TakePictrueUtils takePictrue;
     private String adressArea = "";
 
     @Override
@@ -190,7 +198,7 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
         cirHead.setOnClickListener(this);
         relLocation.setOnClickListener(this);
         tvConfig.setOnClickListener(this);
-
+        customHelper = CustomHelper.init();
         routeListener();
     }
 
@@ -544,19 +552,18 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
         public void onClick(View v) {
             picWindow.dismiss();
 
-            takePictrue = new TakePictrueUtils(DirverPersonMsgActivity.this, "head");
             switch (v.getId()) {
                 case R.id.takePhotoBtn:
                     //判断是否开户相册权限
                     if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(DirverPersonMsgActivity.this, android.Manifest.permission.CAMERA)) {
-                        takePictrue.startCamera();
+                        customHelper.onClick(getTakePhoto(), 2, 1, 1);
                     } else {
                         //提示用户开户权限
                         MyToast.show(DirverPersonMsgActivity.this, "请赋予应用相机权限");
                     }
                     break;
                 case R.id.pickPhotoBtn:
-                    takePictrue.startWall();
+                    customHelper.onClick(getTakePhoto(), 1, 1, 1);
                     break;
                 default:
                     break;
@@ -565,40 +572,84 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
     };
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TakePictrueUtils.PHOTO_CAMERA:
-                //表示从相机获得的照片，需要进行裁剪
-                // 由于可以调起多个相机先进行文件大小确认
-                if (takePictrue.tempFile.exists()) {
-                    try {
-                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
-                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case TakePictrueUtils.PHOTO_WALL:
-                if (null != data) {
-                    takePictrue.startPhotoCut(data.getData(), 300, true);
-                }
-                break;
-            case TakePictrueUtils.PHOTO_STORE:
-                if (null != data) {
-                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+    public void takeCancel() {
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        final ArrayList<TImage> images = result.getImages();
+        if (images != null && images.size() > 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bitmap = BitmapFactory.decodeFile(images.get(0).getCompressPath());//filePath
                     if (bitmap != null) {
                         cirHead.setImageBitmap(bitmap);//将图片显示到ImageView上面
                     }
+                    imageString = bitmaptoString(bitmap);
                 }
-                break;
-            case TakePictrueUtils.PHOTO_NOT_STORE:
-                if (null != data) {
-                    takePictrue.setPictureToImageView(data, false);
-                }
-                break;
+            });
+        }
+    }
+
+    /**
+     * Bitmap转码
+     *
+     * @return
+     */
+
+    public String bitmaptoString(Bitmap bitmap) {
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            byte[] bytes = bStream.toByteArray();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        }
+        return null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+//            case TakePictrueUtils.PHOTO_CAMERA:
+//                //表示从相机获得的照片，需要进行裁剪
+//                // 由于可以调起多个相机先进行文件大小确认
+//                if (takePictrue.tempFile.exists()) {
+//                    try {
+//                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
+//                            takePictrue.startPhotoCut(takePictrue.imageUri, 300, true);
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_WALL:
+//                if (null != data) {
+//                    takePictrue.startPhotoCut(data.getData(), 300, true);
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_STORE:
+//                if (null != data) {
+//                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+//                    if (bitmap != null) {
+//                        cirHead.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_NOT_STORE:
+//                if (null != data) {
+//                    takePictrue.setPictureToImageView(data, false);
+//                }
+//                break;
             case 999:
                 navCity.setTvActionState(CyApplication.area.replace("-", ""));
                 editAdress.setText(CyApplication.adress);
@@ -677,14 +728,11 @@ public class DirverPersonMsgActivity extends BaseActivity implements View.OnClic
         params.put("route", normalRoute);
 
 
-        //图片Base64编码上传
-        String imageString = "";
-        if (takePictrue != null && takePictrue.bitmaptoString() != null) {
-            params.put("face", "data:image/jpg;base64," + takePictrue.bitmaptoString());
+        if (!TextUtils.isEmpty(imageString)) {
+            params.put("face", "data:image/jpg;base64," + imageString);
         } else {
-            params.put("face", imageString);
+            params.put("face", "");
         }
-
         RequestBody requestBody = null;
         /**
          * 3.0之后版本

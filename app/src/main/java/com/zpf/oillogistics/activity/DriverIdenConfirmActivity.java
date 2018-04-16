@@ -3,11 +3,13 @@ package com.zpf.oillogistics.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.zpf.oillogistics.R;
-import com.zpf.oillogistics.base.BaseActivity;
+import com.zpf.oillogistics.base.BaseTakePhotoActivity;
+import com.zpf.oillogistics.base.CustomHelper;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.DriverIdenBean;
@@ -34,9 +37,11 @@ import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.IDCardUtil;
 import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
-import com.zpf.oillogistics.utils.TakePictrueUtils;
 
-import java.io.FileInputStream;
+import org.devio.takephoto.model.TImage;
+import org.devio.takephoto.model.TResult;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,15 +58,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.R.attr.bitmap;
-
 /**
  * Created by Administrator on 2017/9/19.
  * <p>
  * 司机个人信息确认
  */
 
-public class DriverIdenConfirmActivity extends BaseActivity implements View.OnClickListener {
+public class DriverIdenConfirmActivity extends BaseTakePhotoActivity implements View.OnClickListener {
 
 
     //返回
@@ -123,8 +126,6 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
     @BindView(R.id.driver_iden_confirm_fl)
     FrameLayout fl;
 
-    //图片工具类
-    private TakePictrueUtils takePictrue;
     //图片标签
     private String imgFlag = "";
     //身份证base64
@@ -157,6 +158,7 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
     private String proStr = "京";
 
     Map<String, String> params;
+    private CustomHelper customHelper;
 
     @Override
     protected int setLayout() {
@@ -183,6 +185,7 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
         tvProvice.setOnClickListener(this);
         relType.setOnClickListener(this);
         fl.setOnClickListener(this);
+        customHelper = CustomHelper.init();
     }
 
     @Override
@@ -328,13 +331,12 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
         DiyDialog.singleSelectDialog(DriverIdenConfirmActivity.this, updataTypes, new DiyDialog.SingleSelectListener() {
             @Override
             public void SingleSelect(String res) {
-                takePictrue = new TakePictrueUtils(DriverIdenConfirmActivity.this, imgFlag);
                 if (res.equals("从手机相册选择")) {
-                    takePictrue.startWall();
+                    customHelper.onClick(getTakePhoto(), 1, 9, 5);
                 } else {
                     //判断是否开户相册权限
                     if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(DriverIdenConfirmActivity.this, android.Manifest.permission.CAMERA)) {
-                        takePictrue.startCamera();
+                        customHelper.onClick(getTakePhoto(), 2, 9, 5);
                     } else {
                         //提示用户开户权限
                         MyToast.show(DriverIdenConfirmActivity.this, "请赋予应用相机权限");
@@ -344,65 +346,127 @@ public class DriverIdenConfirmActivity extends BaseActivity implements View.OnCl
         });
     }
 
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TakePictrueUtils.PHOTO_CAMERA:
-                //表示从相机获得的照片，需要进行裁剪
-                //表示从相机获得的照片，需要进行裁剪
-                // 由于可以调起多个相机先进行文件大小确认
-                if (takePictrue.tempFile.exists()) {
-                    try {
-                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
-                            takePictrue.startPhotoCut(takePictrue.imageUri, 720, 400, true);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case TakePictrueUtils.PHOTO_WALL:
-                if (null != data) {
-                    takePictrue.startPhotoCut(data.getData(), 720, 400, true);
-                }
-                break;
-            case TakePictrueUtils.PHOTO_STORE:
-                if (null != data) {
-                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        final ArrayList<TImage> images = result.getImages();
+        if (images != null && images.size() > 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bitmap = BitmapFactory.decodeFile(images.get(0).getCompressPath());//filePath
                     if (bitmap != null) {
                         if (imgFlag.equals("IDCard")) {
-                            IDCardStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+                            IDCardStr = "data:image/jpg;base64," + bitmaptoString(bitmap);
                             ivIDCard.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                         if (imgFlag.equals("jiashi")) {
-                            jsStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+                            jsStr = "data:image/jpg;base64," + bitmaptoString(bitmap);
                             ivLicence1.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                         if (imgFlag.equals("xingsshi")) {
-                            xsStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+                            xsStr = "data:image/jpg;base64," + bitmaptoString(bitmap);
                             ivLicence2.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                         if (imgFlag.equals("yunying")) {
-                            yunyingStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+                            yunyingStr = "data:image/jpg;base64," + bitmaptoString(bitmap);
                             ivLicence3.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                         if (imgFlag.equals("yayun")) {
-                            yayunStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+                            yayunStr = "data:image/jpg;base64," + bitmaptoString(bitmap);
                             ivLicence4.setImageBitmap(bitmap);//将图片显示到ImageView上面
                         }
                     }
                 }
-                break;
-            case TakePictrueUtils.PHOTO_NOT_STORE:
-                if (null != data) {
-                    takePictrue.setPictureToImageView(data, false);
-                }
-                break;
-            default:
-                break;
+            });
         }
+    }
+
+    /**
+     * Bitmap转码
+     *
+     * @return
+     */
+
+    public String bitmaptoString(Bitmap bitmap) {
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            byte[] bytes = bStream.toByteArray();
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
+        }
+        return null;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case TakePictrueUtils.PHOTO_CAMERA:
+//                //表示从相机获得的照片，需要进行裁剪
+//                //表示从相机获得的照片，需要进行裁剪
+//                // 由于可以调起多个相机先进行文件大小确认
+//                if (takePictrue.tempFile.exists()) {
+//                    try {
+//                        if (new FileInputStream(takePictrue.tempFile).available() != 0) {
+//                            takePictrue.startPhotoCut(takePictrue.imageUri, 720, 400, true);
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_WALL:
+//                if (null != data) {
+//                    takePictrue.startPhotoCut(data.getData(), 720, 400, true);
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_STORE:
+//                if (null != data) {
+//                    Bitmap bitmap = takePictrue.setPictureToImageView(data, true);
+//                    if (bitmap != null) {
+//                        if (imgFlag.equals("IDCard")) {
+//                            IDCardStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+//                            ivIDCard.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                        if (imgFlag.equals("jiashi")) {
+//                            jsStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+//                            ivLicence1.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                        if (imgFlag.equals("xingsshi")) {
+//                            xsStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+//                            ivLicence2.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                        if (imgFlag.equals("yunying")) {
+//                            yunyingStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+//                            ivLicence3.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                        if (imgFlag.equals("yayun")) {
+//                            yayunStr = "data:image/jpg;base64," + takePictrue.bitmaptoString();
+//                            ivLicence4.setImageBitmap(bitmap);//将图片显示到ImageView上面
+//                        }
+//                    }
+//                }
+//                break;
+//            case TakePictrueUtils.PHOTO_NOT_STORE:
+//                if (null != data) {
+//                    takePictrue.setPictureToImageView(data, false);
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 

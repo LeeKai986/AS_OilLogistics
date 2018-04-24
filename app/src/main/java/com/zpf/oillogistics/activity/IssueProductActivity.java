@@ -273,6 +273,7 @@ public class IssueProductActivity extends BaseTakePhotoActivity {
         subTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                subTv.setClickable(false);
                 toSubmit();
             }
         });
@@ -466,6 +467,7 @@ public class IssueProductActivity extends BaseTakePhotoActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MessageWhat.PRODUCT_GOODSCLASS:
+                    subTv.setClickable(true);
                     if (msg.obj != null) {
                         try {
                             OilClassResponse oil = gson.fromJson(msg.obj.toString(), OilClassResponse.class);
@@ -483,6 +485,7 @@ public class IssueProductActivity extends BaseTakePhotoActivity {
                     } else {
                         MyToast.show(IssueProductActivity.this, "返回数据失败!");
                     }
+
                     break;
                 case MessageWhat.PLUSSIGN_TOGOODS:
                     if (msg.obj != null) {
@@ -493,18 +496,23 @@ public class IssueProductActivity extends BaseTakePhotoActivity {
                                 DiyToast.centerToast(IssueProductActivity.this, "发布成功");
                                 finish();
                             } else {
+                                subTv.setClickable(true);
                                 MyToast.show(IssueProductActivity.this, "发布失败!");
                             }
 
                         } catch (Exception e) {
+                            subTv.setClickable(true);
                             MyToast.show(IssueProductActivity.this, "返回数据异常!");
                         }
 
                     } else {
+                        subTv.setClickable(true);
                         MyToast.show(IssueProductActivity.this, "返回数据失败!");
                     }
+
                     break;
                 case 3:
+                    subTv.setClickable(true);
                     if (msg.obj != null) {
                         try {
                             ProductClassResponsse product = new Gson().fromJson(msg.obj.toString(), ProductClassResponsse.class);
@@ -521,7 +529,9 @@ public class IssueProductActivity extends BaseTakePhotoActivity {
                     } else {
                         MyToast.show(IssueProductActivity.this, "返回数据失败!");
                     }
+
                     break;
+
             }
         }
     };

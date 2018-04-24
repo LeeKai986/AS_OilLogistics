@@ -54,6 +54,7 @@ import com.zpf.oillogistics.utils.DateTimeUtil;
 import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.NormalUtils;
+import com.zpf.oillogistics.utils.SimpleImageBanner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +67,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
+import static com.zpf.oillogistics.R.id.h_banner_viewPager;
 
 /**
  * Created by Administrator on 2017/9/13.
@@ -86,8 +89,10 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     @BindView(R.id.msg_home_system_num_tv)
     TextView msgtvNum;
     // 轮播图
-    @BindView(R.id.home_main_rpv)
-    RollPagerView rpv;
+//    @BindView(R.id.home_main_rpv)
+//    RollPagerView rpv;
+    @BindView(h_banner_viewPager)
+    SimpleImageBanner sib;
     // 中间gridbutton
     // 石油
     @BindView(R.id.home_main_oil_tv)
@@ -334,9 +339,9 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
 
     private void intiView() {
-        rpv.setFocusable(true);
-        rpv.setFocusableInTouchMode(true);
-        rpv.requestFocus();
+        sib.setFocusable(true);
+        sib.setFocusableInTouchMode(true);
+        sib.requestFocus();
         seekTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -439,9 +444,40 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
     }
 
     private void rollImage() {
-        rpv.setAdapter(new TestLoopAdapter(rpv, rpvList));
+//        rpv.setAdapter(new TestLoopAdapter(rpv, rpvList));
+        if (rpvList.size() > 0) {
+            sib
+                    .setSource(rpvList)
+                    .startScroll();
+        } else {
+            sib
+                    .setSource(null)
+                    .startScroll();
+        }
+//        sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
+//            @Override
+//            public void onItemClick(int position) {
+//                int type = rpvList.get(position).link_type;
+//            }
+//        });
+
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        homeMsgNum();
+        sib.computeScroll();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sib.pauseScroll();
+
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -451,11 +487,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
         homePriceTrendData();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        homeMsgNum();
-    }
 
     //消息数量
     private void homeMsgNum() {
@@ -652,7 +683,7 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
                         String hq_str_hf_CL = obj.getString("hq_str_hf_CL");
                         String[] hq_str_hf_OILArr = hq_str_hf_OIL.split(",");
                         String[] hq_str_hf_CLArr = hq_str_hf_CL.split(",");
-                        allTimeTv.setText(hq_str_hf_OILArr[6]);
+                        allTimeTv.setText(hq_str_hf_CLArr[6]);
                         leftPriceTv.setText(hq_str_hf_OILArr[0]);
                         leftRateTv.setText(Math.round(Double.parseDouble(hq_str_hf_OILArr[1]) * 100) / 100.00 + "%");
                         leftUpTv.setText((Math.round((Double.parseDouble(hq_str_hf_OILArr[0]) -

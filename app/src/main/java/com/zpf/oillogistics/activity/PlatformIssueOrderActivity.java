@@ -220,8 +220,14 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
 
                             if (index.getStatus() == 0) {
 //                                attenTv.setText("已关注");
-                                plateformOrderDetails();
+//                                if (dataBean.getFollow() == 1) {
+//                                    MyToast.show(PlatformIssueOrderActivity.this, "取消关注!");
+//                                } else {
                                 MyToast.show(PlatformIssueOrderActivity.this, "关注成功!");
+//                                }
+                                plateformOrderDetails();
+
+
                             } else {
                                 MyToast.show(PlatformIssueOrderActivity.this, "暂无数据!");
                             }
@@ -317,16 +323,21 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
                     MyToast.show(PlatformIssueOrderActivity.this, "您当前是司机账号,不能关注");
                     return;
                 }
-                String msg = "您确定要关注吗";
                 if (dataBean.getFollow() == 1) {
-                    return;
+                    DiyDialog.hintTweBtnDialog(PlatformIssueOrderActivity.this, "您确定要取消关注吗", new DiyDialog.HintTweBtnListener() {
+                        @Override
+                        public void confirm() {
+                            cancelAtten();
+                        }
+                    });
+                } else {
+                    DiyDialog.hintTweBtnDialog(PlatformIssueOrderActivity.this, "您确定要关注吗", new DiyDialog.HintTweBtnListener() {
+                        @Override
+                        public void confirm() {
+                            attention();
+                        }
+                    });
                 }
-                DiyDialog.hintTweBtnDialog(PlatformIssueOrderActivity.this, msg, new DiyDialog.HintTweBtnListener() {
-                    @Override
-                    public void confirm() {
-                        attention();
-                    }
-                });
             }
         });
 
@@ -551,7 +562,8 @@ public class PlatformIssueOrderActivity extends FragmentActivity {
     private void cancelAtten() {
         HashMap hp = new HashMap<>();
         hp.put("id", NormalUtils.userId());
-        hp.put("source", oilOrChemtryInfoBean.getData().getInfo());
+        hp.put("source", oilOrChemtryInfoBean.getData().getData().get(0).getUid() + "");
+        hp.put("status", "1");
         productThread = new SimplifyThread(UrlUtil.USER_FOLLOW_CANCEL, hp);
         productThread.setOnKeyResultListener(new SimplifyThread.OnResultListener() {
             @Override

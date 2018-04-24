@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.dream.life.library.throwable.CrashHandler;
+import com.dream.life.library.throwable.ThrowableLogger;
 import com.dream.life.library.throwable.utils.AppManagerUtil;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.DemoHelper;
@@ -18,6 +20,7 @@ import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -97,17 +100,17 @@ public class CyApplication extends MultiDexApplication {
                 });//数据库更新操作
         x.Ext.init(this);//Xutils初始化
         // 初始化异常记录器
-//        if (isApkDebugable(this)) {
-//            // 处理全局不可捕捉异常
-//            CrashHandler crashHandler = CrashHandler.getInstance();
-//            crashHandler.init(this);
-//            // 初始化异常记录器
-//            ThrowableLogger throwablelogger = ThrowableLogger.getInstance();
-//            throwablelogger.init(this);
-//        } else {
-//            // 自定义Android崩溃界面。例如：throw new RuntimeException("Boom!");
-//            CustomActivityOnCrash.install(this);
-//        }
+        if (isApkDebugable(this)) {
+            // 处理全局不可捕捉异常
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.init(this);
+            // 初始化异常记录器
+            ThrowableLogger throwablelogger = ThrowableLogger.getInstance();
+            throwablelogger.init(this);
+        } else {
+            // 自定义Android崩溃界面。例如：throw new RuntimeException("Boom!");
+            CustomActivityOnCrash.install(this);
+        }
 
     }
 

@@ -35,6 +35,7 @@ import com.zpf.oillogistics.customview.NavEditItem;
 import com.zpf.oillogistics.customview.NavItem;
 import com.zpf.oillogistics.customview.SelectPicPopupWindow;
 import com.zpf.oillogistics.diy.DiyDialog;
+import com.zpf.oillogistics.event.MainEvent;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
@@ -42,6 +43,7 @@ import com.zpf.oillogistics.utils.TakePictrueUtils;
 
 import org.devio.takephoto.model.TImage;
 import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -117,7 +119,7 @@ public class InforSelfCompanyActivity extends BaseTakePhotoActivity implements V
 
     @Override
     protected void initData() {
-
+        customHelper = CustomHelper.init();
         cirHead.setOnClickListener(this);
         relBack.setOnClickListener(this);
         navProject.setOnClickListener(this);
@@ -643,7 +645,9 @@ public class InforSelfCompanyActivity extends BaseTakePhotoActivity implements V
                                 sendBroadcast(new Intent("com.zpf.oillogistics.receiver.DetailsReceiver"));
 
                                 MyToast.show(InforSelfCompanyActivity.this, "提交成功!");
-                                startActivity(new Intent(InforSelfCompanyActivity.this, MainActivity.class));
+                                EventBus.getDefault().post(new MainEvent(""));
+                                Intent intent = new Intent(InforSelfCompanyActivity.this, MainActivity.class);
+                                startActivity(intent);
                                 finish();
 
                             } else {

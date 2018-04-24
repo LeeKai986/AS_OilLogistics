@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,19 +18,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.hyphenate.EMCallBack;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.DemoHelper;
-import com.hyphenate.easeui.db.InviteMessgeDao;
 import com.hyphenate.util.NetUtils;
+import com.lljjcoder.city_20170724.bean.CityBean;
+import com.lljjcoder.city_20170724.bean.ProvinceBean;
+import com.lljjcoder.city_20170724.utils;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseActivity;
 import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.diy.DiyDialog;
+import com.zpf.oillogistics.event.MainEvent;
 import com.zpf.oillogistics.fragment.ChatFragment;
 import com.zpf.oillogistics.fragment.HomeFragment;
 import com.zpf.oillogistics.fragment.PriceFragment;
@@ -42,16 +46,27 @@ import com.zpf.oillogistics.utils.MyShare;
 import com.zpf.oillogistics.utils.MyToast;
 import com.zpf.oillogistics.utils.NormalUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by Administrator on 2017/9/13.
@@ -194,7 +209,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                     editor.putString("route", data.getString("route"));
                                 }
                                 editor.commit();
-
+                                setTagAndAlias(data.getString("phone"));
+//                                JPushInterface.setAlias(MainActivity.this, 11, data.getString("phone"));
+//                                JPushInterface.resumePush(getApplicationContext());//恢复极光推送
+//                                boolean aa = JPushInterface.getConnectionState(MainActivity.this);
 //                                EMClient.getInstance().login(MyShare.getShared().getString("userPhone", ""), "yyt123456", new EMCallBack() {//回调
 //                                    @Override
 //                                    public void onSuccess() {
@@ -230,6 +248,67 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             return false;
         }
     });
+
+    /**
+     * 设置标签与别名
+     */
+    private void setTagAndAlias(String phone) {
+        /**
+         *这里设置了别名，在这里获取的用户登录的信息
+         *并且此时已经获取了用户的userId,然后就可以用用户的userId来设置别名了
+         **/
+        //false状态为未设置标签与别名成功
+        //if (UserUtils.getTagAlias(getHoldingActivity()) == false) {
+        Set<String> tags = new HashSet<String>();
+        //这里可以设置你要推送的人，一般是用户uid 不为空在设置进去 可同时添加多个
+        if (!TextUtils.isEmpty(phone)) {
+            tags.add(phone);//设置tag
+        }
+        //上下文、别名【Sting行】、标签【Set型】、回调
+        JPushInterface.setAliasAndTags(MainActivity.this, phone, tags,
+                mAliasCallback);
+        // }
+    }
+
+    /**
+     * /**
+     * TagAliasCallback类是JPush开发包jar中的类，用于
+     * 设置别名和标签的回调接口，成功与否都会回调该方法
+     * 同时给定回调的代码。如果code=0,说明别名设置成功。
+     * /**
+     * 6001   无效的设置，tag/alias 不应参数都为 null
+     * 6002   设置超时    建议重试
+     * 6003   alias 字符串不合法    有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。
+     * 6004   alias超长。最多 40个字节    中文 UTF-8 是 3 个字节
+     * 6005   某一个 tag 字符串不合法  有效的别名、标签组成：字母（区分大小写）、数字、下划线、汉字。
+     * 6006   某一个 tag 超长。一个 tag 最多 40个字节  中文 UTF-8 是 3 个字节
+     * 6007   tags 数量超出限制。最多 100个 这是一台设备的限制。一个应用全局的标签数量无限制。
+     * 6008   tag/alias 超出总长度限制。总长度最多 1K 字节
+     * 6011   10s内设置tag或alias大于3次 短时间内操作过于频繁
+     **/
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch (code) {
+                case 0:
+                    //这里可以往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    //UserUtils.saveTagAlias(getHoldingActivity(), true);
+                    logs = "Set tag and alias success极光推送别名设置成功";
+                    Log.e("TAG", logs);
+                    break;
+                case 6002:
+                    //极低的可能设置失败 我设置过几百回 出现3次失败 不放心的话可以失败后继续调用上面那个方面 重连3次即可 记得return 不要进入死循环了...
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.极光推送别名设置失败，60秒后重试";
+                    Log.e("TAG", logs);
+                    break;
+                default:
+                    logs = "极光推送设置失败，Failed with errorCode = " + code;
+                    Log.e("TAG", logs);
+                    break;
+            }
+        }
+    };
     private Fragment currentFragment;
     private Fragment newFragment;
 
@@ -319,7 +398,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initViewAction(Bundle savedInstanceState) {
-
+        EventBus.getDefault().register(this);
 
     }
 
@@ -331,8 +410,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Log.i("DriverPosition-->", "open");
             startService(new Intent(MainActivity.this, DriverPositionUpData.class));
         }
-
-        JPushInterface.setAlias(MainActivity.this, 11, NormalUtils.userPhone());
 
 
         selfFlag = MyShare.getShared().getString("userType", "1");
@@ -380,7 +457,49 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (NormalUtils.isLogin(MainActivity.this)) {//已登录
             login();
         }
+
+        //
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                dotest();
+//            }
+//        }).start();
     }
+
+    /**
+     * 给配置地址文件+"市"字
+     */
+    public void dotest() {
+        Log.d("address", "开始");
+        String cityJson = utils.getJson(this, "city_20170724.json");
+        Type type = (new TypeToken<ArrayList<ProvinceBean>>() {
+        }).getType();
+        ArrayList<ProvinceBean> mProvinceBeanArrayList = new Gson().fromJson(cityJson, type);
+
+        for (ProvinceBean bean : mProvinceBeanArrayList) {
+            ArrayList<CityBean> citys = bean.getCityList();
+            for (CityBean city : citys) {
+                city.setName(city.getName() + "市");
+            }
+        }
+
+        try {
+            File file = new File(Environment.getExternalStorageDirectory(), "address.json");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            String array = new Gson().toJson(mProvinceBeanArrayList);
+            FileOutputStream os = new FileOutputStream(file);
+            os.write(array.getBytes());
+            os.flush();
+            os.close();
+            Log.d("address", "结束");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //初始化 5个主页面
     private void setFragmentData() {
@@ -401,6 +520,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(MainActivity.this, DriverPositionUpData.class));
+        EventBus.getDefault().unregister(this);
+//        JPushInterface.setAliasAndTags(getApplicationContext(), "", null, null);
+//        JPushInterface.stopPush(MainActivity.this);
 //        DemoHelper.getInstance().logout(true, new EMCallBack() {
 //            @Override
 //            public void onSuccess() {
@@ -500,6 +622,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MainEvent event) {/* Do something */
+        setTabSelection(0);
     }
 
 

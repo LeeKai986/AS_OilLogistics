@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lljjcoder.city_20170724.CityPickerView;
@@ -126,6 +125,7 @@ public class IssueIncarActivity extends BaseActivity {
         tvSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvSub.setClickable(false);
                 publicCar();
             }
         });
@@ -359,6 +359,7 @@ public class IssueIncarActivity extends BaseActivity {
             @Override
             public void errorBody(String error) {
                 handler.sendEmptyMessage(MessageWhat.REQUST_ERROR);
+                tvSub.setClickable(true);
             }
         });
     }
@@ -371,6 +372,7 @@ public class IssueIncarActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MessageWhat.SELF_PLUSSIGN_FREIGHT:
+
                     if (msg.obj != null) {
                         try {
                             MyProductResponse product = gson.fromJson(msg.obj.toString(), MyProductResponse.class);
@@ -379,16 +381,20 @@ public class IssueIncarActivity extends BaseActivity {
                                 MyToast.show(IssueIncarActivity.this, "发布成功!");
                                 finish();
                             } else {
+                                tvSub.setClickable(true);
                                 MyToast.show(IssueIncarActivity.this, product.getMsg());
                             }
 
                         } catch (Exception e) {
+                            tvSub.setClickable(true);
                             MyToast.show(IssueIncarActivity.this, "返回数据异常!");
                         }
 
                     } else {
+                        tvSub.setClickable(true);
                         MyToast.show(IssueIncarActivity.this, "返回数据失败!");
                     }
+
                     break;
             }
         }

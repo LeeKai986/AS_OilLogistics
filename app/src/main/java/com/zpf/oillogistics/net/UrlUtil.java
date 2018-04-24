@@ -167,6 +167,8 @@ public class UrlUtil {
     public static final String URL_DRIVIER_IDENTITY = URL + "/Driver/identity";
     // 司机发布的行程
     public static final String URL_DRIVIER_TRIP = URL + "/Driver/trip";
+    // 删除司机发布的行程
+    public static final String URL_DELETE_DRIVIER = URL + "/Run/del";
     // 司机发布行程
     public static final String URL_PLUSSIGN_RUN = URL + "/Plussign/run";
     // 公司取消订单

@@ -28,11 +28,11 @@ import com.google.gson.Gson;
 import com.zpf.oillogistics.R;
 import com.zpf.oillogistics.base.BaseTakePhotoActivity;
 import com.zpf.oillogistics.base.CustomHelper;
-import com.zpf.oillogistics.base.CyApplication;
 import com.zpf.oillogistics.base.MessageWhat;
 import com.zpf.oillogistics.bean.DriverIdenBean;
 import com.zpf.oillogistics.bean.response.SelfChangeResponse;
 import com.zpf.oillogistics.diy.DiyDialog;
+import com.zpf.oillogistics.event.MainEvent;
 import com.zpf.oillogistics.net.UrlUtil;
 import com.zpf.oillogistics.utils.IDCardUtil;
 import com.zpf.oillogistics.utils.MyShare;
@@ -40,6 +40,7 @@ import com.zpf.oillogistics.utils.MyToast;
 
 import org.devio.takephoto.model.TImage;
 import org.devio.takephoto.model.TResult;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -583,17 +584,23 @@ public class DriverIdenConfirmActivity extends BaseTakePhotoActivity implements 
                                 SelfChangeResponse change = gson.fromJson(msg.obj.toString(), SelfChangeResponse.class);
                                 if (change.getStatus() == 0) {
 
-                                    MyToast.show(DriverIdenConfirmActivity.this, "提交验证成功,请重新登陆");
-                                    MyShare.getShared().edit().clear().commit();
-                                    CyApplication.province = "";
-                                    CyApplication.area = "";
-                                    CyApplication.adress = "";
-                                    CyApplication.lat = "";
-                                    CyApplication.lon = "";
-                                    Intent intent = new Intent(DriverIdenConfirmActivity.this, LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-
+//                                    MyToast.show(DriverIdenConfirmActivity.this, "提交验证成功,请重新登陆");
+//                                    MyShare.getShared().edit().clear().commit();
+//                                    CyApplication.province = "";
+//                                    CyApplication.area = "";
+//                                    CyApplication.adress = "";
+//                                    CyApplication.lat = "";
+//                                    CyApplication.lon = "";
+//                                    Intent intent = new Intent(DriverIdenConfirmActivity.this, LoginActivity.class);
+//                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    Intent intent = new Intent(DriverIdenConfirmActivity.this, MainActivity.class);
+//                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+                                    MyToast.show(DriverIdenConfirmActivity.this, "提交成功!");
+                                    EventBus.getDefault().post(new MainEvent(""));
+                                    startActivity(new Intent(DriverIdenConfirmActivity.this, MainActivity.class));
+                                    finish();
                                 } else {
                                     MyToast.show(DriverIdenConfirmActivity.this, "暂无数据!");
                                 }

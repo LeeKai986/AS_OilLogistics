@@ -21,6 +21,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2017/9/18.
@@ -121,6 +122,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_exit_self:
 //                EMClient.getInstance().logout(true);
 //                new InviteMessgeDao(SettingActivity.this).clearMessage();
+                JPushInterface.setAliasAndTags(getApplicationContext(), "", null, null);
                 SharedPreferences.Editor editor = MyShare.getShared().edit();
                 editor.clear();
                 editor.commit();

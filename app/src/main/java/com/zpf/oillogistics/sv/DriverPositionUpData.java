@@ -1,9 +1,10 @@
 package com.zpf.oillogistics.sv;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 import com.baidu.location.BDLocation;
@@ -103,7 +104,9 @@ public class DriverPositionUpData extends Service {
         fThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (!NormalUtils.userId().equals("")) {
+                SharedPreferences sp = CyApplication.getCyContext().getSharedPreferences("SHARE_OIL_USER", Context.MODE_PRIVATE);
+                String userId = sp.getString("userId", "");
+                if (!userId.equals("")) {
                     location();
                 }
                 try {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -78,12 +78,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <com.jude.rollviewpager.RollPagerView
-                        android:id="@+id/home_main_rpv"
+                    <!--轮播图-->
+                    <com.zpf.oillogistics.utils.SimpleImageBanner
+                        android:id="@+id/h_banner_viewPager"
                         android:layout_width="match_parent"
                         android:layout_height="128dp"
-                        app:rollviewpager_play_delay="3000"></com.jude.rollviewpager.RollPagerView>
+                        banner:bb_barColor="#00000000"
+                        banner:bb_barPaddingBottom="5dp"
+                        banner:bb_barPaddingLeft="10dp"
+                        banner:bb_barPaddingRight="10dp"
+                        banner:bb_barPaddingTop="5dp"
+                        banner:bb_delay="2"
+                        banner:bb_indicatorCornerRadius="5dp"
+                        banner:bb_indicatorGap="8dp"
+                        banner:bb_indicatorGravity="CENTER"
+                        banner:bb_indicatorHeight="10dp"
+                        banner:bb_indicatorSelectColor="@color/yellow"
+                        banner:bb_indicatorStyle="CORNER_RECTANGLE"
+                        banner:bb_indicatorUnselectColor="#88ffffff"
+                        banner:bb_indicatorWidth="10dp"
+                        banner:bb_isAutoScrollEnable="true"
+                        banner:bb_isBarShowWhenLast="true"
+                        banner:bb_isIndicatorShow="true"
+                        banner:bb_isLoopEnable="true"
+                        banner:bb_isTitleShow="true"
+                        banner:bb_period="5"
+                        banner:bb_scale="0.3"
+                        banner:bb_textColor="#ffffff"
+                        banner:bb_textSize="13.5sp" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

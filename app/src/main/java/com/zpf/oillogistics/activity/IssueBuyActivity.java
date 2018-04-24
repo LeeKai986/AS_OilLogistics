@@ -175,6 +175,7 @@ public class IssueBuyActivity extends BaseTakePhotoActivity {
         tvSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvSub.setClickable(false);
                 toSubmit();
             }
         });
@@ -260,6 +261,7 @@ public class IssueBuyActivity extends BaseTakePhotoActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MessageWhat.PLUSSIGN_TOBUY:
+
                     if (msg.obj != null) {
                         try {
                             IndexResponse index = gson.fromJson(msg.obj.toString(), IndexResponse.class);
@@ -269,15 +271,19 @@ public class IssueBuyActivity extends BaseTakePhotoActivity {
                                 finish();
                             } else {
                                 MyToast.show(IssueBuyActivity.this, index.getMsg());
+                                tvSub.setClickable(true);
                             }
 
                         } catch (Exception e) {
                             MyToast.show(IssueBuyActivity.this, "返回数据异常!");
+                            tvSub.setClickable(true);
                         }
 
                     } else {
                         MyToast.show(IssueBuyActivity.this, "返回数据失败!");
+                        tvSub.setClickable(true);
                     }
+
                     break;
             }
         }
@@ -367,6 +373,7 @@ public class IssueBuyActivity extends BaseTakePhotoActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 handler.sendEmptyMessage(MessageWhat.REQUST_ERROR);
+                tvSub.setClickable(true);
             }
 
             @Override

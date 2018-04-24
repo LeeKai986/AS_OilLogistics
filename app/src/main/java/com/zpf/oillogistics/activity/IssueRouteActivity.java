@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -219,6 +218,7 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
 //                });
                 break;
             case R.id.tv_submit:
+                tvSubmit.setClickable(false);
                 toSubmitw();
                 break;
         }
@@ -271,6 +271,7 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
             @Override
             public void errorBody(String error) {
                 handler.sendEmptyMessage(MessageWhat.REQUST_ERROR);
+                tvSubmit.setClickable(true);
             }
         });
     }
@@ -307,6 +308,7 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
             super.handleMessage(msg);
             switch (msg.what) {
                 case MessageWhat.SELF_PLUSSIGN_RUN:
+
                     if (msg.obj != null) {
                         try {
                             IndexResponse index = gson.fromJson(msg.obj.toString(), IndexResponse.class);
@@ -315,14 +317,17 @@ public class IssueRouteActivity extends BaseActivity implements View.OnClickList
                                 MyToast.show(IssueRouteActivity.this, "发布成功!");
                                 finish();
                             } else if (index != null) {
+                                tvSubmit.setClickable(true);
                                 MyToast.show(IssueRouteActivity.this, index.getMsg());
                             }
 
                         } catch (Exception e) {
+                            tvSubmit.setClickable(true);
                             MyToast.show(IssueRouteActivity.this, "返回数据异常!");
                         }
 
                     } else {
+                        tvSubmit.setClickable(true);
                         MyToast.show(IssueRouteActivity.this, "返回数据失败!");
                     }
                     break;

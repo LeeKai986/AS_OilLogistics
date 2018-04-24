@@ -99,13 +99,16 @@
         <activity android:name=".activity.ForgetActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.ServiceTermsActivity" />
-        <activity android:name=".activity.MainActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
+        <!--&gt;-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
 
         <!-- 添加好友 -->
         <activity

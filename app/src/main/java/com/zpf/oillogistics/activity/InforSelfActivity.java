@@ -495,7 +495,11 @@ public class InforSelfActivity extends BaseTakePhotoActivity implements View.OnC
                                 sendBroadcast(new Intent("com.zpf.oillogistics.receiver.DetailsReceiver"));
 
                                 MyToast.show(InforSelfActivity.this, "提交成功!");
-                                startActivity(new Intent(InforSelfActivity.this, MainActivity.class));
+
+                                Intent intent = new Intent(InforSelfActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+//                                startActivity(new Intent(InforSelfActivity.this, MainActivity.class));
                                 finish();
 
                             } else {
